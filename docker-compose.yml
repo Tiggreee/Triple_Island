@@ -1,0 +1,36 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: tripleisland-wp-db
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: cocob_platform
+      MYSQL_USER: cocob_user
+      MYSQL_PASSWORD: cocob_password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - wp_db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:6.6-php8.3-apache
+    container_name: tripleisland-wp
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: cocob_platform
+      WORDPRESS_DB_USER: cocob_user
+      WORDPRESS_DB_PASSWORD: cocob_password
+      WORDPRESS_DEBUG: "0"
+    ports:
+      - "10004:80"
+    volumes:
+      - wp_app_data:/var/www/html
+
+volumes:
+  wp_db_data:
+  wp_app_data:
