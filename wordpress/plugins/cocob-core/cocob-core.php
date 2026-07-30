@@ -77,4 +77,45 @@ add_action('init', function () {
             },
         ]);
     }
+
+    register_post_type('retiro', [
+        'labels' => [
+            'name' => 'Retiros',
+            'singular_name' => 'Retiro',
+        ],
+        'public' => true,
+        'show_in_rest' => true,
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'retiros'],
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+    ]);
+
+    $retreat_meta_fields = [
+        'start_date' => ['type' => 'string'],
+        'end_date' => ['type' => 'string'],
+        'capacity' => ['type' => 'integer'],
+        'spots_left' => ['type' => 'integer'],
+        'retreat_type' => ['type' => 'string'],
+        'host_name' => ['type' => 'string'],
+        'indicative_price' => ['type' => 'string'],
+        'villa_id' => ['type' => 'integer'],
+    ];
+
+    foreach ($retreat_meta_fields as $meta_key => $config) {
+        register_post_meta('retiro', $meta_key, [
+            'single' => true,
+            'type' => $config['type'],
+            'show_in_rest' => true,
+            'sanitize_callback' => function ($value) use ($config) {
+                if ($config['type'] === 'integer') {
+                    return intval($value);
+                }
+
+                return sanitize_text_field($value);
+            },
+            'auth_callback' => function () {
+                return current_user_can('edit_posts');
+            },
+        ]);
+    }
 });
