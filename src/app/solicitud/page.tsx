@@ -22,6 +22,7 @@ export default function SolicitudPage() {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       message: String(formData.get("message") ?? ""),
+      leadType: String(formData.get("leadType") ?? "solicitud"),
       website: String(formData.get("website") ?? ""),
       startedAt: Number(formData.get("startedAt") ?? 0),
     };
@@ -87,6 +88,20 @@ export default function SolicitudPage() {
             placeholder="correo@dominio.com"
             required
           />
+        </label>
+
+        <label className="grid gap-1 text-sm sm:col-span-2">
+          Tipo de solicitud
+          <select
+            name="leadType"
+            defaultValue="solicitud"
+            className="rounded-md border border-slate-300 px-3 py-2"
+            required
+          >
+            <option value="solicitud">Solicitud de Villa y Boda</option>
+            <option value="retiro">Retreat Host Questionnaire</option>
+            <option value="waitlist">Pop-up Hotel Waitlist</option>
+          </select>
         </label>
 
         <label className="grid gap-1 text-sm sm:col-span-2">

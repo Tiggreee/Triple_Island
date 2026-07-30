@@ -2,6 +2,9 @@ export type ServerEnvKey =
   | "WORDPRESS_API_URL"
   | "HUBSPOT_PORTAL_ID"
   | "HUBSPOT_FORM_ID"
+  | "HUBSPOT_FORM_ID_SOLICITUD"
+  | "HUBSPOT_FORM_ID_RETIRO"
+  | "HUBSPOT_FORM_ID_WAITLIST"
   | "HUBSPOT_ACCESS_TOKEN"
   | "AI_PROVIDER"
   | "AI_API_KEY";
@@ -18,6 +21,13 @@ const requiredServerEnvKeys: ServerEnvKey[] = [
 export const hubspotServerEnvKeys: ServerEnvKey[] = [
   "HUBSPOT_PORTAL_ID",
   "HUBSPOT_FORM_ID",
+];
+
+export const hubspotMultiFormServerEnvKeys: ServerEnvKey[] = [
+  "HUBSPOT_PORTAL_ID",
+  "HUBSPOT_FORM_ID_SOLICITUD",
+  "HUBSPOT_FORM_ID_RETIRO",
+  "HUBSPOT_FORM_ID_WAITLIST",
 ];
 
 export const aiServerEnvKeys: ServerEnvKey[] = ["AI_PROVIDER", "AI_API_KEY"];

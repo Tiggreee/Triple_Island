@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { getMissingServerEnv, hubspotServerEnvKeys } from "@/lib/server-env";
+import { getMissingServerEnv, hubspotMultiFormServerEnvKeys } from "@/lib/server-env";
 
 type LeadRequestPayload = {
   name?: string;
   email?: string;
   message?: string;
+  leadType?: "solicitud" | "retiro" | "waitlist";
   website?: string;
   startedAt?: number;
 };
@@ -15,8 +16,32 @@ function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+function getFormIdByLeadType(leadType: LeadRequestPayload["leadType"]) {
+  switch (leadType) {
+    case "retiro":
+      return process.env.HUBSPOT_FORM_ID_RETIRO;
+    case "waitlist":
+      return process.env.HUBSPOT_FORM_ID_WAITLIST;
+    case "solicitud":
+    default:
+      return process.env.HUBSPOT_FORM_ID_SOLICITUD ?? process.env.HUBSPOT_FORM_ID;
+  }
+}
+
+function getPageNameByLeadType(leadType: LeadRequestPayload["leadType"]) {
+  switch (leadType) {
+    case "retiro":
+      return "Retreat Host Questionnaire";
+    case "waitlist":
+      return "Pop-up Hotel Waitlist";
+    case "solicitud":
+    default:
+      return "Solicitud de Reserva";
+  }
+}
+
 export async function POST(request: Request) {
-  const missing = getMissingServerEnv(hubspotServerEnvKeys);
+  const missing = getMissingServerEnv(hubspotMultiFormServerEnvKeys);
 
   if (missing.length > 0) {
     return NextResponse.json(
@@ -63,7 +88,12 @@ export async function POST(request: Request) {
   }
 
   const portalId = process.env.HUBSPOT_PORTAL_ID as string;
-  const formId = process.env.HUBSPOT_FORM_ID as string;
+  const formId = getFormIdByLeadType(payload.leadType);
+
+  if (!formId) {
+    return NextResponse.json({ ok: false, error: "Missing target form configuration" }, { status: 500 });
+  }
+
   const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
 
   const response = await fetch(endpoint, {
@@ -80,7 +110,7 @@ export async function POST(request: Request) {
       ],
       context: {
         pageUri: request.headers.get("referer") ?? "",
-        pageName: "Solicitud de Reserva",
+        pageName: getPageNameByLeadType(payload.leadType),
       },
     }),
   });
