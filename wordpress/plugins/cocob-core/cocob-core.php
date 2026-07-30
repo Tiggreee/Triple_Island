@@ -118,4 +118,116 @@ add_action('init', function () {
             },
         ]);
     }
+
+    register_post_type('paquete', [
+        'labels' => [
+            'name' => 'Paquetes',
+            'singular_name' => 'Paquete',
+        ],
+        'public' => true,
+        'show_in_rest' => true,
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'paquetes'],
+        'supports' => ['title', 'editor', 'excerpt'],
+    ]);
+
+    $package_meta_fields = [
+        'includes' => ['type' => 'array', 'schema' => ['type' => 'string']],
+        'duration' => ['type' => 'string'],
+        'villa_id' => ['type' => 'integer'],
+        'retiro_id' => ['type' => 'integer'],
+    ];
+
+    foreach ($package_meta_fields as $meta_key => $config) {
+        register_post_meta('paquete', $meta_key, [
+            'single' => true,
+            'type' => $config['type'],
+            'show_in_rest' => isset($config['schema'])
+                ? [
+                    'schema' => [
+                        'type' => $config['type'],
+                        'items' => $config['schema'],
+                    ],
+                ]
+                : true,
+            'sanitize_callback' => function ($value) use ($config) {
+                if ($config['type'] === 'integer') {
+                    return intval($value);
+                }
+
+                if ($config['type'] === 'array') {
+                    if (!is_array($value)) {
+                        return [];
+                    }
+
+                    return array_values(array_filter(array_map('sanitize_text_field', $value)));
+                }
+
+                return sanitize_text_field($value);
+            },
+            'auth_callback' => function () {
+                return current_user_can('edit_posts');
+            },
+        ]);
+    }
+
+    register_post_type('testimonio', [
+        'labels' => [
+            'name' => 'Testimonios',
+            'singular_name' => 'Testimonio',
+        ],
+        'public' => true,
+        'show_in_rest' => true,
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'testimonios'],
+        'supports' => ['title', 'editor', 'thumbnail'],
+    ]);
+
+    $testimonial_meta_fields = [
+        'author_name' => ['type' => 'string'],
+        'author_role' => ['type' => 'string'],
+        'author_photo_url' => ['type' => 'string'],
+        'villa_id' => ['type' => 'integer'],
+        'retiro_id' => ['type' => 'integer'],
+    ];
+
+    foreach ($testimonial_meta_fields as $meta_key => $config) {
+        register_post_meta('testimonio', $meta_key, [
+            'single' => true,
+            'type' => $config['type'],
+            'show_in_rest' => true,
+            'sanitize_callback' => function ($value) use ($config) {
+                if ($config['type'] === 'integer') {
+                    return intval($value);
+                }
+
+                return sanitize_text_field($value);
+            },
+            'auth_callback' => function () {
+                return current_user_can('edit_posts');
+            },
+        ]);
+    }
+
+    register_post_type('faq', [
+        'labels' => [
+            'name' => 'FAQs',
+            'singular_name' => 'FAQ',
+        ],
+        'public' => true,
+        'show_in_rest' => true,
+        'has_archive' => true,
+        'rewrite' => ['slug' => 'faqs'],
+        'supports' => ['title', 'editor'],
+    ]);
+
+    register_post_meta('faq', 'related_topic', [
+        'single' => true,
+        'type' => 'string',
+        'show_in_rest' => true,
+        'sanitize_callback' => 'sanitize_text_field',
+        'auth_callback' => function () {
+            return current_user_can('edit_posts');
+        },
+    ]);
 });
