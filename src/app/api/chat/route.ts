@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { getMissingServerEnv } from "@/lib/server-env";
+import { aiServerEnvKeys, getMissingServerEnv } from "@/lib/server-env";
 
 export async function POST() {
-  const missing = getMissingServerEnv();
+  const missing = getMissingServerEnv(aiServerEnvKeys);
 
   if (missing.length > 0) {
     return NextResponse.json(
