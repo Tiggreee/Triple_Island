@@ -1,0 +1,84 @@
+SEMANA 1 - TAREAS vs COMPLETADO
+
+DISC
+DISC-01 -> Pendiente
+DISC-02 -> Parcial
+DISC-03 -> Pendiente
+DISC-04 -> Pendiente
+DISC-05 -> Pendiente
+DISC-06 -> Pendiente
+DISC-07 -> Parcial
+
+ADMIN
+ADMIN-01 -> Pendiente
+
+ALIGN
+ALIGN-01 -> Pendiente
+ALIGN-02 -> Pendiente (sin evidencia documental cerrada)
+
+CMS
+CMS-01 -> Completado
+CMS-02 -> Completado
+CMS-03 -> Completado
+CMS-04 -> Completado
+
+FE
+FE-01 -> Completado
+FE-02 -> Completado (base)
+FE-03 -> Completado
+FE-04 -> Parcial
+
+Plan de cierre sugerido (sin alcance extra)
+1) DISC-01 y DISC-02: cerrar documento de inventario y modelo final de contenido.
+2) DISC-04, DISC-05, DISC-06: cerrar decisiones por escrito (calendario, chatbot, matching).
+3) ADMIN-01 y ALIGN-01/02: cerrar evidencia documental (NDA, wireframes, sync).
+4) FE-04: cerrar tipado fuerte faltante y evidencia final de consumo WP compartido.
+
+Referencias de evidencia tecnica
+- HubSpot anti-spam y routing por tipo: src/app/api/lead/route.ts
+- Formulario de solicitud: src/app/solicitud/page.tsx
+- Fetchers WP: src/lib/wp-fetchers.ts
+- Cliente WP: src/lib/wp-client.ts
+- CMS WordPress: wordpress/plugins/cocob-core/cocob-core.php
+- Layout global: src/app/layout.tsx
+- Styleguide: src/app/styleguide/page.tsx
+
+Tarea de coordinación para preguntar al equipo
+- Preguntar por qué no incluyeron la estructura de archivos en el entregable de Semana 1 y confirmar si esperaban que Web Dev la documentara al final.
+
+Pasos para cerrar lo que depende de terceros (lo que no puedo ejecutar por ti)
+1) HubSpot cuenta de equipo (INFRA-04)
+- Crear o confirmar correo de equipo.
+- Cambiar owner o agregar admins con ese correo.
+- Invitar a todos los devs y QA.
+- Capturar y guardar: Portal ID, límite mensual de envíos, límites de formularios.
+
+2) Regla de PR con aprobación obligatoria (INFRA-01)
+- Ir a Settings -> Branches -> Branch protection rules en GitHub.
+- Configurar rule para develop y main.
+- Activar: Require a pull request before merging.
+- Activar: Require approvals (mínimo 1).
+- Activar: Dismiss stale approvals when new commits are pushed.
+
+3) Vercel previews (INFRA-06)
+- Conectar repo a proyecto Vercel.
+- Definir variables Preview y Production.
+- Abrir PR de prueba y verificar URL preview.
+- Guardar URL en README o documento operativo de equipo.
+
+4) Ruta Vercel -> WordPress compartido (INFRA-07)
+- Elegir opción: ngrok/Cloudflare Tunnel o hosting compartido.
+- Definir una fuente única de verdad de contenido.
+- Probar desde preview Vercel que renderiza al menos 1 título real desde WordPress.
+- Documentar pasos y credenciales de operación mínima.
+
+5) Proveedor IA + límites (INFRA-08)
+- Crear cuenta de proveedor (Gemini o Groq).
+- Ejecutar 1 curl real de prueba.
+- Registrar límites RPM/RPD/tokens.
+- Definir respuesta operativa cuando haya 429.
+
+6) NDA y alineación UX/Sync (ADMIN-01, ALIGN-01, ALIGN-02)
+- Confirmar con coordinación si NDA aplica; si sí, firmar y registrar evidencia.
+- Pedir wireframes low-fi de 6 pantallas y fecha de entrega.
+- Dejar minuta corta del Interim Sync #1 con acuerdos y responsables.
