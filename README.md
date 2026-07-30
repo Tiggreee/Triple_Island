@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Triple Island
 
-## Getting Started
+Plataforma base para unificar el flujo de villas y retiros.
 
-First, run the development server:
+Stack
+- Next.js App Router + TypeScript
+- Tailwind CSS
+- WordPress (headless)
+- HubSpot Forms
 
+## Levantar local
+
+App:
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build:
+```bash
+npm run build
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+WordPress local (Docker):
+```bash
+docker compose up -d
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Guía completa WP local en [INFRA-02-WORDPRESS-LOCAL.md](INFRA-02-WORDPRESS-LOCAL.md).
 
-## Learn More
+## Variables de entorno
 
-To learn more about Next.js, take a look at the following resources:
+Usa [.env.example](.env.example) como plantilla.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Variables clave para leads:
+- HUBSPOT_PORTAL_ID
+- HUBSPOT_FORM_ID_SOLICITUD
+- HUBSPOT_FORM_ID_RETIRO
+- HUBSPOT_FORM_ID_WAITLIST
+- LEAD_MIN_SUBMIT_SECONDS
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Rutas clave
 
-## Deploy on Vercel
+- /villas
+- /villas/[slug]
+- /retiros
+- /solicitud
+- /styleguide
+- /api/lead
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Estructura base
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [src/app](src/app)
+- [src/components/ui](src/components/ui)
+- [src/lib](src/lib)
+- [src/types](src/types)
+- [wordpress/plugins/cocob-core](wordpress/plugins/cocob-core)
+
+## Documentos de coordinación
+
+- [docs/coordination/SEMANA-01-TAREAS-vs-COMPLETADO.txt](docs/coordination/SEMANA-01-TAREAS-vs-COMPLETADO.txt)
+- [docs/coordination/QA-HANDOFF-SEMANA-01.txt](docs/coordination/QA-HANDOFF-SEMANA-01.txt)
+- [docs/coordination/BLOQUEADORES-EXTERNOS-SEMANA-01.txt](docs/coordination/BLOQUEADORES-EXTERNOS-SEMANA-01.txt)
