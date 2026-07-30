@@ -1,10 +1,20 @@
-const sampleRetreats = [
+import { getRetreats } from "@/lib/wp-fetchers";
+
+const fallbackRetreats = [
   { name: "Retiro Yoga Caribe", date: "2026-09-12" },
   { name: "Retiro Culinario", date: "2026-10-03" },
   { name: "Retiro Wellness Mujeres", date: "2026-11-21" },
 ];
 
-export default function RetirosPage() {
+export default async function RetirosPage() {
+  const retreats = await getRetreats();
+  const items = retreats.length
+    ? retreats.map((retreat) => ({
+        name: retreat.title.rendered,
+        date: retreat.acf?.start_date ?? "Fecha pendiente",
+      }))
+    : fallbackRetreats;
+
   return (
     <section className="space-y-6">
       <div>
@@ -15,7 +25,7 @@ export default function RetirosPage() {
       </div>
 
       <ul className="space-y-3">
-        {sampleRetreats.map((retreat) => (
+        {items.map((retreat) => (
           <li
             key={`${retreat.name}-${retreat.date}`}
             className="rounded-lg border border-slate-200 bg-white p-4"

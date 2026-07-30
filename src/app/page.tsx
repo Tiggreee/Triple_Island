@@ -1,6 +1,12 @@
 import Link from "next/link";
+import { getRetreats, getVillas } from "@/lib/wp-fetchers";
 
-export default function Home() {
+export default async function Home() {
+  const [villas, retreats] = await Promise.all([getVillas(), getRetreats()]);
+
+  const villaCount = villas.length;
+  const retreatCount = retreats.length;
+
   return (
     <section className="space-y-10">
       <div className="space-y-4">
@@ -34,13 +40,17 @@ export default function Home() {
         <article className="rounded-lg border border-slate-200 bg-white p-5">
           <h2 className="text-lg font-semibold">Villas</h2>
           <p className="mt-2 text-sm text-slate-700">
-            Listado y detalle preparados para consumo desde WordPress REST.
+            {villaCount > 0
+              ? `${villaCount} villas cargadas desde WordPress REST.`
+              : "Listado y detalle preparados para consumo desde WordPress REST."}
           </p>
         </article>
         <article className="rounded-lg border border-slate-200 bg-white p-5">
           <h2 className="text-lg font-semibold">Retiros</h2>
           <p className="mt-2 text-sm text-slate-700">
-            Sección lista para disponibilidad dinámica editable desde panel.
+            {retreatCount > 0
+              ? `${retreatCount} retiros cargados para disponibilidad dinámica.`
+              : "Sección lista para disponibilidad dinámica editable desde panel."}
           </p>
         </article>
         <article className="rounded-lg border border-slate-200 bg-white p-5">

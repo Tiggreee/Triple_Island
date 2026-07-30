@@ -1,12 +1,22 @@
 import Link from "next/link";
+import { getVillas } from "@/lib/wp-fetchers";
 
-const sampleVillas = [
+const fallbackVillas = [
   { slug: "villa-coral", name: "Villa Coral", suites: 12 },
   { slug: "villa-esmeralda", name: "Villa Esmeralda", suites: 18 },
   { slug: "villa-brisa", name: "Villa Brisa", suites: 8 },
 ];
 
-export default function VillasPage() {
+export default async function VillasPage() {
+  const villas = await getVillas();
+  const items = villas.length
+    ? villas.map((villa) => ({
+        slug: villa.slug,
+        name: villa.title.rendered,
+        suites: villa.acf?.suites ?? 0,
+      }))
+    : fallbackVillas;
+
   return (
     <section className="space-y-6">
       <div>
@@ -17,7 +27,7 @@ export default function VillasPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {sampleVillas.map((villa) => (
+        {items.map((villa) => (
           <article
             key={villa.slug}
             className="rounded-lg border border-slate-200 bg-white p-4"
