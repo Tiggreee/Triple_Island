@@ -231,3 +231,32 @@ add_action('init', function () {
         },
     ]);
 });
+
+add_action('rest_api_init', function () {
+    $content_types = ['villa', 'retiro', 'paquete', 'testimonio', 'faq'];
+
+    foreach ($content_types as $type) {
+        register_rest_field($type, 'featured_media_url', [
+            'get_callback' => function ($post_arr) {
+                $thumbnail_id = get_post_thumbnail_id($post_arr['id']);
+
+                if (!$thumbnail_id) {
+                    return null;
+                }
+
+                $image_data = wp_get_attachment_image_src($thumbnail_id, 'full');
+
+                if (!$image_data) {
+                    return null;
+                }
+
+                return $image_data[0];
+            },
+            'schema' => [
+                'description' => 'Featured media URL',
+                'type' => ['string', 'null'],
+                'context' => ['view', 'edit'],
+            ],
+        ]);
+    }
+});
