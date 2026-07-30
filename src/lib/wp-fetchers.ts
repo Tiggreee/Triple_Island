@@ -1,5 +1,5 @@
 import { wpFetch } from "@/lib/wp-client";
-import type { Retreat, Villa } from "@/types/cms";
+import type { Package, Retreat, Testimonial, Villa } from "@/types/cms";
 
 export async function getVillas() {
   const result = await wpFetch<Villa[]>("villa?_embed=1");
@@ -22,11 +22,11 @@ export async function getRetreat(slug: string) {
 }
 
 export async function getPackages() {
-  const result = await wpFetch<unknown[]>("paquete");
+  const result = await wpFetch<Package[]>("paquete");
   return result ?? [];
 }
 
 export async function getTestimonials() {
-  const result = await wpFetch<unknown[]>("testimonio");
+  const result = await wpFetch<Testimonial[]>("testimonio");
   return result ?? [];
 }

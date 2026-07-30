@@ -30,3 +30,30 @@ export type Retreat = {
     retreat_type?: string;
   };
 };
+
+export type Package = {
+  id: number;
+  slug: string;
+  title: WordPressRenderedField;
+  excerpt?: WordPressRenderedField;
+  acf?: {
+    duration?: string;
+    includes?: string;
+    related_villa?: number;
+    related_retreat?: number;
+  };
+};
+
+export type Testimonial = {
+  id: number;
+  slug: string;
+  title: WordPressRenderedField;
+  excerpt?: WordPressRenderedField;
+  acf?: {
+    author_name?: string;
+    author_role?: string;
+    quote?: string;
+    related_villa?: number;
+    related_retreat?: number;
+  };
+};
