@@ -28,6 +28,7 @@ export default function RootLayout({
     { href: "/villas", label: "Villas" },
     { href: "/retiros", label: "Retiros" },
     { href: "/solicitud", label: "Solicitud" },
+    { href: "/styleguide", label: "Styleguide" },
   ];
 
   return (
