@@ -1,4 +1,4 @@
-type RequiredServerEnvKey =
+export type ServerEnvKey =
   | "WORDPRESS_API_URL"
   | "HUBSPOT_PORTAL_ID"
   | "HUBSPOT_FORM_ID"
@@ -6,7 +6,7 @@ type RequiredServerEnvKey =
   | "AI_PROVIDER"
   | "AI_API_KEY";
 
-const requiredServerEnvKeys: RequiredServerEnvKey[] = [
+const requiredServerEnvKeys: ServerEnvKey[] = [
   "WORDPRESS_API_URL",
   "HUBSPOT_PORTAL_ID",
   "HUBSPOT_FORM_ID",
@@ -15,8 +15,15 @@ const requiredServerEnvKeys: RequiredServerEnvKey[] = [
   "AI_API_KEY",
 ];
 
-export function getMissingServerEnv(): RequiredServerEnvKey[] {
-  return requiredServerEnvKeys.filter((key) => !process.env[key]);
+export const hubspotServerEnvKeys: ServerEnvKey[] = [
+  "HUBSPOT_PORTAL_ID",
+  "HUBSPOT_FORM_ID",
+];
+
+export const aiServerEnvKeys: ServerEnvKey[] = ["AI_PROVIDER", "AI_API_KEY"];
+
+export function getMissingServerEnv(keys: ServerEnvKey[] = requiredServerEnvKeys): ServerEnvKey[] {
+  return keys.filter((key) => !process.env[key]);
 }
 
 export function hasServerEnvConfig() {
