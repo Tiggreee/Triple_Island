@@ -1,3 +1,13 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Drawer } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { SectionContainer } from "@/components/ui/section-container";
+import { Select } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+
 const colorTokens = [
   { name: "primary", className: "bg-primary", value: "#0d9488" },
   { name: "surface", className: "bg-surface", value: "#ffffff" },
@@ -45,6 +55,55 @@ export default function StyleguidePage() {
           ))}
         </div>
       </section>
+
+      <SectionContainer title="Buttons">
+        <div className="flex flex-wrap gap-2">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button isLoading>Loading</Button>
+          <Button disabled>Disabled</Button>
+        </div>
+      </SectionContainer>
+
+      <SectionContainer title="Inputs and States">
+        <div className="grid gap-3 md:grid-cols-2">
+          <Input placeholder="Default input" />
+          <Input placeholder="Error input" hasError />
+          <Textarea placeholder="Default textarea" />
+          <Textarea placeholder="Error textarea" hasError />
+          <Select defaultValue="">
+            <option value="" disabled>
+              Select retreat type
+            </option>
+            <option value="yoga">Yoga</option>
+            <option value="culinary">Culinary</option>
+          </Select>
+          <Select hasError defaultValue="">
+            <option value="" disabled>
+              Invalid state
+            </option>
+            <option value="1">Option</option>
+          </Select>
+        </div>
+      </SectionContainer>
+
+      <SectionContainer title="Checkbox, Badges, Card and Drawer">
+        <div className="space-y-4">
+          <label className="inline-flex items-center gap-2 text-sm">
+            <Checkbox defaultChecked />
+            Receive updates
+          </label>
+          <div className="flex gap-2">
+            <Badge>Available</Badge>
+            <Badge>Upcoming</Badge>
+          </div>
+          <Card title="Card primitive">Reusable card container for content blocks.</Card>
+          <Drawer open title="Drawer primitive">
+            Base drawer panel for mobile actions or contextual details.
+          </Drawer>
+        </div>
+      </SectionContainer>
     </section>
   );
 }
