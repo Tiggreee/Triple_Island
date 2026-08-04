@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 
 type SubmitState =
   | { status: "idle" }
@@ -10,7 +10,6 @@ type SubmitState =
 
 export default function SolicitudPage() {
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
-  const startedAt = useMemo(() => Date.now(), []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -24,7 +23,7 @@ export default function SolicitudPage() {
       message: String(formData.get("message") ?? ""),
       leadType: String(formData.get("leadType") ?? "solicitud"),
       website: String(formData.get("website") ?? ""),
-      startedAt: Number(formData.get("startedAt") ?? 0),
+      startedAt: Date.now(),
     };
 
     const response = await fetch("/api/lead", {
@@ -62,7 +61,6 @@ export default function SolicitudPage() {
       </div>
 
       <form onSubmit={onSubmit} className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:grid-cols-2">
-        <input type="hidden" name="startedAt" value={startedAt} />
         <div className="absolute left-[-9999px] h-0 overflow-hidden opacity-0" aria-hidden="true">
           <label htmlFor="website">Sitio web</label>
           <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
