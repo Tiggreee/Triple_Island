@@ -153,66 +153,80 @@ export default async function Home() {
       {/* Luxury Villa Collection — Figma node 6038:2455 */}
       <div className="flex flex-col items-center gap-8 text-center">
         <div>
-          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
-            Luxury Villa
-            <br />
-            Collection
+          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[29.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
+            <span className="lg:hidden">
+              Luxury Villa
+              <br />
+              Collection
+            </span>
+            <span className="hidden lg:inline">Luxury Villa Collection</span>
           </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-            Coco &nbsp;&nbsp; Lola &nbsp;&nbsp; Encantada
-            <br />
-            Cielo
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[18.1px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+            <span className="lg:hidden">
+              Coco &nbsp;&nbsp; Lola &nbsp;&nbsp; Encantada
+              <br />
+              Cielo
+            </span>
+            <span className="hidden lg:inline">Coco &nbsp;&nbsp; Lola &nbsp;&nbsp; Encantada &nbsp;&nbsp; Cielo</span>
           </p>
         </div>
 
         <hr className="w-full border-t border-primary" />
 
-        <div className="flex flex-wrap items-stretch justify-center gap-4">
+        <div className="flex flex-wrap items-stretch justify-center gap-4 lg:gap-6">
           <Link
             href="/villas"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
           >
-            Explore
-            <br />
-            Villas
+            <span className="lg:hidden">
+              Explore
+              <br />
+              Villas
+            </span>
+            <span className="hidden lg:inline">Explore Villas</span>
           </Link>
           <Link
             href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
           >
-            Inquire
-            <br />
-            Villas
+            <span className="lg:hidden">
+              Inquire
+              <br />
+              Villas
+            </span>
+            <span className="hidden lg:inline">Inquire Villas</span>
           </Link>
         </div>
 
-        <div className="relative aspect-[343/234] w-full overflow-hidden">
-          <Image
-            src="/media/figma/villa-encantada-1.jpg"
-            alt="Villa Encantada exterior with private pool, Isla Mujeres"
-            fill
-            sizes="(min-width: 1180px) 1180px, 100vw"
-            className="object-cover"
-          />
-        </div>
-        <div className="relative aspect-[343/269] w-full overflow-hidden">
-          <Image
-            src="/media/figma/casa-coco-1.jpg"
-            alt="Casa Coco palapa terrace and pool"
-            fill
-            sizes="(min-width: 1180px) 1180px, 100vw"
-            className="object-cover"
-          />
+        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[670/429]">
+            <Image
+              src="/media/figma/villa-encantada-1.jpg"
+              alt="Villa Encantada exterior with private pool, Isla Mujeres"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[343/269] w-full overflow-hidden lg:aspect-[670/429]">
+            <Image
+              src="/media/figma/casa-coco-1.jpg"
+              alt="Casa Coco palapa terrace and pool"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <h3 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+        <div className="max-w-3xl space-y-4">
+          <h3 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.4px] lg:leading-[18.65px] lg:tracking-[2.06px]">
             Our Villa Collection
           </h3>
-          <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted">
+          <p className="mx-auto max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-none lg:text-[14.3px] lg:leading-[28.9px]">
             Our exclusive collection includes four exquisite villas: Lola, Encantada, Coco, and Cielo.
           </p>
-          <p className="max-w-md text-[13.4px] font-light leading-[27.2px] text-muted">
+          <p className="mx-auto max-w-md text-[13.4px] font-light leading-[27.2px] text-muted lg:max-w-none lg:text-[13.9px] lg:leading-[28.9px]">
             Each villa offers a unique blend of indoor and outdoor living spaces, perfect for families, friends,
             corporate retreats, weddings, or wellness getaways. With direct access to calm waters and breathtaking
             sunsets over the Mexican Caribbean, Coco B Isla Villas promises an exceptional and unforgettable
@@ -220,23 +234,25 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="relative aspect-[343/234] w-full overflow-hidden">
-          <Image
-            src="/media/figma/villa-encantada-2.jpg"
-            alt="Isla Mujeres Villa Encantada facade with palm trees"
-            fill
-            sizes="(min-width: 1180px) 1180px, 100vw"
-            className="object-cover"
-          />
-        </div>
-        <div className="relative aspect-[343/234] w-full overflow-hidden">
-          <Image
-            src="/media/figma/img-1029.jpg"
-            alt="Villa infinity pool overlooking the Caribbean Sea"
-            fill
-            sizes="(min-width: 1180px) 1180px, 100vw"
-            className="object-cover"
-          />
+        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[670/429]">
+            <Image
+              src="/media/figma/villa-encantada-2.jpg"
+              alt="Isla Mujeres Villa Encantada facade with palm trees"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[670/429]">
+            <Image
+              src="/media/figma/img-1029.jpg"
+              alt="Villa infinity pool overlooking the Caribbean Sea"
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
 
