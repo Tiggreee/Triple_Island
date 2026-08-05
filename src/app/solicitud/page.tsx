@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 
 type SubmitState =
   | { status: "idle" }
@@ -10,7 +10,7 @@ type SubmitState =
 
 export default function SolicitudPage() {
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
-  const startedAt = useMemo(() => Date.now(), []);
+  const [startedAt] = useState(() => new Date().valueOf());
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
