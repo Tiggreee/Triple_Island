@@ -61,71 +61,86 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Coco B Isla intro — Figma node 6038:2410 */}
-      <div className="flex flex-col items-center gap-8 text-center">
-        <div>
-          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
+      {/* Coco B Isla intro — Figma 6038:2410 (mobile) / 6020:8465 (desktop) */}
+      <div className="flex flex-col items-center gap-8 text-center lg:gap-[34px]">
+        <div className="order-1">
+          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
             Coco B Isla
           </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-            Luxury Villas &nbsp;&nbsp; Boutique Hotels
-            <br />
-            Destination Retreats
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[17.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+            <span className="lg:hidden">
+              Luxury Villas &nbsp;&nbsp; Boutique Hotels
+              <br />
+              Destination Retreats
+            </span>
+            <span className="hidden lg:inline">Luxury Villas &nbsp;&nbsp; Boutique Hotels &nbsp;&nbsp; Destination Retreats</span>
           </p>
         </div>
 
-        <div className="flex flex-wrap items-stretch justify-center gap-4">
+        <div className="order-2 flex flex-wrap items-stretch justify-center gap-4 lg:order-4 lg:gap-6">
           <Link
             href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
           >
-            Private
-            <br />
-            Villa
-            <br />
-            Inquiry
+            <span className="lg:hidden">
+              Private
+              <br />
+              Villa
+              <br />
+              Inquiry
+            </span>
+            <span className="hidden lg:inline">Private Villa Inquiry</span>
           </Link>
           <Link
             href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
           >
-            Hotel
-            <br />
-            Reservations
+            <span className="lg:hidden">
+              Hotel
+              <br />
+              Reservations
+            </span>
+            <span className="hidden lg:inline">Hotel Reservations</span>
+          </Link>
+          <Link
+            href="/solicitud"
+            className="hidden items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white lg:flex"
+          >
+            Retreat Host Inquiry
           </Link>
         </div>
 
-        <hr className="w-full border-t border-primary" />
+        <hr className="order-3 w-full border-t border-primary" />
 
-        <p className="max-w-md text-[16.9px] font-light leading-[33.56px] text-muted">
+        <p className="order-5 max-w-md text-[16.9px] font-light leading-[33.56px] text-muted lg:order-2 lg:max-w-3xl lg:text-[19.8px] lg:leading-[40.65px]">
           Set on the shores of Isla Mujeres, in one of Mexico and the Caribbean&rsquo;s most idyllic settings.
         </p>
-        <p className="max-w-md text-[16.9px] font-light leading-[33.56px] text-muted">
+        <p className="order-6 max-w-md text-[16.9px] font-light leading-[33.56px] text-muted lg:order-3 lg:max-w-3xl lg:text-[20.2px] lg:leading-[40.65px]">
           A collection of luxury villas, retreat center, &amp; pop-up boutique hotel
         </p>
 
-        <hr className="w-full border-t border-primary" />
+        <hr className="order-7 w-full border-t border-primary lg:order-5" />
 
-        <div className="space-y-4">
-          <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+        <div className="order-8 space-y-4 lg:order-6">
+          <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
             We Live For:
           </h3>
-          <p className="text-[13.5px] font-light leading-[27.2px] text-muted">
+          <p className="text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
             Friends &amp; Family
             <br />
             Wellness &amp; Team Retreats
             <br />
             Weddings &amp; Celebrations
           </p>
-          <p className="text-base font-light leading-[27.2px] text-muted">We Bring::</p>
-          <p className="text-[13.5px] font-light leading-[27.2px] text-muted">
+          <p className="text-base font-light leading-[27.2px] text-muted lg:text-[17px] lg:leading-[28.9px]">We Bring::</p>
+          <p className="text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
             Exceptional Service for Exceptional Experiences
           </p>
         </div>
 
         <Link
           href="/solicitud"
-          className="flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          className="order-9 flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:hidden"
         >
           Retreat
           <br />
