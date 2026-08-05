@@ -483,6 +483,67 @@ export default async function Home() {
         </Link>
       </div>
 
+      {/* Oceanfront Boutique (Pop-Up) Hotels — Figma 6038:2670 (mobile) / 6020:8720 (desktop) */}
+      <div className="flex flex-col items-center gap-8 text-center lg:gap-[34px]">
+        <div>
+          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
+            <span className="lg:hidden">
+              Oceanfront Boutique
+              <br />
+              (Pop-Up) Hotels
+            </span>
+            <span className="hidden lg:inline">Oceanfront Boutique (Pop-Up) Hotels</span>
+          </h2>
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+            Coco &amp; Lola
+          </p>
+        </div>
+
+        <hr className="w-full border-t border-primary" />
+
+        <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-2xl lg:text-[14.3px] lg:leading-[28.9px]">
+          Coco B Isla is a Pop-Up Hotel Serving Guests Looking for Last Minute Stays.
+        </p>
+        <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-2xl lg:text-[14.3px] lg:leading-[28.9px]">
+          (Book stays inside 30 days from arrival or contact us{" "}
+          <Link href="/solicitud" className="font-bold text-accent">
+            HERE
+          </Link>{" "}
+          to be on our call list)
+        </p>
+
+        <div className="flex flex-wrap items-stretch justify-center gap-4 lg:gap-6">
+          <Link
+            href="/villas"
+            className="order-1 flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:order-2 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
+          >
+            <span className="lg:hidden">
+              Book Hotel
+              <br />
+              Coco
+            </span>
+            <span className="hidden lg:inline">Book Hotel Coco</span>
+          </Link>
+          <Link
+            href="/villas"
+            className="order-2 flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:order-3 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
+          >
+            <span className="lg:hidden">
+              Book Hotel
+              <br />
+              Lola
+            </span>
+            <span className="hidden lg:inline">Book Hotel Lola</span>
+          </Link>
+          <Link
+            href="/villas"
+            className="order-3 flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:order-1 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
+          >
+            Explore Hotels
+          </Link>
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-border bg-surface px-8 py-12">
         <div className="mb-8 space-y-3 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Coco B Services</p>
