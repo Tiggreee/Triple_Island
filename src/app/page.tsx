@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { getRetreats, getVillas } from "@/lib/wp-fetchers";
 
@@ -6,60 +7,468 @@ export default async function Home() {
 
   const villaCount = villas.length;
   const retreatCount = retreats.length;
+  
+
+  const conciergeItems = [
+    "Transportación Privada",
+    "Personal Concierge",
+    "Private Chef",
+    "Tours en Yate",
+  ];
+
+  const stayItems = [
+    "Beach Access",
+    "Wellness Rituals",
+    "Private Boat Charters",
+    "Airport Transfers",
+    "All-Inclusive Option",
+    "Excursiones Locales",
+  ];
+
+  const mediaPhoto = "/media/figma-media.png";
+  const mapPhoto = "/media/figma-map.png";
 
   return (
-    <section className="space-y-10">
-      <div className="space-y-4">
-        <p className="text-sm font-medium uppercase tracking-widest text-slate-600">
-          Plataforma Unificada
-        </p>
-        <h1 className="max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
-          Descubre villas, explora retiros y envía tu solicitud de reserva.
-        </h1>
-        <p className="max-w-2xl text-base text-slate-700 sm:text-lg">
-          Primer corte funcional orientado al flujo de renta de villa, con
-          contenido administrable y rutas listas para integración.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href="/villas"
-            className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
-          >
-            Ver Villas
-          </Link>
-          <Link
-            href="/solicitud"
-            className="rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 transition hover:bg-slate-100"
-          >
-            Enviar Solicitud
-          </Link>
+    <section className="mx-auto w-full max-w-[1180px] space-y-24 pb-24 pt-2">
+      {/* Hero — Figma node 6038:2393 (mobile, 390w default) */}
+      <div className="relative flex h-[780px] w-full items-start justify-center overflow-hidden rounded-2xl">
+        <Image
+          src="/media/figma/hero-mobile.jpg"
+          alt="Coco B Isla villa terrace among palm trees at golden hour, Isla Mujeres"
+          fill
+          priority
+          sizes="(min-width: 1180px) 1180px, 100vw"
+          className="object-cover"
+        />
+        <div className="relative z-10 flex flex-col items-center px-6 pt-[329px] text-center text-white">
+          <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px]">
+            Coco B Isla
+          </h1>
+          <p className="mt-[31px] text-[16.4px] font-light uppercase leading-[16.87px] tracking-[1.863px]">
+            Isla Mujeres
+          </p>
+          <p className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px]">
+            Mexico
+          </p>
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        <article className="rounded-lg border border-slate-200 bg-white p-5">
-          <h2 className="text-lg font-semibold">Villas</h2>
-          <p className="mt-2 text-sm text-slate-700">
-            {villaCount > 0
-              ? `${villaCount} villas cargadas desde WordPress REST.`
-              : "Listado y detalle preparados para consumo desde WordPress REST."}
+      {/* Coco B Isla intro — Figma node 6038:2410 */}
+      <div className="flex flex-col items-center gap-8 text-center">
+        <div>
+          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
+            Coco B Isla
+          </h2>
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+            Luxury Villas &nbsp;&nbsp; Boutique Hotels
+            <br />
+            Destination Retreats
           </p>
-        </article>
-        <article className="rounded-lg border border-slate-200 bg-white p-5">
-          <h2 className="text-lg font-semibold">Retiros</h2>
-          <p className="mt-2 text-sm text-slate-700">
-            {retreatCount > 0
-              ? `${retreatCount} retiros cargados para disponibilidad dinámica.`
-              : "Sección lista para disponibilidad dinámica editable desde panel."}
+        </div>
+
+        <div className="flex flex-wrap items-stretch justify-center gap-4">
+          <Link
+            href="/solicitud"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          >
+            Private
+            <br />
+            Villa
+            <br />
+            Inquiry
+          </Link>
+          <Link
+            href="/solicitud"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          >
+            Hotel
+            <br />
+            Reservations
+          </Link>
+        </div>
+
+        <hr className="w-full border-t border-primary" />
+
+        <p className="max-w-md text-[16.9px] font-light leading-[33.56px] text-muted">
+          Set on the shores of Isla Mujeres, in one of Mexico and the Caribbean&rsquo;s most idyllic settings.
+        </p>
+        <p className="max-w-md text-[16.9px] font-light leading-[33.56px] text-muted">
+          A collection of luxury villas, retreat center, &amp; pop-up boutique hotel
+        </p>
+
+        <hr className="w-full border-t border-primary" />
+
+        <div className="space-y-4">
+          <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+            We Live For:
+          </h3>
+          <p className="text-[13.5px] font-light leading-[27.2px] text-muted">
+            Friends &amp; Family
+            <br />
+            Wellness &amp; Team Retreats
+            <br />
+            Weddings &amp; Celebrations
           </p>
-        </article>
-        <article className="rounded-lg border border-slate-200 bg-white p-5">
-          <h2 className="text-lg font-semibold">Solicitudes</h2>
-          <p className="mt-2 text-sm text-slate-700">
-            Captura de leads en HubSpot con validación y anti-spam server-side.
+          <p className="text-base font-light leading-[27.2px] text-muted">We Bring::</p>
+          <p className="text-[13.5px] font-light leading-[27.2px] text-muted">
+            Exceptional Service for Exceptional Experiences
           </p>
-        </article>
+        </div>
+
+        <Link
+          href="/solicitud"
+          className="flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+        >
+          Retreat
+          <br />
+          Host
+          <br />
+          Inquiry
+        </Link>
       </div>
+
+      {/* Luxury Villa Collection — Figma node 6038:2455 */}
+      <div className="flex flex-col items-center gap-8 text-center">
+        <div>
+          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
+            Luxury Villa
+            <br />
+            Collection
+          </h2>
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+            Coco &nbsp;&nbsp; Lola &nbsp;&nbsp; Encantada
+            <br />
+            Cielo
+          </p>
+        </div>
+
+        <hr className="w-full border-t border-primary" />
+
+        <div className="flex flex-wrap items-stretch justify-center gap-4">
+          <Link
+            href="/villas"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          >
+            Explore
+            <br />
+            Villas
+          </Link>
+          <Link
+            href="/solicitud"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          >
+            Inquire
+            <br />
+            Villas
+          </Link>
+        </div>
+
+        <div className="relative aspect-[343/234] w-full overflow-hidden">
+          <Image
+            src="/media/figma/villa-encantada-1.jpg"
+            alt="Villa Encantada exterior with private pool, Isla Mujeres"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="relative aspect-[343/269] w-full overflow-hidden">
+          <Image
+            src="/media/figma/casa-coco-1.jpg"
+            alt="Casa Coco palapa terrace and pool"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+            Our Villa Collection
+          </h3>
+          <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted">
+            Our exclusive collection includes four exquisite villas: Lola, Encantada, Coco, and Cielo.
+          </p>
+          <p className="max-w-md text-[13.4px] font-light leading-[27.2px] text-muted">
+            Each villa offers a unique blend of indoor and outdoor living spaces, perfect for families, friends,
+            corporate retreats, weddings, or wellness getaways. With direct access to calm waters and breathtaking
+            sunsets over the Mexican Caribbean, Coco B Isla Villas promises an exceptional and unforgettable
+            experience.
+          </p>
+        </div>
+
+        <div className="relative aspect-[343/234] w-full overflow-hidden">
+          <Image
+            src="/media/figma/villa-encantada-2.jpg"
+            alt="Isla Mujeres Villa Encantada facade with palm trees"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="relative aspect-[343/234] w-full overflow-hidden">
+          <Image
+            src="/media/figma/img-1029.jpg"
+            alt="Villa infinity pool overlooking the Caribbean Sea"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+        </div>
+      </div>
+
+      {/* Retreats — Figma node 6038:2509 */}
+      <div className="flex flex-col items-center gap-8 text-center">
+        <div>
+          <h2 className="text-[23.3px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
+            Retreats
+          </h2>
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+            Weddings &nbsp;&nbsp; Yoga &nbsp;&nbsp; Wellness
+            <br />
+            Culinary &nbsp;&nbsp; Fitness &nbsp;&nbsp; Corporate
+          </p>
+        </div>
+
+        <hr className="w-full border-t border-primary" />
+
+        <Link
+          href="/retiros"
+          className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+        >
+          Inquire Retreat
+        </Link>
+
+        {[
+          { src: "/media/figma/retreat-video-1.jpg", alt: "Yoga retreat session preview" },
+          { src: "/media/figma/retreat-video-2.jpg", alt: "Ocean paddleboard retreat preview" },
+          { src: "/media/figma/retreat-video-3.jpg", alt: "Culinary retreat gathering preview" },
+        ].map((video) => (
+          <div key={video.src} className="relative aspect-[343/193] w-full overflow-hidden">
+            <Image src={video.src} alt={video.alt} fill sizes="(min-width: 1180px) 1180px, 100vw" className="object-cover" />
+            <span className="absolute inset-0 flex items-center justify-center">
+              <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
+                <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
+                  <path d="M0 0L16 9L0 18V0Z" />
+                </svg>
+              </span>
+            </span>
+          </div>
+        ))}
+
+        <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+          Full Service Planning and
+          <br />
+          Support for Your Destination
+          <br />
+          Retreat
+        </h3>
+
+        <p className="max-w-md text-[17.5px] italic font-light leading-[33.56px] text-muted">
+          &ldquo;Best Island Retreat Center in the Americas&rdquo;
+          <br />
+          <span className="text-[15.9px] not-italic">Luxe Life Magazine</span>
+        </p>
+
+        <figure className="max-w-md space-y-3">
+          <blockquote className="text-[12.5px] italic font-light leading-[27.2px] text-muted">
+            Incredible Memories Made! I have been leading yoga retreats for almost 15 years and this was by far one
+            of the very best EVER. Casa Coco is stunning. The dedicated staff were professional, attentive to the
+            many details and moving parts, they were so much fun + kind, more than accommodating and after five days
+            with our group of fifteen guests, they became our friends. Honestly, I was just blown away by every
+            aspect of this retreat. I&rsquo;m already looking for the right time to head back down for round two.
+            THANK YOU ALL FOR EVERYTHING.
+          </blockquote>
+          <figcaption className="text-right text-[13.3px] font-light leading-[27.2px] text-muted">
+            — Jill Knouse - Trip Advisor
+          </figcaption>
+        </figure>
+
+        <div className="relative aspect-[343/199] w-full overflow-hidden">
+          <Image
+            src="/media/figma/retreat-couple-beach.jpg"
+            alt="Couple walking the beach at sunset during a Coco B retreat"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="grid w-full grid-cols-2 gap-3">
+          <div className="relative aspect-[166/234] overflow-hidden">
+            <Image
+              src="/media/figma/retreat-lola-yoga.jpg"
+              alt="Yoga session at Villa Lola"
+              fill
+              sizes="(min-width: 1180px) 590px, 50vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[166/234] overflow-hidden">
+            <Image
+              src="/media/figma/retreat-img9359.jpg"
+              alt="Retreat group gathering by the water"
+              fill
+              sizes="(min-width: 1180px) 590px, 50vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
+
+        <div className="relative aspect-[343/199] w-full overflow-hidden">
+          <Image
+            src="/media/figma/retreat-dining.jpg"
+            alt="Outdoor dining set up for a Coco B yoga teacher training"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+        </div>
+
+        <figure className="max-w-md space-y-3">
+          <blockquote className="text-[12.6px] italic font-light leading-[27.2px] text-muted">
+            &ldquo;What a beautiful oasis with warm, wonderful staff, stunning rooms and a yoga studio with
+            magnificent views from every angle makes you feel as if you are part of nature. We look forward to
+            returning next year and so appreciate the care and time spent with owner Jeff and our host, Lisa.&rdquo;
+          </blockquote>
+          <figcaption className="text-right text-[13.4px] font-light leading-[27.2px] text-muted">
+            — Paul Gould and Jennifer Fox NamaStay Yoga
+          </figcaption>
+        </figure>
+
+        <figure className="max-w-md space-y-3">
+          <blockquote className="text-[12.4px] italic font-light leading-[27.2px] text-muted">
+            &ldquo;The energy here is so incredible that it will heal you completely and energize you, and maybe even
+            change your life.&rdquo;
+          </blockquote>
+          <figcaption className="text-right text-[14px] font-light leading-[27.2px] text-muted">
+            — Alice R. Mexico City
+          </figcaption>
+        </figure>
+
+        <hr className="w-full border-t border-primary" />
+
+        <Link
+          href="/retiros"
+          className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+        >
+          Retreat Calendar
+        </Link>
+      </div>
+
+      <div className="rounded-2xl border border-border bg-surface px-8 py-12">
+        <div className="mb-8 space-y-3 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Coco B Services</p>
+          <h2 className="text-3xl font-medium tracking-[0.06em] text-foreground">FULL SERVICE PLANNING FOR YOUR RETREAT</h2>
+        </div>
+
+        <div className="grid grid-cols-4 gap-4">
+          {conciergeItems.map((item) => (
+            <article key={item} className="rounded-xl border border-border bg-background px-5 py-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-foreground transition-all hover:border-primary hover:bg-primary/5">
+              {item}
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10">
+          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted">COMPLEMENT YOUR STAY</p>
+          <div className="grid grid-cols-6 gap-4">
+            {stayItems.map((item) => (
+              <div
+                key={item}
+                className="rounded-lg border border-border bg-background px-3 py-4 text-center text-xs font-semibold uppercase tracking-[0.1em] text-muted transition-colors hover:text-foreground hover:border-border/60"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Media</p>
+          <h2 className="mt-2 text-2xl font-medium tracking-[0.06em] text-foreground">SEE THE ISLAND MOVE</h2>
+        </div>
+        <div className="flex items-center justify-center rounded-xl border border-border bg-surface p-8 h-64">
+          <Image src={mediaPhoto} alt="Media preview" width={210} height={37} className="rounded-lg border border-border w-auto h-auto" />
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Reputation</p>
+          <h2 className="mt-2 text-3xl font-medium tracking-[0.06em] text-foreground">{Math.max(villaCount + retreatCount, 3)}0+ FIVE STAR REVIEWS</h2>
+        </div>
+        <div className="grid grid-cols-3 gap-4 rounded-xl border border-border bg-surface p-4">
+          <div className="rounded-lg border border-border bg-background px-5 py-6 text-center">
+            <p className="text-lg font-semibold text-primary">4.9</p>
+            <p className="text-xs uppercase tracking-[0.1em] text-muted">Google Reviews</p>
+          </div>
+          <div className="rounded-lg border border-border bg-background px-5 py-6 text-center">
+            <p className="text-lg font-semibold text-primary">5.0</p>
+            <p className="text-xs uppercase tracking-[0.1em] text-muted">Airbnb Ratings</p>
+          </div>
+          <div className="rounded-lg border border-border bg-background px-5 py-6 text-center">
+            <p className="text-lg font-semibold text-primary">4.8</p>
+            <p className="text-xs uppercase tracking-[0.1em] text-muted">Booking.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-12 gap-6 rounded-2xl border border-border bg-surface p-8">
+        <article className="col-span-7 space-y-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Location</p>
+          <h2 className="text-3xl font-medium tracking-[0.06em] text-foreground">ISLA MUJERES</h2>
+          <p className="max-w-xl text-sm leading-7 text-muted">
+            A short ferry ride from Cancun with private waterfront homes and curated local experiences.
+          </p>
+          <Link
+            href="/solicitud"
+            className="inline-flex rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:opacity-90 transition-opacity"
+          >
+            Get in Touch
+          </Link>
+        </article>
+
+        <div className="col-span-5 rounded-xl border border-border bg-background p-4">
+          <Image src={mapPhoto} alt="Map preview" width={102} height={31} className="h-full w-full rounded-lg border border-border object-cover" />
+        </div>
+      </div>
+
+      <footer className="rounded-2xl border border-border bg-[#0f1113] px-8 py-12 text-white">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-sm">
+          <div className="space-y-3">
+            <p className="text-lg font-semibold tracking-tight">Coco B</p>
+            <p className="text-white/60">Private villas and retreat planning in Isla Mujeres.</p>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">Explore</p>
+            <nav className="space-y-2 text-white/80">
+              <Link href="/villas" className="block hover:text-white transition-colors">Villas</Link>
+              <Link href="/retiros" className="block hover:text-white transition-colors">Retiros</Link>
+              <Link href="/solicitud" className="block hover:text-white transition-colors">Solicitud</Link>
+            </nav>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">Contact</p>
+            <div className="space-y-2 text-white/80">
+              <p><a href="mailto:hello@cocobisla.com" className="hover:text-white transition-colors">hello@cocobisla.com</a></p>
+              <p>Isla Mujeres, Mexico</p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">Follow</p>
+            <nav className="space-y-2 text-white/80">
+              <a href="#" className="block hover:text-white transition-colors">Instagram</a>
+              <a href="#" className="block hover:text-white transition-colors">Google Maps</a>
+            </nav>
+          </div>
+        </div>
+        <div className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-white/40">
+          <p>&copy; 2026 Coco B Isla + Coco B Wellness. All rights reserved.</p>
+        </div>
+      </footer>
     </section>
   );
 }
