@@ -1,13 +1,15 @@
 export const DESIGN_TOKEN_PREFIX = "cb";
 
+// Pulled from the Coco B Figma file (node 6038:2300) via get_variable_defs —
+// cocobisla.com's actual published values, not placeholders.
 export const DESIGN_COLOR_TOKENS = {
-  "cb-color-background": "#f6f5f2",
-  "cb-color-foreground": "#1f2a30",
-  "cb-color-primary": "#0d9488",
-  "cb-color-surface": "#ffffff",
-  "cb-color-muted": "#6b7280",
-  "cb-color-accent": "#e2725b",
-  "cb-color-border": "#d7dbdd",
+  "cb-color-background": "#ffffff", // color/white/solid
+  "cb-color-foreground": "#16161d", // Woodsmoke
+  "cb-color-primary": "#107480", // Surfie Green
+  "cb-color-surface": "#ffffff", // color/white/solid
+  "cb-color-muted": "#797979", // Boulder
+  "cb-color-accent": "#2d818f", // Lochinvar
+  "cb-color-border": "#d9d9d9", // Alto
 } as const;
 
 export const DESIGN_SPACING_TOKENS = {
