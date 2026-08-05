@@ -31,23 +31,31 @@ export default async function Home() {
   return (
     <section className="mx-auto w-full max-w-[1180px] space-y-24 pb-24 pt-2">
       {/* Hero — Figma node 6038:2393 (mobile, 390w default) */}
-      <div className="relative flex h-[780px] w-full items-start justify-center overflow-hidden rounded-2xl">
+      <div className="relative flex h-[780px] w-full items-start justify-center overflow-hidden rounded-2xl lg:h-[900px]">
         <Image
           src="/media/figma/hero-mobile.jpg"
           alt="Coco B Isla villa terrace among palm trees at golden hour, Isla Mujeres"
           fill
           priority
-          sizes="(min-width: 1180px) 1180px, 100vw"
-          className="object-cover"
+          sizes="100vw"
+          className="object-cover lg:hidden"
         />
-        <div className="relative z-10 flex flex-col items-center px-6 pt-[329px] text-center text-white">
-          <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px]">
+        <Image
+          src="/media/figma/hero-desktop.jpg"
+          alt="Coco B Isla villa terrace among palm trees at golden hour, Isla Mujeres"
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover lg:block"
+        />
+        <div className="relative z-10 flex flex-col items-center px-6 pt-[329px] text-center text-white lg:pt-[380px]">
+          <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
             Coco B Isla
           </h1>
-          <p className="mt-[31px] text-[16.4px] font-light uppercase leading-[16.87px] tracking-[1.863px]">
+          <p className="mt-[31px] text-[16.4px] font-light uppercase leading-[16.87px] tracking-[1.863px] lg:mt-[34px] lg:text-[18.1px] lg:leading-[18.65px] lg:tracking-[2.06px]">
             Isla Mujeres
           </p>
-          <p className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px]">
+          <p className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
             Mexico
           </p>
         </div>
