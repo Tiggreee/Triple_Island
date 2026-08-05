@@ -256,35 +256,56 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Retreats — Figma node 6038:2509 */}
-      <div className="flex flex-col items-center gap-8 text-center">
-        <div>
-          <h2 className="text-[23.3px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
+      {/* Retreats — Figma 6038:2509 (mobile) / 6020:8561 (desktop) */}
+      <div className="flex flex-col items-center gap-8 text-center lg:gap-[34px]">
+        <div className="order-10">
+          <h2 className="text-[23.3px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
             Retreats
           </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-            Weddings &nbsp;&nbsp; Yoga &nbsp;&nbsp; Wellness
-            <br />
-            Culinary &nbsp;&nbsp; Fitness &nbsp;&nbsp; Corporate
+          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[17.8px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+            <span className="lg:hidden">
+              Weddings &nbsp;&nbsp; Yoga &nbsp;&nbsp; Wellness
+              <br />
+              Culinary &nbsp;&nbsp; Fitness &nbsp;&nbsp; Corporate
+            </span>
+            <span className="hidden lg:inline">
+              Weddings &nbsp;&nbsp; Yoga &nbsp;&nbsp; Wellness &nbsp;&nbsp; Culinary &nbsp;&nbsp; Fitness &nbsp;&nbsp; Corporate
+            </span>
           </p>
         </div>
 
-        <hr className="w-full border-t border-primary" />
+        <hr className="order-20 w-full border-t border-primary" />
 
+        {/* Buttons: stacked/split on mobile, one row on desktop */}
         <Link
           href="/retiros"
-          className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          className="order-30 flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:hidden"
         >
           Inquire Retreat
         </Link>
+        <div className="order-30 hidden flex-wrap items-stretch justify-center gap-6 lg:flex">
+          <Link
+            href="/retiros"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
+          >
+            Inquire Retreat
+          </Link>
+          <Link
+            href="/retiros"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
+          >
+            Retreat Calendar
+          </Link>
+        </div>
 
+        {/* Videos: after the intro on mobile, at the very end on desktop */}
         {[
-          { src: "/media/figma/retreat-video-1.jpg", alt: "Yoga retreat session preview" },
-          { src: "/media/figma/retreat-video-2.jpg", alt: "Ocean paddleboard retreat preview" },
-          { src: "/media/figma/retreat-video-3.jpg", alt: "Culinary retreat gathering preview" },
+          { src: "/media/figma/retreat-video-1.jpg", alt: "Yoga retreat session preview", order: "order-[40]" },
+          { src: "/media/figma/retreat-video-2.jpg", alt: "Ocean paddleboard retreat preview", order: "order-[41]" },
+          { src: "/media/figma/retreat-video-3.jpg", alt: "Culinary retreat gathering preview", order: "order-[42]" },
         ].map((video) => (
-          <div key={video.src} className="relative aspect-[343/193] w-full overflow-hidden">
-            <Image src={video.src} alt={video.alt} fill sizes="(min-width: 1180px) 1180px, 100vw" className="object-cover" />
+          <div key={video.src} className={`relative ${video.order} aspect-[343/193] w-full overflow-hidden lg:hidden`}>
+            <Image src={video.src} alt={video.alt} fill sizes="100vw" className="object-cover" />
             <span className="absolute inset-0 flex items-center justify-center">
               <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
                 <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
@@ -294,52 +315,53 @@ export default async function Home() {
             </span>
           </div>
         ))}
+        <div className="order-[90] hidden w-full grid-cols-3 gap-4 lg:grid">
+          {[
+            { src: "/media/figma/retreat-video-1.jpg", alt: "Yoga retreat session preview" },
+            { src: "/media/figma/retreat-video-2.jpg", alt: "Ocean paddleboard retreat preview" },
+            { src: "/media/figma/retreat-video-3.jpg", alt: "Culinary retreat gathering preview" },
+          ].map((video) => (
+            <div key={video.src} className="relative aspect-[443/249] w-full overflow-hidden">
+              <Image src={video.src} alt={video.alt} fill sizes="33vw" className="object-cover" />
+              <span className="absolute inset-0 flex items-center justify-center">
+                <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
+                  <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
+                    <path d="M0 0L16 9L0 18V0Z" />
+                  </svg>
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
 
-        <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-          Full Service Planning and
-          <br />
-          Support for Your Destination
-          <br />
-          Retreat
+        <h3 className="order-[50] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.1px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+          <span className="lg:hidden">
+            Full Service Planning and
+            <br />
+            Support for Your Destination
+            <br />
+            Retreat
+          </span>
+          <span className="hidden lg:inline">Full Service Planning and Support for Your Destination Retreat</span>
         </h3>
 
-        <p className="max-w-md text-[17.5px] italic font-light leading-[33.56px] text-muted">
-          &ldquo;Best Island Retreat Center in the Americas&rdquo;
-          <br />
-          <span className="text-[15.9px] not-italic">Luxe Life Magazine</span>
-        </p>
-
-        <figure className="max-w-md space-y-3">
-          <blockquote className="text-[12.5px] italic font-light leading-[27.2px] text-muted">
-            Incredible Memories Made! I have been leading yoga retreats for almost 15 years and this was by far one
-            of the very best EVER. Casa Coco is stunning. The dedicated staff were professional, attentive to the
-            many details and moving parts, they were so much fun + kind, more than accommodating and after five days
-            with our group of fifteen guests, they became our friends. Honestly, I was just blown away by every
-            aspect of this retreat. I&rsquo;m already looking for the right time to head back down for round two.
-            THANK YOU ALL FOR EVERYTHING.
-          </blockquote>
-          <figcaption className="text-right text-[13.3px] font-light leading-[27.2px] text-muted">
-            — Jill Knouse - Trip Advisor
-          </figcaption>
-        </figure>
-
-        <div className="relative aspect-[343/199] w-full overflow-hidden">
+        {/* Images: couple-beach solo + [lola, img9359] pair on mobile; [couple-beach, lola] + [dining, img9359] pairs on desktop */}
+        <div className="order-[80] relative aspect-[343/199] w-full overflow-hidden lg:hidden">
           <Image
             src="/media/figma/retreat-couple-beach.jpg"
             alt="Couple walking the beach at sunset during a Coco B retreat"
             fill
-            sizes="(min-width: 1180px) 1180px, 100vw"
+            sizes="100vw"
             className="object-cover"
           />
         </div>
-
-        <div className="grid w-full grid-cols-2 gap-3">
+        <div className="order-[90] grid w-full grid-cols-2 gap-3 lg:hidden">
           <div className="relative aspect-[166/234] overflow-hidden">
             <Image
               src="/media/figma/retreat-lola-yoga.jpg"
               alt="Yoga session at Villa Lola"
               fill
-              sizes="(min-width: 1180px) 590px, 50vw"
+              sizes="50vw"
               className="object-cover"
             />
           </div>
@@ -348,48 +370,114 @@ export default async function Home() {
               src="/media/figma/retreat-img9359.jpg"
               alt="Retreat group gathering by the water"
               fill
-              sizes="(min-width: 1180px) 590px, 50vw"
+              sizes="50vw"
               className="object-cover"
             />
           </div>
         </div>
-
-        <div className="relative aspect-[343/199] w-full overflow-hidden">
+        <div className="order-[40] hidden w-full grid-cols-2 gap-4 lg:grid">
+          <div className="relative aspect-[670/429] overflow-hidden">
+            <Image
+              src="/media/figma/retreat-couple-beach.jpg"
+              alt="Couple walking the beach at sunset during a Coco B retreat"
+              fill
+              sizes="50vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[670/429] overflow-hidden">
+            <Image
+              src="/media/figma/retreat-lola-yoga.jpg"
+              alt="Yoga session at Villa Lola"
+              fill
+              sizes="50vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
+        <div className="order-[70] hidden w-full grid-cols-2 gap-4 lg:grid">
+          <div className="relative aspect-[670/429] overflow-hidden">
+            <Image
+              src="/media/figma/retreat-dining.jpg"
+              alt="Outdoor dining set up for a Coco B yoga teacher training"
+              fill
+              sizes="50vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[670/429] overflow-hidden">
+            <Image
+              src="/media/figma/retreat-img9359.jpg"
+              alt="Retreat group gathering by the water"
+              fill
+              sizes="50vw"
+              className="object-cover"
+            />
+          </div>
+        </div>
+        <div className="order-[100] relative aspect-[343/199] w-full overflow-hidden lg:hidden">
           <Image
             src="/media/figma/retreat-dining.jpg"
             alt="Outdoor dining set up for a Coco B yoga teacher training"
             fill
-            sizes="(min-width: 1180px) 1180px, 100vw"
+            sizes="100vw"
             className="object-cover"
           />
         </div>
 
-        <figure className="max-w-md space-y-3">
-          <blockquote className="text-[12.6px] italic font-light leading-[27.2px] text-muted">
-            &ldquo;What a beautiful oasis with warm, wonderful staff, stunning rooms and a yoga studio with
-            magnificent views from every angle makes you feel as if you are part of nature. We look forward to
-            returning next year and so appreciate the care and time spent with owner Jeff and our host, Lisa.&rdquo;
-          </blockquote>
-          <figcaption className="text-right text-[13.4px] font-light leading-[27.2px] text-muted">
-            — Paul Gould and Jennifer Fox NamaStay Yoga
-          </figcaption>
-        </figure>
+        {/* Press quote + Jill testimonial: stacked on mobile, side by side on desktop */}
+        <div className="contents lg:grid lg:order-[60] lg:grid-cols-2 lg:items-start lg:gap-16 lg:text-left">
+          <p className="order-[60] max-w-md text-[17.5px] italic font-light leading-[33.56px] text-muted lg:mx-0 lg:max-w-none lg:text-[21.1px] lg:leading-[40.65px]">
+            &ldquo;Best Island Retreat Center in the Americas&rdquo;
+            <br />
+            <span className="text-[15.9px] not-italic lg:text-[17px]">Luxe Life Magazine</span>
+          </p>
 
-        <figure className="max-w-md space-y-3">
-          <blockquote className="text-[12.4px] italic font-light leading-[27.2px] text-muted">
-            &ldquo;The energy here is so incredible that it will heal you completely and energize you, and maybe even
-            change your life.&rdquo;
-          </blockquote>
-          <figcaption className="text-right text-[14px] font-light leading-[27.2px] text-muted">
-            — Alice R. Mexico City
-          </figcaption>
-        </figure>
+          <figure className="order-[70] max-w-md space-y-3 lg:max-w-none">
+            <blockquote className="text-[12.5px] italic font-light leading-[27.2px] text-muted lg:text-[13.3px] lg:leading-[28.9px]">
+              Incredible Memories Made! I have been leading yoga retreats for almost 15 years and this was by far one
+              of the very best EVER. Casa Coco is stunning. The dedicated staff were professional, attentive to the
+              many details and moving parts, they were so much fun + kind, more than accommodating and after five
+              days with our group of fifteen guests, they became our friends. Honestly, I was just blown away by
+              every aspect of this retreat. I&rsquo;m already looking for the right time to head back down for round
+              two. THANK YOU ALL FOR EVERYTHING.
+            </blockquote>
+            <figcaption className="text-right text-[13.3px] font-light leading-[27.2px] text-muted lg:text-[14.1px] lg:leading-[28.9px]">
+              — Jill Knouse - Trip Advisor
+            </figcaption>
+          </figure>
+        </div>
 
-        <hr className="w-full border-t border-primary" />
+        {/* Paul Gould + Alice R testimonials: stacked on mobile, side by side on desktop */}
+        <div className="contents lg:grid lg:order-[80] lg:grid-cols-2 lg:items-start lg:gap-16 lg:text-left">
+          <figure className="order-[110] max-w-md space-y-3 lg:max-w-none">
+            <blockquote className="text-[12.6px] italic font-light leading-[27.2px] text-muted lg:text-[13.1px] lg:leading-[28.9px]">
+              &ldquo;What a beautiful oasis with warm, wonderful staff, stunning rooms and a yoga studio with
+              magnificent views from every angle makes you feel as if you are part of nature. We look forward to
+              returning next year and so appreciate the care and time spent with owner Jeff and our host,
+              Lisa.&rdquo;
+            </blockquote>
+            <figcaption className="text-right text-[13.4px] font-light leading-[27.2px] text-muted lg:text-[14.2px] lg:leading-[28.9px]">
+              — Paul Gould and Jennifer Fox NamaStay Yoga
+            </figcaption>
+          </figure>
+
+          <figure className="order-[120] max-w-md space-y-3 lg:max-w-none">
+            <blockquote className="text-[12.4px] italic font-light leading-[27.2px] text-muted lg:text-[13.1px] lg:leading-[28.9px]">
+              &ldquo;The energy here is so incredible that it will heal you completely and energize you, and maybe
+              even change your life.&rdquo;
+            </blockquote>
+            <figcaption className="text-right text-[14px] font-light leading-[27.2px] text-muted lg:text-[14.7px] lg:leading-[28.9px]">
+              — Alice R. Mexico City
+            </figcaption>
+          </figure>
+        </div>
+
+        <hr className="order-[130] w-full border-t border-primary lg:hidden" />
 
         <Link
           href="/retiros"
-          className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+          className="order-[140] flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:hidden"
         >
           Retreat Calendar
         </Link>
