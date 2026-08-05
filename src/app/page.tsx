@@ -544,95 +544,97 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* Gallery + press awards — Figma node 6038:2707 (mobile) */}
-      <div className="flex flex-col items-center gap-6 text-center">
-        <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground">
-          &middot; Luxury Villas
-          <br />
-          Boutique Hotels &middot;
-          <br />
-          Destination Retreats &middot;
+      {/* Gallery + press awards — Figma 6038:2707 (mobile) / 6020:8755 (desktop) */}
+      <div className="flex flex-col items-center gap-6 text-center lg:gap-8">
+        <h2 className="order-1 text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:order-[45] lg:text-[30.1px] lg:leading-[29.84px] lg:tracking-[3.391px]">
+          <span className="lg:hidden">
+            &middot; Luxury Villas
+            <br />
+            Boutique Hotels &middot;
+            <br />
+            Destination Retreats &middot;
+          </span>
+          <span className="hidden lg:inline">&middot; Luxury Villas &middot; Boutique Hotels &middot; Destination Retreats &middot;</span>
         </h2>
 
-        <div className="relative aspect-[343/164] w-full overflow-hidden">
-          <Image src="/media/figma/gallery-dea277ac.jpg" alt="Villa interior detail" fill sizes="100vw" className="object-cover" />
-        </div>
-
-        <div className="grid w-full grid-cols-2 gap-3">
-          <div className="relative aspect-[166/199] overflow-hidden">
-            <Image src="/media/figma/gallery-encantada-83.jpg" alt="Villa Encantada poolside" fill sizes="50vw" className="object-cover" />
+        {/* 8 gallery photos: stacked/paired on mobile, two rows of 4 on desktop */}
+        <div className="grid w-full grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+          <div className="relative order-2 col-span-2 aspect-[343/164] overflow-hidden lg:order-[80] lg:col-span-1 lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-dea277ac.jpg" alt="Villa interior detail" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
           </div>
-          <div className="relative aspect-[166/199] overflow-hidden">
-            <Image src="/media/figma/gallery-cc-pool-sunset.jpg" alt="Casa Coco pool at sunset" fill sizes="50vw" className="object-cover" />
+          <div className="relative order-3 aspect-[166/199] overflow-hidden lg:order-[50] lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-encantada-83.jpg" alt="Villa Encantada poolside" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+          </div>
+          <div className="relative order-4 aspect-[166/199] overflow-hidden lg:order-[70] lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-cc-pool-sunset.jpg" alt="Casa Coco pool at sunset" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+          </div>
+          <div className="relative order-5 col-span-2 aspect-[343/164] overflow-hidden lg:order-[60] lg:col-span-1 lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-encantada-122.jpg" alt="Villa Encantada exterior" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
+          </div>
+          <div className="relative order-6 col-span-2 aspect-[343/164] overflow-hidden lg:order-[10] lg:col-span-1 lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-encantada-81.jpg" alt="Villa Encantada aerial view" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
+          </div>
+          <div className="relative order-7 aspect-[166/199] overflow-hidden lg:order-[20] lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-encantada-64.jpg" alt="Villa Encantada bedroom" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+          </div>
+          <div className="relative order-8 aspect-[166/199] overflow-hidden lg:order-[40] lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-encantada-54.jpg" alt="Villa Encantada terrace" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+          </div>
+          <div className="relative order-9 col-span-2 aspect-[343/164] overflow-hidden lg:order-[30] lg:col-span-1 lg:aspect-[329/189]">
+            <Image src="/media/figma/gallery-img1519.jpg" alt="Villa dining setup" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
           </div>
         </div>
 
-        <div className="relative aspect-[343/164] w-full overflow-hidden">
-          <Image src="/media/figma/gallery-encantada-122.jpg" alt="Villa Encantada exterior" fill sizes="100vw" className="object-cover" />
+        {/* Press logos: stacked on mobile, one row on desktop */}
+        <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
+          <Image
+            src="/media/figma/award-boutique-hotel.jpg"
+            alt="2016 World Boutique Hotel Awards winner medallion"
+            width={166}
+            height={164}
+            className="h-auto w-[166px] lg:w-[159px]"
+          />
+          <Image src="/media/figma/logo-tripadvisor.png" alt="Tripadvisor" width={166} height={199} className="h-auto w-[140px] lg:w-[180px]" />
+          <Image
+            src="/media/figma/logo-travelmyth.png"
+            alt="TravelMyth — Featured in the Honeymoon Hotels Collection, Casa Coco by Coco B Isla"
+            width={255}
+            height={234}
+            className="h-auto w-[200px] lg:w-[159px]"
+          />
+          <Image
+            src="/media/figma/logo-conde-nast.png"
+            alt="Cond&eacute; Nast Traveler"
+            width={255}
+            height={164}
+            className="h-auto w-[200px] lg:w-[180px]"
+          />
         </div>
 
-        <Image
-          src="/media/figma/award-boutique-hotel.jpg"
-          alt="2016 World Boutique Hotel Awards winner medallion"
-          width={166}
-          height={164}
-          className="h-auto w-[166px]"
-        />
-        <p className="text-[12.6px] italic font-light leading-[27.2px] text-muted">
+        <p className="text-[12.6px] italic font-light leading-[27.2px] text-muted lg:max-w-md lg:text-[13.8px] lg:leading-[28.9px]">
           &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
         </p>
 
-        <Image src="/media/figma/logo-tripadvisor.png" alt="Tripadvisor" width={166} height={199} className="h-auto w-[140px]" />
-        <Image
-          src="/media/figma/logo-travelmyth.png"
-          alt="TravelMyth — Featured in the Honeymoon Hotels Collection, Casa Coco by Coco B Isla"
-          width={255}
-          height={234}
-          className="h-auto w-[200px]"
-        />
-        <Image
-          src="/media/figma/logo-conde-nast.png"
-          alt="Cond&eacute; Nast Traveler"
-          width={255}
-          height={164}
-          className="h-auto w-[200px]"
-        />
-
-        <div className="space-y-1">
-          <h3 className="text-[15.3px] italic font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-            &ldquo;Best Island Retreat Center&rdquo; in
-            <br />
-            the Caribbean&rdquo; 2022
-          </h3>
-          <h4 className="text-[17.9px] font-light uppercase leading-[17.73px] tracking-[1.966px] text-foreground">
-            LUXlife Magazine
-          </h4>
-        </div>
-
-        <div className="space-y-1">
-          <h3 className="text-[15.2px] italic font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-            &ldquo;Best Luxury Villa Collection&rdquo;
-          </h3>
-          <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-            Q Roo. Mexico 2023
-          </h3>
-        </div>
-
-        <div className="relative aspect-[343/164] w-full overflow-hidden">
-          <Image src="/media/figma/gallery-encantada-81.jpg" alt="Villa Encantada aerial view" fill sizes="100vw" className="object-cover" />
-        </div>
-
-        <div className="grid w-full grid-cols-2 gap-3">
-          <div className="relative aspect-[166/199] overflow-hidden">
-            <Image src="/media/figma/gallery-encantada-64.jpg" alt="Villa Encantada bedroom" fill sizes="50vw" className="object-cover" />
+        <div className="flex flex-col gap-8 lg:w-full lg:flex-row lg:items-start lg:justify-center lg:gap-16">
+          <div className="space-y-1 lg:order-2 lg:flex-1">
+            <h3 className="text-[15.3px] italic font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[16.5px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+              &ldquo;Best Island Retreat Center&rdquo; in
+              <br />
+              the Caribbean&rdquo; 2022
+            </h3>
+            <h4 className="text-[17.9px] font-light uppercase leading-[17.73px] tracking-[1.966px] text-foreground lg:text-[20.5px] lg:leading-[20.29px] lg:tracking-[2.25px]">
+              LUXlife Magazine
+            </h4>
           </div>
-          <div className="relative aspect-[166/199] overflow-hidden">
-            <Image src="/media/figma/gallery-encantada-54.jpg" alt="Villa Encantada terrace" fill sizes="50vw" className="object-cover" />
-          </div>
-        </div>
 
-        <div className="relative aspect-[343/164] w-full overflow-hidden">
-          <Image src="/media/figma/gallery-img1519.jpg" alt="Villa dining setup" fill sizes="100vw" className="object-cover" />
+          <div className="space-y-1 lg:order-1 lg:flex-1">
+            <h3 className="text-[15.2px] italic font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[16.8px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+              &ldquo;Best Luxury Villa Collection&rdquo;
+            </h3>
+            <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+              Q Roo. Mexico 2023
+            </h3>
+          </div>
         </div>
       </div>
 
