@@ -1,14 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getRetreats, getVillas } from "@/lib/wp-fetchers";
 
-export default async function Home() {
-  const [villas, retreats] = await Promise.all([getVillas(), getRetreats()]);
-
-  const villaCount = villas.length;
-  const retreatCount = retreats.length;
-  
-
+export default function Home() {
   const conciergeItems = [
     "Transportación Privada",
     "Personal Concierge",
@@ -25,7 +18,6 @@ export default async function Home() {
     "Excursiones Locales",
   ];
 
-  const mediaPhoto = "/media/figma-media.png";
   const mapPhoto = "/media/figma-map.png";
 
   return (
@@ -667,59 +659,56 @@ export default async function Home() {
         </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Media</p>
-          <h2 className="mt-2 text-2xl font-medium tracking-[0.06em] text-foreground">SEE THE ISLAND MOVE</h2>
-        </div>
-        <div className="flex items-center justify-center rounded-xl border border-border bg-surface p-8 h-64">
-          <Image src={mediaPhoto} alt="Media preview" width={210} height={37} className="rounded-lg border border-border w-auto h-auto" />
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Reputation</p>
-          <h2 className="mt-2 text-3xl font-medium tracking-[0.06em] text-foreground">{Math.max(villaCount + retreatCount, 3)}0+ FIVE STAR REVIEWS</h2>
-        </div>
-        <div className="grid grid-cols-3 gap-4 rounded-xl border border-border bg-surface p-4">
-          <div className="rounded-lg border border-border bg-background px-5 py-6 text-center">
-            <p className="text-lg font-semibold text-primary">4.9</p>
-            <p className="text-xs uppercase tracking-[0.1em] text-muted">Google Reviews</p>
-          </div>
-          <div className="rounded-lg border border-border bg-background px-5 py-6 text-center">
-            <p className="text-lg font-semibold text-primary">5.0</p>
-            <p className="text-xs uppercase tracking-[0.1em] text-muted">Airbnb Ratings</p>
-          </div>
-          <div className="rounded-lg border border-border bg-background px-5 py-6 text-center">
-            <p className="text-lg font-semibold text-primary">4.8</p>
-            <p className="text-xs uppercase tracking-[0.1em] text-muted">Booking.com</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-12 gap-6 rounded-2xl border border-border bg-surface p-8">
-        <article className="col-span-7 space-y-5">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Location</p>
-          <h2 className="text-3xl font-medium tracking-[0.06em] text-foreground">ISLA MUJERES</h2>
-          <p className="max-w-xl text-sm leading-7 text-muted">
-            A short ferry ride from Cancun with private waterfront homes and curated local experiences.
+      {/* Isla Mujeres / location — Figma 6038:2799 (mobile) / 6020:8845 (desktop).
+          Exact copy pending a Figma MCP pass (rate-limited this session, see PR notes);
+          structure and pattern verified against the live frame. */}
+      <div className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-center lg:gap-16 lg:text-left">
+        <div className="space-y-5 lg:flex-1">
+          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
+            Isla Mujeres
+          </h2>
+          <p className="mx-auto max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:mx-0 lg:max-w-lg lg:text-[14.3px] lg:leading-[28.9px]">
+            A short ferry ride from Canc&uacute;n, Coco B Isla sits on the calm western shore of Isla Mujeres &mdash;
+            private waterfront villas and curated local experiences, minutes from town.
           </p>
           <Link
             href="/solicitud"
-            className="inline-flex rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:tracking-[2.86px]"
           >
             Get in Touch
           </Link>
-        </article>
+        </div>
 
-        <div className="col-span-5 rounded-xl border border-border bg-background p-4">
-          <Image src={mapPhoto} alt="Map preview" width={102} height={31} className="h-full w-full rounded-lg border border-border object-cover" />
+        <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[590/429] lg:flex-1">
+          <Image src={mapPhoto} alt="Map of Isla Mujeres showing the Coco B Isla location" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
         </div>
       </div>
 
+      {/* Newsletter — Figma 6038:2333 (mobile) / 6020:8385 (desktop) */}
+      <div className="flex flex-col items-center gap-4 rounded-2xl bg-primary px-8 py-10 text-center text-white lg:flex-row lg:justify-between lg:gap-8 lg:text-left">
+        <h2 className="text-[18px] font-light uppercase leading-tight tracking-[1.86px] lg:text-[20px]">
+          Sign up today for Coco B Isla&rsquo;s exclusive newsletter
+        </h2>
+        <form className="flex w-full max-w-sm flex-col gap-3 sm:flex-row lg:w-auto">
+          <input
+            type="email"
+            required
+            placeholder="Your email"
+            aria-label="Email address"
+            className="w-full rounded-none border border-white/40 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-white focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="whitespace-nowrap border border-white bg-white px-6 py-3 text-[11.9px] font-medium uppercase tracking-[2.86px] text-primary transition-colors hover:bg-transparent hover:text-white"
+          >
+            Subscribe
+          </button>
+        </form>
+      </div>
+
+      {/* Footer columns — Figma 6038:2348 (mobile) / 6020:8401 (desktop) */}
       <footer className="rounded-2xl border border-border bg-[#0f1113] px-8 py-12 text-white">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-sm">
+        <div className="grid grid-cols-1 gap-8 text-sm lg:grid-cols-4">
           <div className="space-y-3">
             <p className="text-lg font-semibold tracking-tight">Coco B</p>
             <p className="text-white/60">Private villas and retreat planning in Isla Mujeres.</p>
