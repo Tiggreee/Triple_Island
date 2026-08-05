@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
+import { DESIGN_COMPONENT_NAMES } from "@/lib/design-contract";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
@@ -27,6 +28,14 @@ export function Button({
       {...props}
       disabled={disabled || isLoading}
       className={[
+        DESIGN_COMPONENT_NAMES.button.base,
+        variant === "primary"
+          ? DESIGN_COMPONENT_NAMES.button.primary
+          : variant === "secondary"
+            ? DESIGN_COMPONENT_NAMES.button.secondary
+            : DESIGN_COMPONENT_NAMES.button.ghost,
+        isLoading ? DESIGN_COMPONENT_NAMES.button.loading : "",
+        disabled || isLoading ? DESIGN_COMPONENT_NAMES.button.disabled : "",
         "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition",
         "focus:outline-none focus:ring-2 focus:ring-primary/30",
         variantClasses[variant],
