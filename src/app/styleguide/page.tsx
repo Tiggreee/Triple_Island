@@ -19,13 +19,14 @@ const radiusScale = Object.entries(DESIGN_RADIUS_TOKENS);
 
 export default function StyleguidePage() {
   return (
-    <section className="space-y-10">
-      <header className="space-y-2">
-        <h1 className="text-3xl font-semibold tracking-tight">Styleguide</h1>
-        <p className="text-sm text-muted">
-          Referencia base de tokens para implementación de componentes.
-        </p>
-      </header>
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+      <section className="space-y-10">
+        <header className="space-y-2">
+          <h1 className="text-3xl font-semibold tracking-tight">Styleguide</h1>
+          <p className="text-sm text-muted">
+            Referencia base de tokens para implementación de componentes.
+          </p>
+        </header>
 
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Color Tokens</h2>
@@ -123,6 +124,7 @@ export default function StyleguidePage() {
           </Drawer>
         </div>
       </SectionContainer>
-    </section>
+      </section>
+    </div>
   );
 }
