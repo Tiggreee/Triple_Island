@@ -659,17 +659,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Isla Mujeres / location — Figma 6038:2799 (mobile) / 6020:8845 (desktop).
-          Exact copy pending a Figma MCP pass (rate-limited this session, see PR notes);
-          structure and pattern verified against the live frame. */}
-      <div className="flex flex-col items-center gap-8 text-center lg:flex-row lg:items-center lg:gap-16 lg:text-left">
-        <div className="space-y-5 lg:flex-1">
+      {/* Location + map */}
+      <section className="grid w-full grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_590px] lg:gap-10">
+        <article className="flex flex-col items-center gap-6 border border-border bg-[#f5f5f5] px-8 py-10 text-center lg:items-start lg:justify-center lg:px-12 lg:py-12 lg:text-left">
           <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
             Isla Mujeres
           </h2>
-          <p className="mx-auto max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:mx-0 lg:max-w-lg lg:text-[14.3px] lg:leading-[28.9px]">
-            A short ferry ride from Canc&uacute;n, Coco B Isla sits on the calm western shore of Isla Mujeres &mdash;
-            private waterfront villas and curated local experiences, minutes from town.
+          <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-[520px] lg:text-[14.3px] lg:leading-[28.9px]">
+            A short ferry ride from Canc&uacute;n, Coco B Isla sits on the calm western shore of Isla Mujeres.
+            Private waterfront villas and curated local experiences, minutes from town.
           </p>
           <Link
             href="/solicitud"
@@ -677,66 +675,70 @@ export default function Home() {
           >
             Get in Touch
           </Link>
+        </article>
+
+        <div className="relative aspect-[343/234] w-full overflow-hidden border border-border lg:aspect-[590/429]">
+          <Image src={mapPhoto} alt="Map of Isla Mujeres showing the Coco B Isla location" fill sizes="(min-width: 1024px) 590px, 100vw" className="object-cover" />
         </div>
+      </section>
 
-        <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[590/429] lg:flex-1">
-          <Image src={mapPhoto} alt="Map of Isla Mujeres showing the Coco B Isla location" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+      {/* Newsletter strip */}
+      <section className="w-full bg-primary px-6 py-10 text-white lg:px-12 lg:py-11">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+          <h2 className="text-center text-[18px] font-light uppercase leading-tight tracking-[1.86px] lg:max-w-2xl lg:text-left lg:text-[20px]">
+            Sign up today for Coco B Isla&rsquo;s exclusive newsletter
+          </h2>
+          <form className="mx-auto flex w-full max-w-md flex-col gap-3 sm:flex-row lg:mx-0 lg:max-w-[460px]">
+            <input
+              type="email"
+              required
+              placeholder="Your email"
+              aria-label="Email address"
+              className="w-full border border-white/45 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/65 focus:border-white focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="whitespace-nowrap border border-white bg-white px-6 py-3 text-[11.9px] font-medium uppercase tracking-[2.86px] text-primary transition-colors hover:bg-transparent hover:text-white"
+            >
+              Subscribe
+            </button>
+          </form>
         </div>
-      </div>
+      </section>
 
-      {/* Newsletter — Figma 6038:2333 (mobile) / 6020:8385 (desktop) */}
-      <div className="flex flex-col items-center gap-4 rounded-2xl bg-primary px-8 py-10 text-center text-white lg:flex-row lg:justify-between lg:gap-8 lg:text-left">
-        <h2 className="text-[18px] font-light uppercase leading-tight tracking-[1.86px] lg:text-[20px]">
-          Sign up today for Coco B Isla&rsquo;s exclusive newsletter
-        </h2>
-        <form className="flex w-full max-w-sm flex-col gap-3 sm:flex-row lg:w-auto">
-          <input
-            type="email"
-            required
-            placeholder="Your email"
-            aria-label="Email address"
-            className="w-full rounded-none border border-white/40 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/60 focus:border-white focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="whitespace-nowrap border border-white bg-white px-6 py-3 text-[11.9px] font-medium uppercase tracking-[2.86px] text-primary transition-colors hover:bg-transparent hover:text-white"
-          >
-            Subscribe
-          </button>
-        </form>
-      </div>
-
-      {/* Footer columns — Figma 6038:2348 (mobile) / 6020:8401 (desktop) */}
-      <footer className="rounded-2xl border border-border bg-[#0f1113] px-8 py-12 text-white">
-        <div className="grid grid-cols-1 gap-8 text-sm lg:grid-cols-4">
+      {/* Footer columns */}
+      <footer className="w-full bg-[#0f1113] px-6 py-12 text-white lg:px-12 lg:py-14">
+        <div className="grid grid-cols-1 gap-9 text-sm lg:grid-cols-4 lg:gap-8">
           <div className="space-y-3">
-            <p className="text-lg font-semibold tracking-tight">Coco B</p>
-            <p className="text-white/60">Private villas and retreat planning in Isla Mujeres.</p>
+            <p className="text-[18px] font-medium uppercase tracking-[1.8px]">Coco B</p>
+            <p className="max-w-xs text-white/65">Private villas and retreat planning in Isla Mujeres.</p>
           </div>
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">Explore</p>
-            <nav className="space-y-2 text-white/80">
-              <Link href="/villas" className="block hover:text-white transition-colors">Villas</Link>
-              <Link href="/retiros" className="block hover:text-white transition-colors">Retiros</Link>
-              <Link href="/solicitud" className="block hover:text-white transition-colors">Solicitud</Link>
+            <p className="text-[11px] font-medium uppercase tracking-[2.2px] text-white/45">Explore</p>
+            <nav className="space-y-2 text-white/82">
+              <Link href="/villas" className="block transition-colors hover:text-white">Villas</Link>
+              <Link href="/retiros" className="block transition-colors hover:text-white">Retiros</Link>
+              <Link href="/solicitud" className="block transition-colors hover:text-white">Solicitud</Link>
             </nav>
           </div>
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">Contact</p>
-            <div className="space-y-2 text-white/80">
-              <p><a href="mailto:hello@cocobisla.com" className="hover:text-white transition-colors">hello@cocobisla.com</a></p>
+            <p className="text-[11px] font-medium uppercase tracking-[2.2px] text-white/45">Contact</p>
+            <div className="space-y-2 text-white/82">
+              <p>
+                <a href="mailto:hello@cocobisla.com" className="transition-colors hover:text-white">hello@cocobisla.com</a>
+              </p>
               <p>Isla Mujeres, Mexico</p>
             </div>
           </div>
           <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">Follow</p>
-            <nav className="space-y-2 text-white/80">
-              <a href="#" className="block hover:text-white transition-colors">Instagram</a>
-              <a href="#" className="block hover:text-white transition-colors">Google Maps</a>
+            <p className="text-[11px] font-medium uppercase tracking-[2.2px] text-white/45">Follow</p>
+            <nav className="space-y-2 text-white/82">
+              <a href="#" className="block transition-colors hover:text-white">Instagram</a>
+              <a href="#" className="block transition-colors hover:text-white">Google Maps</a>
             </nav>
           </div>
         </div>
-        <div className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-white/40">
+        <div className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-white/45 lg:mt-10 lg:pt-7">
           <p>&copy; 2026 Coco B Isla + Coco B Wellness. All rights reserved.</p>
         </div>
       </footer>

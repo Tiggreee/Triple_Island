@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ChatWidget } from "@/components/chat/chat-widget";
 
 // cocobisla.com is set entirely in Inter (font family/Font 1 in Figma) —
 // weights 300/400/500/700 cover every text style pulled from the design.
@@ -54,6 +55,7 @@ export default function RootLayout({
             Coco B Isla + Coco B Wellness
           </footer>
         </div>
+        <ChatWidget />
       </body>
     </html>
   );

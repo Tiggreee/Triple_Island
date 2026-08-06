@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMissingServerEnv, hubspotMultiFormServerEnvKeys } from "@/lib/server-env";
+import { getMissingServerEnv, hubspotMultiFormServerEnvKeys, isTurnstileEnabled } from "@/lib/server-env";
 
 type LeadRequestPayload = {
   name?: string;
@@ -8,12 +8,33 @@ type LeadRequestPayload = {
   leadType?: "solicitud" | "retiro" | "waitlist";
   website?: string;
   startedAt?: number;
+  turnstileToken?: string;
 };
 
 const DEFAULT_MIN_SUBMIT_SECONDS = 4;
 
 function isValidEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+async function verifyTurnstile(token: string, remoteIp: string | null) {
+  const secret = process.env.TURNSTILE_SECRET_KEY as string;
+  const body = new URLSearchParams({ secret, response: token });
+  if (remoteIp) {
+    body.set("remoteip", remoteIp);
+  }
+
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+    const data = (await response.json()) as { success?: boolean };
+    return Boolean(data.success);
+  } catch {
+    return false;
+  }
 }
 
 function getFormIdByLeadType(leadType: LeadRequestPayload["leadType"]) {
@@ -65,6 +86,14 @@ export async function POST(request: Request) {
   const honeypot = (payload.website ?? "").trim();
   if (honeypot.length > 0) {
     return NextResponse.json({ ok: true });
+  }
+
+  if (isTurnstileEnabled()) {
+    const token = (payload.turnstileToken ?? "").trim();
+    const remoteIp = request.headers.get("cf-connecting-ip") ?? request.headers.get("x-forwarded-for");
+    if (!token || !(await verifyTurnstile(token, remoteIp))) {
+      return NextResponse.json({ ok: false, error: "Failed anti-spam verification" }, { status: 400 });
+    }
   }
 
   const minSubmitSeconds = Number(process.env.LEAD_MIN_SUBMIT_SECONDS ?? DEFAULT_MIN_SUBMIT_SECONDS);

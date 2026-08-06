@@ -1,5 +1,6 @@
 "use client";
 
+import Script from "next/script";
 import { FormEvent, useState } from "react";
 
 type SubmitState =
@@ -7,6 +8,8 @@ type SubmitState =
   | { status: "loading" }
   | { status: "success"; message: string }
   | { status: "error"; message: string };
+
+const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 export default function SolicitudPage() {
   const [submitState, setSubmitState] = useState<SubmitState>({ status: "idle" });
@@ -25,6 +28,7 @@ export default function SolicitudPage() {
       leadType: String(formData.get("leadType") ?? "solicitud"),
       website: String(formData.get("website") ?? ""),
       startedAt: Number(formData.get("startedAt") ?? 0),
+      turnstileToken: String(formData.get("cf-turnstile-response") ?? ""),
     };
 
     const response = await fetch("/api/lead", {
@@ -122,6 +126,10 @@ export default function SolicitudPage() {
           {submitState.status === "loading" ? "Enviando..." : "Enviar solicitud"}
         </button>
 
+        {turnstileSiteKey && (
+          <div className="cf-turnstile sm:col-span-2" data-sitekey={turnstileSiteKey} />
+        )}
+
         {submitState.status === "success" && (
           <p className="text-sm text-emerald-700 sm:col-span-2">{submitState.message}</p>
         )}
@@ -130,6 +138,10 @@ export default function SolicitudPage() {
           <p className="text-sm text-red-700 sm:col-span-2">{submitState.message}</p>
         )}
       </form>
+
+      {turnstileSiteKey && (
+        <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
+      )}
     </section>
   );
 }

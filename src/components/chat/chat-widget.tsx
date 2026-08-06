@@ -1,0 +1,151 @@
+"use client";
+
+import { FormEvent, useEffect, useRef, useState } from "react";
+
+type ChatRole = "user" | "assistant";
+type ChatMessage = { role: ChatRole; content: string };
+
+const SYSTEM_PROMPT =
+  "You are the Coco B Isla concierge, a warm and concise assistant for a collection of " +
+  "luxury villas, wellness retreats and a pop-up boutique hotel in Isla Mujeres, Mexico, on " +
+  "the calm western shore, a short ferry ride from Cancún. The villa collection has exactly " +
+  "four villas: Coco, Lola, Encantada and Cielo. Retreats cover weddings, yoga, wellness, " +
+  "culinary, fitness and corporate. Only use these facts; never invent villa names, prices or " +
+  "availability. If you do not know something, say so and point the guest to the inquiry form " +
+  "at /solicitud. Keep replies short and helpful. To book or check availability, guide the " +
+  "guest to /solicitud.";
+
+const WELCOME: ChatMessage = {
+  role: "assistant",
+  content: "Hi! I'm the Coco B Isla concierge. Ask me about our villas, retreats or planning a stay.",
+};
+
+export function ChatWidget() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>([WELCOME]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, loading]);
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const text = input.trim();
+    if (!text || loading) return;
+
+    const nextMessages: ChatMessage[] = [...messages, { role: "user", content: text }];
+    setMessages(nextMessages);
+    setInput("");
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            ...nextMessages.map((m) => ({ role: m.role, content: m.content })),
+          ],
+        }),
+      });
+
+      const data = (await response.json()) as { ok?: boolean; reply?: string; error?: string };
+
+      if (!response.ok || !data.ok || !data.reply) {
+        throw new Error(data.error ?? "No response");
+      }
+
+      setMessages((prev) => [...prev, { role: "assistant", content: data.reply as string }]);
+    } catch {
+      setError("Sorry, the concierge is unavailable right now. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-label={open ? "Close concierge chat" : "Open concierge chat"}
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40"
+      >
+        {open ? (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+          </svg>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5Z" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        )}
+      </button>
+
+      {open && (
+        <div className="fixed bottom-24 right-5 z-50 flex h-[520px] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+          <header className="flex items-center gap-3 border-b border-border bg-primary px-4 py-3 text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-semibold">CB</span>
+            <div className="leading-tight">
+              <p className="text-sm font-semibold">Coco B Concierge</p>
+              <p className="text-[11px] text-white/75">Usually replies instantly</p>
+            </div>
+          </header>
+
+          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
+              >
+                <p
+                  className={
+                    m.role === "user"
+                      ? "max-w-[80%] rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
+                      : "max-w-[80%] rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
+                  }
+                >
+                  {m.content}
+                </p>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex justify-start">
+                <p className="rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-muted">Typing…</p>
+              </div>
+            )}
+            {error && <p className="text-center text-xs text-accent">{error}</p>}
+          </div>
+
+          <form onSubmit={onSubmit} className="flex items-center gap-2 border-t border-border px-3 py-3">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask the concierge…"
+              aria-label="Message"
+              className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+            />
+            <button
+              type="submit"
+              disabled={loading || input.trim().length === 0}
+              aria-label="Send message"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      )}
+    </>
+  );
+}
