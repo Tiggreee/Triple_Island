@@ -48,6 +48,19 @@ Variables clave para leads:
 - /styleguide
 - /api/lead
 
+## Contrato de diseño (nomenclatura)
+
+Para mantener paridad 1:1 entre Figma y Next.js se usa un contrato central de tokens.
+
+- Archivo fuente de tokens: [src/lib/design-contract.ts](src/lib/design-contract.ts)
+- Variables globales mapeadas: [src/app/globals.css](src/app/globals.css)
+- Vista de referencia: [src/app/styleguide/page.tsx](src/app/styleguide/page.tsx)
+
+Reglas base:
+- Prefijo único: `cb-`
+- No introducir nombres nuevos en componentes sin antes registrarlos en el contrato
+- Consumir tokens desde clases semánticas (`bg-primary`, `text-muted`, etc.) o desde el contrato cuando se requiere visualización directa
+
 ## Estructura base
 
 - [src/app](src/app)
