@@ -33,9 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full bg-slate-50 text-slate-900">
-        <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
+        <div className="flex min-h-screen w-full flex-col">
           <header className="border-b border-slate-200 py-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
               <p className="text-lg font-semibold tracking-tight">Coco B</p>
               <nav aria-label="Main" className="flex flex-wrap items-center gap-2">
                 {navItems.map((item) => (
@@ -50,10 +50,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          <main className="flex-1 py-8">{children}</main>
-          <footer className="border-t border-slate-200 py-4 text-sm text-slate-600">
-            Coco B Isla + Coco B Wellness
-          </footer>
+          <main className="flex-1">{children}</main>
         </div>
         <ChatWidget />
       </body>

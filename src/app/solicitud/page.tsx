@@ -57,13 +57,14 @@ export default function SolicitudPage() {
   }
 
   return (
-    <section className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Solicitud de Reserva</h1>
-        <p className="mt-2 text-slate-700">
-          Formulario base del flujo prioritario rentar villa.
-        </p>
-      </div>
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+      <section className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Solicitud de Reserva</h1>
+          <p className="mt-2 text-slate-700">
+            Formulario base del flujo prioritario rentar villa.
+          </p>
+        </div>
 
       <form onSubmit={onSubmit} className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:grid-cols-2">
         <input type="hidden" name="startedAt" value={startedAt} />
@@ -142,6 +143,7 @@ export default function SolicitudPage() {
       {turnstileSiteKey && (
         <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
       )}
-    </section>
+      </section>
+    </div>
   );
 }

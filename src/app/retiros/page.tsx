@@ -16,13 +16,14 @@ export default async function RetirosPage() {
     : fallbackRetreats;
 
   return (
-    <section className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Retiros</h1>
-        <p className="mt-2 text-slate-700">
-          Ruta base del MVP para próximos retiros y disponibilidad.
-        </p>
-      </div>
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+      <section className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Retiros</h1>
+          <p className="mt-2 text-slate-700">
+            Ruta base del MVP para próximos retiros y disponibilidad.
+          </p>
+        </div>
 
       <ul className="space-y-3">
         {items.map((retreat) => (
@@ -35,6 +36,7 @@ export default async function RetirosPage() {
           </li>
         ))}
       </ul>
-    </section>
+      </section>
+    </div>
   );
 }
