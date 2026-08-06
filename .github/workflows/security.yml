@@ -40,17 +40,19 @@ jobs:
       - name: Validate .gitignore
         run: |
           echo "🔍 Validating .gitignore includes sensitive files..."
-          
-          if ! grep -q "\.env\.local" .gitignore; then
-            echo "❌ .env.local not in .gitignore!"
+
+          # Check actual git behavior, not just literal text in .gitignore —
+          # a glob like ".env*" ignores .env.local without ever spelling it out.
+          if ! git check-ignore -q .env.local; then
+            echo "❌ .env.local is not actually ignored by git!"
             exit 1
           fi
-          
-          if ! grep -q "node_modules" .gitignore; then
-            echo "❌ node_modules not in .gitignore!"
+
+          if ! git check-ignore -q node_modules/placeholder; then
+            echo "❌ node_modules is not actually ignored by git!"
             exit 1
           fi
-          
+
           echo "✅ .gitignore properly configured"
 
       - name: Security summary
