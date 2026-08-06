@@ -2,6 +2,10 @@
 
 import Script from "next/script";
 import { FormEvent, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 type SubmitState =
   | { status: "idle" }
@@ -60,72 +64,49 @@ export default function SolicitudPage() {
     <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <section className="space-y-6">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">Solicitud de Reserva</h1>
-          <p className="mt-2 text-slate-700">
-            Formulario base del flujo prioritario rentar villa.
-          </p>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Solicitud de Reserva</h1>
+          <p className="mt-2 text-muted">Formulario base del flujo prioritario rentar villa.</p>
         </div>
 
-      <form onSubmit={onSubmit} className="grid gap-4 rounded-lg border border-slate-200 bg-white p-5 sm:grid-cols-2">
+      <form onSubmit={onSubmit} className="grid gap-4 rounded-lg border border-border bg-surface p-5 sm:grid-cols-2">
         <input type="hidden" name="startedAt" value={startedAt} />
         <div className="absolute left-[-9999px] h-0 overflow-hidden opacity-0" aria-hidden="true">
           <label htmlFor="website">Sitio web</label>
           <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>
 
-        <label className="grid gap-1 text-sm">
+        <label className="grid gap-1 text-sm text-foreground">
           Nombre
-          <input
-            type="text"
-            name="name"
-            className="rounded-md border border-slate-300 px-3 py-2"
-            placeholder="Nombre completo"
-            required
-          />
+          <Input type="text" name="name" placeholder="Nombre completo" required />
         </label>
 
-        <label className="grid gap-1 text-sm">
+        <label className="grid gap-1 text-sm text-foreground">
           Email
-          <input
-            type="email"
-            name="email"
-            className="rounded-md border border-slate-300 px-3 py-2"
-            placeholder="correo@dominio.com"
-            required
-          />
+          <Input type="email" name="email" placeholder="correo@dominio.com" required />
         </label>
 
-        <label className="grid gap-1 text-sm sm:col-span-2">
+        <label className="grid gap-1 text-sm text-foreground sm:col-span-2">
           Tipo de solicitud
-          <select
-            name="leadType"
-            defaultValue="solicitud"
-            className="rounded-md border border-slate-300 px-3 py-2"
-            required
-          >
+          <Select name="leadType" defaultValue="solicitud" required>
             <option value="solicitud">Solicitud de Villa y Boda</option>
             <option value="retiro">Retreat Host Questionnaire</option>
             <option value="waitlist">Pop-up Hotel Waitlist</option>
-          </select>
+          </Select>
         </label>
 
-        <label className="grid gap-1 text-sm sm:col-span-2">
+        <label className="grid gap-1 text-sm text-foreground sm:col-span-2">
           Mensaje
-          <textarea
+          <Textarea
             name="message"
-            className="min-h-28 rounded-md border border-slate-300 px-3 py-2"
+            className="min-h-28"
             placeholder="Cuéntanos fechas, tamaño del grupo y tipo de evento"
             required
           />
         </label>
 
-        <button
-          type="submit"
-          disabled={submitState.status === "loading"}
-          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700 sm:col-span-2"
-        >
+        <Button type="submit" disabled={submitState.status === "loading"} className="sm:col-span-2">
           {submitState.status === "loading" ? "Enviando..." : "Enviar solicitud"}
-        </button>
+        </Button>
 
         {turnstileSiteKey && (
           <div className="cf-turnstile sm:col-span-2" data-sitekey={turnstileSiteKey} />
@@ -136,7 +117,7 @@ export default function SolicitudPage() {
         )}
 
         {submitState.status === "error" && (
-          <p className="text-sm text-red-700 sm:col-span-2">{submitState.message}</p>
+          <p className="text-sm text-accent sm:col-span-2">{submitState.message}</p>
         )}
       </form>
 
