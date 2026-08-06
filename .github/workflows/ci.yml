@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Build production
+        run: npm run build
+        env:
+          # Provide minimal env vars for build (uses fallbacks)
+          WORDPRESS_API_URL: ${{ secrets.WORDPRESS_API_URL || 'https://placeholder.example/wp-json/wp/v2' }}
+          HUBSPOT_PORTAL_ID: ${{ secrets.HUBSPOT_PORTAL_ID || '0' }}
+          HUBSPOT_FORM_ID_SOLICITUD: ${{ secrets.HUBSPOT_FORM_ID_SOLICITUD || 'placeholder' }}
+          HUBSPOT_FORM_ID_RETIRO: ${{ secrets.HUBSPOT_FORM_ID_RETIRO || 'placeholder' }}
+          HUBSPOT_FORM_ID_WAITLIST: ${{ secrets.HUBSPOT_FORM_ID_WAITLIST || 'placeholder' }}
+          LEAD_MIN_SUBMIT_SECONDS: '3'
+          AI_PROVIDER: 'groq'
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY || 'placeholder' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || 'placeholder' }}
+
+      - name: Build summary
+        run: |
+          echo "✅ Lint passed"
+          echo "✅ Production build succeeded"
+          echo "📦 Build artifacts ready for deployment"

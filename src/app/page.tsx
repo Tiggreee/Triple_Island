@@ -21,7 +21,8 @@ export default function Home() {
   const mapPhoto = "/media/figma-map.png";
 
   return (
-    <section className="mx-auto w-full max-w-[1180px] space-y-24 pb-24 pt-2">
+    <div className="w-full space-y-24">
+      <div className="mx-auto w-full max-w-[1180px] space-y-24 pb-24 pt-2">
       {/* Hero — Figma node 6038:2393 (mobile, 390w default) */}
       <div className="relative flex h-[780px] w-full items-start justify-center overflow-hidden rounded-2xl lg:h-[900px]">
         <Image
@@ -681,6 +682,7 @@ export default function Home() {
           <Image src={mapPhoto} alt="Map of Isla Mujeres showing the Coco B Isla location" fill sizes="(min-width: 1024px) 590px, 100vw" className="object-cover" />
         </div>
       </section>
+      </div>
 
       {/* Newsletter strip */}
       <section className="w-full bg-primary px-6 py-10 text-white lg:px-12 lg:py-11">
@@ -742,6 +744,6 @@ export default function Home() {
           <p>&copy; 2026 Coco B Isla + Coco B Wellness. All rights reserved.</p>
         </div>
       </footer>
-    </section>
+    </div>
   );
 }

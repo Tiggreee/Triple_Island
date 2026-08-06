@@ -32,17 +32,17 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full bg-slate-50 text-slate-900">
-        <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
-          <header className="border-b border-slate-200 py-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-lg font-semibold tracking-tight">Coco B</p>
+      <body className="min-h-full bg-background text-foreground">
+        <div className="flex min-h-screen w-full flex-col">
+          <header className="border-b border-border py-4">
+            <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+              <p className="text-lg font-semibold tracking-tight text-foreground">Coco B</p>
               <nav aria-label="Main" className="flex flex-wrap items-center gap-2">
                 {navItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-200"
+                    className="rounded-md px-3 py-1.5 text-sm font-medium text-muted transition hover:bg-surface hover:text-foreground"
                   >
                     {item.label}
                   </Link>
@@ -50,10 +50,7 @@ export default function RootLayout({
               </nav>
             </div>
           </header>
-          <main className="flex-1 py-8">{children}</main>
-          <footer className="border-t border-slate-200 py-4 text-sm text-slate-600">
-            Coco B Isla + Coco B Wellness
-          </footer>
+          <main className="flex-1">{children}</main>
         </div>
         <ChatWidget />
       </body>
