@@ -7,16 +7,15 @@ import { Input } from "@/components/ui/input";
 import { SectionContainer } from "@/components/ui/section-container";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  DESIGN_COLOR_TOKENS,
+  DESIGN_RADIUS_TOKENS,
+  DESIGN_SPACING_TOKENS,
+} from "@/lib/design-contract";
 
-const colorTokens = [
-  { name: "primary", className: "bg-primary", value: "#0d9488" },
-  { name: "surface", className: "bg-surface", value: "#ffffff" },
-  { name: "muted", className: "bg-muted", value: "#6b7280" },
-  { name: "accent", className: "bg-accent", value: "#e2725b" },
-  { name: "border", className: "bg-border", value: "#d7dbdd" },
-];
-
-const spacingScale = ["p-2", "p-3", "p-4", "p-6", "p-8"];
+const colorTokens = Object.entries(DESIGN_COLOR_TOKENS);
+const spacingScale = Object.entries(DESIGN_SPACING_TOKENS);
+const radiusScale = Object.entries(DESIGN_RADIUS_TOKENS);
 
 export default function StyleguidePage() {
   return (
@@ -31,11 +30,14 @@ export default function StyleguidePage() {
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Color Tokens</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {colorTokens.map((token) => (
-            <article key={token.name} className="rounded-lg border border-border bg-surface p-3">
-              <div className={`h-16 rounded-md border border-border ${token.className}`} />
-              <p className="mt-2 text-sm font-medium text-foreground">{token.name}</p>
-              <p className="text-xs text-muted">{token.value}</p>
+          {colorTokens.map(([name, value]) => (
+            <article key={name} className="rounded-lg border border-border bg-surface p-3">
+              <div
+                className="h-16 rounded-md border border-border"
+                style={{ backgroundColor: value }}
+              />
+              <p className="mt-2 text-sm font-medium text-foreground">{name}</p>
+              <p className="text-xs text-muted">{value}</p>
             </article>
           ))}
         </div>
@@ -44,13 +46,30 @@ export default function StyleguidePage() {
       <section className="space-y-4">
         <h2 className="text-xl font-semibold">Spacing Scale</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {spacingScale.map((space) => (
-            <article key={space} className="rounded-lg border border-border bg-surface p-3">
+          {spacingScale.map(([name, value]) => (
+            <article key={name} className="rounded-lg border border-border bg-surface p-3">
               <div className="rounded-md border border-dashed border-border bg-background">
-                <div className={`${space} bg-primary/15`}>
-                  <span className="text-sm text-foreground">{space}</span>
+                <div className="bg-primary/15" style={{ padding: value }}>
+                  <span className="text-sm text-foreground">{name}</span>
                 </div>
               </div>
+              <p className="mt-2 text-xs text-muted">{value}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Radius Tokens</h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {radiusScale.map(([name, value]) => (
+            <article key={name} className="rounded-lg border border-border bg-surface p-3">
+              <div
+                className="h-14 border border-border bg-primary/15"
+                style={{ borderRadius: value }}
+              />
+              <p className="mt-2 text-sm font-medium text-foreground">{name}</p>
+              <p className="text-xs text-muted">{value}</p>
             </article>
           ))}
         </div>

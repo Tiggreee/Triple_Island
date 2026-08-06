@@ -7,7 +7,9 @@ export type ServerEnvKey =
   | "HUBSPOT_FORM_ID_WAITLIST"
   | "HUBSPOT_ACCESS_TOKEN"
   | "AI_PROVIDER"
-  | "AI_API_KEY";
+  | "AI_API_KEY"
+  | "AI_MODEL"
+  | "TURNSTILE_SECRET_KEY";
 
 const requiredServerEnvKeys: ServerEnvKey[] = [
   "WORDPRESS_API_URL",
@@ -34,6 +36,10 @@ export const aiServerEnvKeys: ServerEnvKey[] = ["AI_PROVIDER", "AI_API_KEY"];
 
 export function getMissingServerEnv(keys: ServerEnvKey[] = requiredServerEnvKeys): ServerEnvKey[] {
   return keys.filter((key) => !process.env[key]);
+}
+
+export function isTurnstileEnabled() {
+  return Boolean(process.env.TURNSTILE_SECRET_KEY);
 }
 
 export function hasServerEnvConfig() {

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import { ChatWidget } from "@/components/chat/chat-widget";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// cocobisla.com is set entirely in Inter (font family/Font 1 in Figma) —
+// weights 300/400/500/700 cover every text style pulled from the design.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -32,10 +31,7 @@ export default function RootLayout({
   ];
 
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full bg-slate-50 text-slate-900">
         <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
           <header className="border-b border-slate-200 py-4">
@@ -59,6 +55,7 @@ export default function RootLayout({
             Coco B Isla + Coco B Wellness
           </footer>
         </div>
+        <ChatWidget />
       </body>
     </html>
   );

@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# MCP local config (contains tokens)
+.mcp.json
+
+# scratch captures from manual Figma exploration — not source of truth
+.tmp-*.png
