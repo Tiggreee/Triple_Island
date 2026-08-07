@@ -2,24 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
-  const conciergeItems = [
-    "Transportación Privada",
-    "Personal Concierge",
-    "Private Chef",
-    "Tours en Yate",
-  ];
-
-  const stayItems = [
-    "Beach Access",
-    "Wellness Rituals",
-    "Private Boat Charters",
-    "Airport Transfers",
-    "All-Inclusive Option",
-    "Excursiones Locales",
-  ];
-
-  const mapPhoto = "/media/figma-map.png";
-
   return (
     <div className="w-full space-y-24">
       <div className="mx-auto w-full max-w-[1180px] space-y-24 pb-24 pt-2">
@@ -631,117 +613,215 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-surface px-8 py-12">
-        <div className="mb-8 space-y-3 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">Coco B Services</p>
-          <h2 className="text-3xl font-medium tracking-[0.06em] text-foreground">FULL SERVICE PLANNING FOR YOUR RETREAT</h2>
+      {/* Villa Inquiry / Retreat Host Questionnaire / Book Hotel CTA + video previews —
+          Figma 6038:2799 (mobile) / 6020:8845 (desktop). This sits directly after the
+          press-awards block; the design has no heading here. On mobile the two videos
+          are interleaved between the buttons (button, button, video, button, video); on
+          desktop the 3 buttons sit in one row above a 2-column video grid, so — like the
+          Retreats testimonial pairs — the buttons/videos are duplicated per breakpoint
+          rather than reflowed with `order`, since it's a real regrouping, not just a
+          reorder. */}
+      <div className="flex flex-col items-center gap-6 lg:hidden">
+        <Link
+          href="/solicitud"
+          className="flex w-full items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+        >
+          Villa Inquiry
+        </Link>
+        <Link
+          href="/solicitud"
+          className="flex w-full items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+        >
+          Retreat Host Questionnaire
+        </Link>
+        <div className="relative aspect-[343/193] w-full overflow-hidden">
+          <Image
+            src="/media/figma/cta-video-yoga-wellness.png"
+            alt="Coco B Yoga &amp; Wellness Punta Sur Isla Mujeres video preview"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <span className="absolute inset-0 flex items-center justify-center">
+            <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
+                <path d="M0 0L16 9L0 18V0Z" />
+              </svg>
+            </span>
+          </span>
         </div>
-
-        <div className="grid grid-cols-4 gap-4">
-          {conciergeItems.map((item) => (
-            <article key={item} className="rounded-xl border border-border bg-background px-5 py-6 text-center text-xs font-semibold uppercase tracking-[0.12em] text-foreground transition-all hover:border-primary hover:bg-primary/5">
-              {item}
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-10">
-          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted">COMPLEMENT YOUR STAY</p>
-          <div className="grid grid-cols-6 gap-4">
-            {stayItems.map((item) => (
-              <div
-                key={item}
-                className="rounded-lg border border-border bg-background px-3 py-4 text-center text-xs font-semibold uppercase tracking-[0.1em] text-muted transition-colors hover:text-foreground hover:border-border/60"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
+        <Link
+          href="/solicitud"
+          className="flex w-full items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
+        >
+          Book Hotel
+        </Link>
+        <div className="relative aspect-[343/193] w-full overflow-hidden">
+          <Image
+            src="/media/figma/cta-video-hotel-casa-coco.png"
+            alt="Coco B Wellness &amp; Casa Coco video preview"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <span className="absolute inset-0 flex items-center justify-center">
+            <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
+              <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
+                <path d="M0 0L16 9L0 18V0Z" />
+              </svg>
+            </span>
+          </span>
         </div>
       </div>
 
-      {/* Location + map */}
-      <section className="grid w-full grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_590px] lg:gap-10">
-        <article className="flex flex-col items-center gap-6 border border-border bg-[#f5f5f5] px-8 py-10 text-center lg:items-start lg:justify-center lg:px-12 lg:py-12 lg:text-left">
-          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-            Isla Mujeres
-          </h2>
-          <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-[520px] lg:text-[14.3px] lg:leading-[28.9px]">
-            A short ferry ride from Canc&uacute;n, Coco B Isla sits on the calm western shore of Isla Mujeres.
-            Private waterfront villas and curated local experiences, minutes from town.
-          </p>
+      <div className="hidden flex-col items-center gap-8 lg:flex">
+        <div className="flex w-full items-center justify-center gap-6">
           <Link
             href="/solicitud"
-            className="inline-flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:tracking-[2.86px]"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
           >
-            Get in Touch
+            Villa Inquiry
           </Link>
-        </article>
-
-        <div className="relative aspect-[343/234] w-full overflow-hidden border border-border lg:aspect-[590/429]">
-          <Image src={mapPhoto} alt="Map of Isla Mujeres showing the Coco B Isla location" fill sizes="(min-width: 1024px) 590px, 100vw" className="object-cover" />
+          <Link
+            href="/solicitud"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
+          >
+            Retreat Host Questionnaire
+          </Link>
+          <Link
+            href="/solicitud"
+            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
+          >
+            Book Hotel
+          </Link>
         </div>
-      </section>
+        <div className="grid w-full grid-cols-2 gap-6">
+          <div className="relative aspect-[670/378] w-full overflow-hidden">
+            <Image
+              src="/media/figma/cta-video-yoga-wellness.png"
+              alt="Coco B Yoga &amp; Wellness Punta Sur Isla Mujeres video preview"
+              fill
+              sizes="50vw"
+              className="object-cover"
+            />
+            <span className="absolute inset-0 flex items-center justify-center">
+              <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
+                <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
+                  <path d="M0 0L16 9L0 18V0Z" />
+                </svg>
+              </span>
+            </span>
+          </div>
+          <div className="relative aspect-[670/378] w-full overflow-hidden">
+            <Image
+              src="/media/figma/cta-video-hotel-casa-coco.png"
+              alt="Coco B Wellness &amp; Casa Coco video preview"
+              fill
+              sizes="50vw"
+              className="object-cover"
+            />
+            <span className="absolute inset-0 flex items-center justify-center">
+              <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
+                <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
+                  <path d="M0 0L16 9L0 18V0Z" />
+                </svg>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
       </div>
 
-      {/* Newsletter strip */}
-      <section className="w-full bg-primary px-6 py-10 text-white lg:px-12 lg:py-11">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-          <h2 className="text-center text-[18px] font-light uppercase leading-tight tracking-[1.86px] lg:max-w-2xl lg:text-left lg:text-[20px]">
-            Sign up today for Coco B Isla&rsquo;s exclusive newsletter
-          </h2>
-          <form className="mx-auto flex w-full max-w-md flex-col gap-3 sm:flex-row lg:mx-0 lg:max-w-[460px]">
-            <input
-              type="email"
-              required
-              placeholder="Your email"
-              aria-label="Email address"
-              className="w-full border border-white/45 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/65 focus:border-white focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="whitespace-nowrap border border-white bg-white px-6 py-3 text-[11.9px] font-medium uppercase tracking-[2.86px] text-primary transition-colors hover:bg-transparent hover:text-white"
-            >
-              Subscribe
-            </button>
-          </form>
+      {/* Newsletter — Figma 6038:2333 (mobile) / 6020:8385 (desktop). Real content: grey
+          (#d9d9d9) background, dark heading, a static "Learn more" button — not an email
+          form. There's no signup backend on this site, so it points at /solicitud like
+          the other CTAs rather than faking a working subscribe form. */}
+      <section className="w-full bg-[#d9d9d9] px-6 py-10 lg:px-12 lg:py-12">
+        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-6 text-center lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:text-left">
+          <div className="contents lg:flex lg:max-w-xl lg:flex-1 lg:flex-col lg:gap-6">
+            <h2 className="order-1 text-[22.2px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[28.9px] lg:leading-[29.84px] lg:tracking-[3.391px]">
+              Sign Up Today for Coco B Isla&rsquo;s Exclusive Newsletter!
+            </h2>
+            <p className="order-3 max-w-md text-[16.2px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-muted lg:order-2 lg:max-w-none lg:text-[17.8px] lg:leading-[18.65px] lg:tracking-[2.06px]">
+              Join our community of luxury seekers and wellness enthusiasts today. Sign up now and
+              start your journey to experience the best of Coco B Isla!
+            </p>
+          </div>
+          <Link
+            href="/solicitud"
+            className="order-2 flex items-center justify-center border border-muted bg-white px-8 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-muted transition-colors hover:bg-[#f5f5f5] lg:order-3 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
+          >
+            Learn more
+          </Link>
         </div>
+        <hr className="mx-auto mt-8 max-w-[1180px] border-t border-black lg:mt-10" />
       </section>
 
-      {/* Footer columns */}
-      <footer className="w-full bg-[#0f1113] px-6 py-12 text-white lg:px-12 lg:py-14">
-        <div className="grid grid-cols-1 gap-9 text-sm lg:grid-cols-4 lg:gap-8">
-          <div className="space-y-3">
-            <p className="text-[18px] font-medium uppercase tracking-[1.8px]">Coco B</p>
-            <p className="max-w-xs text-white/65">Private villas and retreat planning in Isla Mujeres.</p>
-          </div>
-          <div className="space-y-3">
-            <p className="text-[11px] font-medium uppercase tracking-[2.2px] text-white/45">Explore</p>
-            <nav className="space-y-2 text-white/82">
-              <Link href="/villas" className="block transition-colors hover:text-white">Villas</Link>
-              <Link href="/retiros" className="block transition-colors hover:text-white">Retiros</Link>
-              <Link href="/solicitud" className="block transition-colors hover:text-white">Solicitud</Link>
-            </nav>
-          </div>
-          <div className="space-y-3">
-            <p className="text-[11px] font-medium uppercase tracking-[2.2px] text-white/45">Contact</p>
-            <div className="space-y-2 text-white/82">
-              <p>
-                <a href="mailto:hello@cocobisla.com" className="transition-colors hover:text-white">hello@cocobisla.com</a>
-              </p>
-              <p>Isla Mujeres, Mexico</p>
+      {/* Footer — Figma 6038:2332/2348 (mobile) / 6020:8401 (desktop). Real content: logo,
+          a Privacy Policy link, and 3 direct-contact blocks (Villa Groups / Hotel /
+          Concierge & Front Desk) — the design has no nav columns, social links, or
+          copyright line. */}
+      <footer className="w-full bg-[#d9d9d9] px-6 py-12 lg:px-12 lg:py-14">
+        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-10 text-center lg:grid lg:grid-cols-4 lg:items-start lg:gap-8 lg:text-left">
+          <div className="flex flex-col items-center gap-4 lg:items-start">
+            <div className="relative h-[129px] w-[154px]">
+              <Image src="/media/figma/footer-logo.png" alt="Coco B Isla" fill sizes="154px" className="object-contain" />
             </div>
+            {/* No /privacy route exists yet — anchor matches the design's link styling. */}
+            <a href="#" className="text-[13.4px] font-light tracking-[0.16px] text-[#444444] underline lg:text-[14.3px]">
+              Privacy Policy
+            </a>
           </div>
-          <div className="space-y-3">
-            <p className="text-[11px] font-medium uppercase tracking-[2.2px] text-white/45">Follow</p>
-            <nav className="space-y-2 text-white/82">
-              <a href="#" className="block transition-colors hover:text-white">Instagram</a>
-              <a href="#" className="block transition-colors hover:text-white">Google Maps</a>
-            </nav>
+
+          <div className="space-y-4">
+            <h4 className="text-[16.9px] font-bold uppercase tracking-[1.966px] text-[#707070]/70 lg:text-[19.9px] lg:tracking-[2.25px]">
+              Villa Groups
+            </h4>
+            <p className="text-[14.3px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252] lg:text-[15.1px]">
+              (3 - 27 Suites)
+            </p>
+            <p className="text-[13.6px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252] lg:text-[14.5px]">
+              Private Villa /Group Reservation:
+              <br />+ 1 206-579-0798 USA Cell
+              <br />
+              Jeffrey@cocobisla.com
+            </p>
           </div>
-        </div>
-        <div className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-white/45 lg:mt-10 lg:pt-7">
-          <p>&copy; 2026 Coco B Isla + Coco B Wellness. All rights reserved.</p>
+
+          <div className="space-y-4">
+            <h4 className="text-[17.5px] font-bold uppercase tracking-[1.966px] text-[#707070]/70 lg:text-[20px] lg:tracking-[2.25px]">
+              Hotel
+            </h4>
+            <p className="text-[13px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
+              <span className="font-bold">reservations@cocobisla.com</span>
+              <br />
+              +52 998 315 4343
+            </p>
+            <p className="text-[14.1px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
+              Toll-free: 833 - 439 -2626 x
+            </p>
+            <p className="text-[13.8px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
+              (9a.m. -5 p.m. Central)
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-[17.3px] font-bold uppercase tracking-[1.966px] text-[#707070]/70 lg:text-[19.9px] lg:tracking-[2.25px]">
+              Concierge &amp; Front Desk
+            </h4>
+            <p className="text-[13.6px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
+              (7 a.m. - 11 p.m. Central)
+            </p>
+            <p className="text-[14.1px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
+              Call &amp; WhatsApp: +52 - 998 - 315 - 4343
+              <br />
+              Call: +52 998 209 6937
+            </p>
+            <p className="text-[14.6px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
+              US Toll-Free (with VM &amp; AFTER HOURS):
+              <br />1 833 - 439 -2626
+            </p>
+          </div>
         </div>
       </footer>
     </div>
