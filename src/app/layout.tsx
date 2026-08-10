@@ -39,14 +39,25 @@ export default function RootLayout({
       <body className="min-h-full bg-background text-foreground">
         <div className="flex min-h-screen w-full flex-col">
           <AnnouncementBanner />
-          <header className="border-b border-border bg-surface py-3">
-            <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-              <Link href="/" className="flex items-center gap-2">
-                <Image src="/media/figma/footer-logo.png" alt="Coco B Isla" width={40} height={34} className="h-9 w-auto" />
-                <span className="text-sm font-medium uppercase tracking-[1.5px] text-foreground">Coco B Isla</span>
+          {/* Sizing matches the design tokens: nav-desktop 118px / logo-desktop 82px (this is
+              the static "always solid" version — the reference site's scroll-shrink-to-74px
+              nav behavior isn't implemented, deliberately, to keep this simple for now). */}
+          <header className="border-b border-border bg-surface">
+            <div className="mx-auto flex h-[78px] max-w-[1180px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[118px] lg:px-8">
+              <Link href="/" className="flex items-center gap-2 shrink-0">
+                <Image
+                  src="/media/figma/footer-logo.png"
+                  alt="Coco B Isla"
+                  width={82}
+                  height={69}
+                  className="h-[52px] w-auto lg:h-[82px]"
+                />
+                <span className="hidden text-sm font-medium uppercase tracking-[1.5px] text-foreground sm:inline">
+                  Coco B Isla
+                </span>
               </Link>
-              <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-                <nav aria-label="Main" className="flex flex-wrap items-center gap-1">
+              <div className="flex flex-wrap items-center justify-end gap-1 sm:gap-2">
+                <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
                   {navItems.map((item) => (
                     <Link
                       key={item.href}
@@ -58,12 +69,23 @@ export default function RootLayout({
                   ))}
                 </nav>
                 <Link href="/villas">
-                  <Button variant="primary" className="ml-1 !px-5 !py-2.5 text-[11px]">
+                  <Button variant="primary" className="!px-5 !py-2.5 text-[11px]">
                     Explore the Villas
                   </Button>
                 </Link>
               </div>
             </div>
+            <nav aria-label="Main" className="flex flex-wrap items-center justify-center gap-1 border-t border-border py-2 md:hidden">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-full px-3 py-1.5 text-xs font-medium uppercase tracking-[1px] text-muted transition hover:bg-background hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
           </header>
           <main className="flex-1">{children}</main>
         </div>
