@@ -15,12 +15,6 @@ type RetreatCardData = {
   photo?: string | null;
 };
 
-const fallbackRetreats: RetreatCardData[] = [
-  { slug: "retiro-yoga-caribe", name: "Retiro Yoga Caribe", date: "2026-09-12" },
-  { slug: "retiro-culinario", name: "Retiro Culinario", date: "2026-10-03" },
-  { slug: "retiro-wellness-mujeres", name: "Retiro Wellness Mujeres", date: "2026-11-21" },
-];
-
 function selectUpcoming(items: RetreatCardData[]) {
   const now = Date.now();
   return items.filter((item) => {
@@ -38,22 +32,19 @@ function formatDate(value?: string) {
 
 export default async function RetirosPage() {
   const retreats = await getRetreats();
-  const items: RetreatCardData[] = retreats.length
-    ? retreats.map((retreat) => ({
-        slug: retreat.slug,
-        name: retreat.title.rendered,
-        date: retreat.meta?.start_date ?? "Fecha pendiente",
-        endDate: retreat.meta?.end_date,
-        type: retreat.meta?.retreat_type,
-        capacity: retreat.meta?.capacity,
-        spotsLeft: retreat.meta?.spots_left,
-        priceIndicative: retreat.meta?.indicative_price,
-        photo: retreat.featured_media_url,
-      }))
-    : fallbackRetreats;
+  const items: RetreatCardData[] = retreats.map((retreat) => ({
+    slug: retreat.slug,
+    name: retreat.title.rendered,
+    date: retreat.meta?.start_date ?? "",
+    endDate: retreat.meta?.end_date,
+    type: retreat.meta?.retreat_type,
+    capacity: retreat.meta?.capacity,
+    spotsLeft: retreat.meta?.spots_left,
+    priceIndicative: retreat.meta?.indicative_price,
+    photo: retreat.featured_media_url,
+  }));
 
-  const upcoming = selectUpcoming(items);
-  const list = upcoming.length ? upcoming : items;
+  const list = selectUpcoming(items);
 
   return (
     <div className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -69,7 +60,14 @@ export default async function RetirosPage() {
       <hr className="border-t border-primary" />
 
       {list.length === 0 ? (
-        <p className="text-center text-[13.5px] text-muted">No upcoming retreats right now — check back soon.</p>
+        <div className="mx-auto max-w-md space-y-4 rounded-2xl border border-border bg-surface p-8 text-center">
+          <p className="text-[13.5px] leading-7 text-muted">
+            No retreats are open for booking right now. Reach out and we&rsquo;ll let you know what&rsquo;s next.
+          </p>
+          <Link href="/solicitud">
+            <Button variant="secondary">Ask about upcoming retreats</Button>
+          </Link>
+        </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((retreat) => {

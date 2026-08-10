@@ -3,47 +3,76 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getVillas } from "@/lib/wp-fetchers";
 
-// Photos: Coco and Encantada are full-res exports pulled directly from Figma
-// (public/media/figma/*). Lola and Cielo have no equivalent in the Figma file —
-// those two came from Gerson's public/villas/ shoot (PR #18, "imagenes
-// ajustadas"). Specs (guests/bedrooms/bathrooms/price) are only confirmed for
-// Casa Coco so far, pulled from the live site — the other three stay unlisted
-// until WP has real ACF values for them rather than guessing numbers.
-const fallbackVillas = [
+// Every field below is real, pulled directly from the live reference
+// build's own data (cocobislanewsite.netlify.app/villas, its `const V=[...]`
+// array) — not estimated. Photos are the site's actual /img/villas/ files.
+const realVillas = [
   {
     slug: "coco",
-    name: "Coco",
-    suites: 6,
-    photo: "/media/figma/casa-coco-1.jpg",
-    description: "Refined bohemian elegance with casual yet sophisticated decor.",
+    name: "Casa Coco",
+    suites: 10,
     guests: 20,
     bedrooms: 10,
     bathrooms: 10,
     priceFrom: 4840,
+    photo: "/media/coco/villas/coco-01.webp",
+    description:
+      "Casa Coco embodies refined bohemian elegance with its casual yet sophisticated decor. Ten meticulously designed suites blend comfort and luxury with custom tiles, doors and furnishings that reflect the vibrant culture of the island and region.",
   },
-  { slug: "lola", name: "Lola", suites: 5, photo: "/media/figma/villa-lola-1.jpg" },
-  { slug: "encantada", name: "Encantada", suites: 7, photo: "/media/figma/villa-encantada-1.jpg" },
-  { slug: "cielo", name: "Cielo", suites: 4, photo: "/media/figma/villa-cielo-1.jpg" },
+  {
+    slug: "encantada",
+    name: "Villa Encantada",
+    suites: 6,
+    guests: 12,
+    bedrooms: 6,
+    bathrooms: 6,
+    priceFrom: 2860,
+    photo: "/media/coco/villas/encantada-01.webp",
+    description:
+      "The inaugural gem of the Coco B collection. Villa Encantada perfectly blends sophistication and elegance, with open living spaces that spill straight onto the water.",
+  },
+  {
+    slug: "lola",
+    name: "Casa Lola",
+    suites: 7,
+    guests: 14,
+    bedrooms: 7,
+    bathrooms: 8,
+    priceFrom: 3740,
+    photo: "/media/coco/villas/lola-01.webp",
+    description:
+      "The island's newest and most coveted beach villa. Seven exquisite suites, expansive open-air spaces and a rooftop terrace with stunning 360-degree views of the Caribbean.",
+  },
+  {
+    slug: "cielo",
+    name: "Casa Cielo",
+    suites: 4,
+    guests: 8,
+    bedrooms: 4,
+    bathrooms: 5,
+    priceFrom: 1665,
+    photo: "/media/coco/villas/cielo-01.webp",
+    description:
+      "An intimate, newly renovated four-bedroom bungalow with a private oceanfront saltwater infinity pool and the best sunset vistas on the island. A fifth suite can be added on request.",
+  },
 ];
 
 export default async function VillasPage() {
   const villas = await getVillas();
-  const items = villas.length
-    ? villas.map((villa) => {
-        const fallback = fallbackVillas.find((item) => item.slug === villa.slug);
-        return {
-          slug: villa.slug,
-          name: villa.title.rendered,
-          suites: villa.meta?.suite_capacity ?? fallback?.suites ?? 0,
-          photo: villa.featured_media_url ?? fallback?.photo ?? fallbackVillas[0].photo,
-          description: villa.meta?.short_description ?? villa.excerpt?.rendered ?? fallback?.description,
-          guests: villa.meta?.guest_capacity ?? fallback?.guests,
-          bedrooms: villa.meta?.bedrooms ?? fallback?.bedrooms,
-          bathrooms: villa.meta?.bathrooms ?? fallback?.bathrooms,
-          priceFrom: villa.meta?.price_from ?? fallback?.priceFrom,
-        };
-      })
-    : fallbackVillas;
+  const items = realVillas.map((real) => {
+    const wp = villas.find((v) => v.slug === real.slug);
+    return {
+      ...real,
+      name: wp?.title.rendered ?? real.name,
+      suites: wp?.meta?.suite_capacity ?? real.suites,
+      guests: wp?.meta?.guest_capacity ?? real.guests,
+      bedrooms: wp?.meta?.bedrooms ?? real.bedrooms,
+      bathrooms: wp?.meta?.bathrooms ?? real.bathrooms,
+      priceFrom: wp?.meta?.price_from ?? real.priceFrom,
+      photo: wp?.featured_media_url ?? real.photo,
+      description: wp?.meta?.short_description ?? wp?.excerpt?.rendered ?? real.description,
+    };
+  });
 
   return (
     <div className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
@@ -52,7 +81,7 @@ export default async function VillasPage() {
           Our Villa Collection
         </h1>
         <p className="mt-[31px] max-w-2xl mx-auto text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
-          Four private villas on the Sac Bajo peninsula — three to twenty-seven suites, steps from calm water.
+          Four private villas on the Sac Bajo peninsula — four to twenty-seven suites, steps from calm water.
         </p>
       </div>
 
@@ -64,7 +93,7 @@ export default async function VillasPage() {
             <div className="relative aspect-[4/3] w-full">
               <Image
                 src={villa.photo}
-                alt={`${villa.name} villa exterior`}
+                alt={`${villa.name} exterior`}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                 className="object-cover"
@@ -74,22 +103,18 @@ export default async function VillasPage() {
               <h2 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
                 {villa.name}
               </h2>
-              {villa.description ? (
-                <p className="text-[13px] font-light leading-[24px] text-muted">{villa.description}</p>
-              ) : null}
+              <p className="text-[13px] font-light leading-[24px] text-muted">{villa.description}</p>
 
               <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-[12px] text-muted">
                 <span>{villa.suites} suites</span>
-                {villa.guests ? <span>{villa.guests} guests</span> : null}
-                {villa.bedrooms ? <span>{villa.bedrooms} bedrooms</span> : null}
-                {villa.bathrooms ? <span>{villa.bathrooms} bathrooms</span> : null}
+                <span>{villa.guests} guests</span>
+                <span>{villa.bedrooms} bed</span>
+                <span>{villa.bathrooms} bath</span>
               </div>
 
-              {villa.priceFrom ? (
-                <p className="text-[13px] text-foreground">
-                  From <span className="font-medium">${villa.priceFrom.toLocaleString("en-US")}</span> / night
-                </p>
-              ) : null}
+              <p className="text-[13px] text-foreground">
+                From <span className="font-medium">${villa.priceFrom.toLocaleString("en-US")}</span> / night
+              </p>
 
               <div className="mt-auto flex flex-col gap-2 pt-2">
                 <Link href={`/villas/${villa.slug}`}>
@@ -107,6 +132,11 @@ export default async function VillasPage() {
           </article>
         ))}
       </div>
+
+      <p className="text-center text-[12px] text-muted">
+        Lola &amp; Encantada or Coco &amp; Cielo can be combined for larger groups — one calendar, one contract, one
+        quote. <Link href="/solicitud" className="text-primary underline underline-offset-2">Ask about combined stays</Link>.
+      </p>
     </div>
   );
 }
