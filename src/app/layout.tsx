@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Raleway } from "next/font/google";
 import "./globals.css";
+import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Button } from "@/components/ui/button";
 import { ChatWidget } from "@/components/chat/chat-widget";
 
@@ -37,6 +38,7 @@ export default function RootLayout({
     <html lang="en" className={`${raleway.variable} h-full antialiased`}>
       <body className="min-h-full bg-background text-foreground">
         <div className="flex min-h-screen w-full flex-col">
+          <AnnouncementBanner />
           <header className="border-b border-border bg-surface py-3">
             <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
               <Link href="/" className="flex items-center gap-2">
