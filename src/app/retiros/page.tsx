@@ -1,37 +1,129 @@
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { getRetreats } from "@/lib/wp-fetchers";
 
-const fallbackRetreats = [
-  { name: "Retiro Yoga Caribe", date: "2026-09-12" },
-  { name: "Retiro Culinario", date: "2026-10-03" },
-  { name: "Retiro Wellness Mujeres", date: "2026-11-21" },
+type RetreatCardData = {
+  slug: string;
+  name: string;
+  date: string;
+  endDate?: string;
+  type?: string;
+  capacity?: number;
+  spotsLeft?: number;
+  priceIndicative?: string;
+  photo?: string | null;
+};
+
+const fallbackRetreats: RetreatCardData[] = [
+  { slug: "retiro-yoga-caribe", name: "Retiro Yoga Caribe", date: "2026-09-12" },
+  { slug: "retiro-culinario", name: "Retiro Culinario", date: "2026-10-03" },
+  { slug: "retiro-wellness-mujeres", name: "Retiro Wellness Mujeres", date: "2026-11-21" },
 ];
+
+function selectUpcoming(items: RetreatCardData[]) {
+  const now = Date.now();
+  return items.filter((item) => {
+    const parsed = Date.parse(item.date);
+    return Number.isNaN(parsed) || parsed >= now;
+  });
+}
+
+function formatDate(value?: string) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 export default async function RetirosPage() {
   const retreats = await getRetreats();
-  const items = retreats.length
+  const items: RetreatCardData[] = retreats.length
     ? retreats.map((retreat) => ({
+        slug: retreat.slug,
         name: retreat.title.rendered,
-        date: retreat.acf?.start_date ?? "Fecha pendiente",
+        date: retreat.meta?.start_date ?? "Fecha pendiente",
+        endDate: retreat.meta?.end_date,
+        type: retreat.meta?.retreat_type,
+        capacity: retreat.meta?.capacity,
+        spotsLeft: retreat.meta?.spots_left,
+        priceIndicative: retreat.meta?.indicative_price,
+        photo: retreat.featured_media_url,
       }))
     : fallbackRetreats;
 
-  return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Retiros</h1>
-          <p className="mt-2 text-muted">Ruta base del MVP para próximos retiros y disponibilidad.</p>
-        </div>
+  const upcoming = selectUpcoming(items);
+  const list = upcoming.length ? upcoming : items;
 
-        <ul className="space-y-3">
-          {items.map((retreat) => (
-            <li key={`${retreat.name}-${retreat.date}`} className="rounded-lg border border-border bg-surface p-4">
-              <p className="font-medium text-foreground">{retreat.name}</p>
-              <p className="text-sm text-muted">{retreat.date}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+  return (
+    <div className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+      <div className="text-center">
+        <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
+          Upcoming Retreats
+        </h1>
+        <p className="mt-[31px] mx-auto max-w-2xl text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
+          Yoga, culinary, wellness and corporate retreats hosted across the Coco B villas.
+        </p>
+      </div>
+
+      <hr className="border-t border-primary" />
+
+      {list.length === 0 ? (
+        <p className="text-center text-[13.5px] text-muted">No upcoming retreats right now — check back soon.</p>
+      ) : (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {list.map((retreat) => {
+            const isFull = typeof retreat.spotsLeft === "number" && retreat.spotsLeft <= 0;
+            return (
+              <article key={retreat.slug} className="flex flex-col border border-border">
+                {retreat.photo ? (
+                  <div className="relative aspect-[4/3] w-full">
+                    <Image src={retreat.photo} alt={retreat.name} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+                  </div>
+                ) : null}
+                <div className="flex flex-1 flex-col gap-3 p-5">
+                  {retreat.type ? (
+                    <span className="w-fit border border-border px-2 py-1 text-[10px] uppercase tracking-[1.4px] text-muted">
+                      {retreat.type}
+                    </span>
+                  ) : null}
+                  <h2 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
+                    {retreat.name}
+                  </h2>
+                  <p className="text-[13px] text-muted">
+                    {formatDate(retreat.date)}
+                    {retreat.endDate ? ` – ${formatDate(retreat.endDate)}` : ""}
+                  </p>
+
+                  <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-[12px] text-muted">
+                    {retreat.capacity ? <span>Up to {retreat.capacity} guests</span> : null}
+                    {typeof retreat.spotsLeft === "number" ? (
+                      <span>{isFull ? "Fully booked" : `${retreat.spotsLeft} spots left`}</span>
+                    ) : null}
+                  </div>
+
+                  {retreat.priceIndicative ? (
+                    <p className="text-[13px] text-foreground">From {retreat.priceIndicative}</p>
+                  ) : null}
+
+                  <div className="mt-auto flex flex-col gap-2 pt-2">
+                    <Link href={`/retiros/${retreat.slug}`}>
+                      <Button variant="secondary" className="w-full">
+                        Details
+                      </Button>
+                    </Link>
+                    <Link href="/solicitud">
+                      <Button variant="primary" className="w-full" disabled={isFull}>
+                        {isFull ? "Join Waitlist" : "Inquire"}
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
