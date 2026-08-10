@@ -1,57 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { CheckAvailabilityButton } from "@/components/booking/check-availability-button";
+import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVilla } from "@/lib/wp-fetchers";
-
-// Same real data source as the listing page — see src/app/villas/page.tsx.
-const realVillas = [
-  {
-    slug: "coco",
-    name: "Casa Coco",
-    suites: 10,
-    guests: 20,
-    bedrooms: 10,
-    bathrooms: 10,
-    priceFrom: 4840,
-    description:
-      "Casa Coco embodies refined bohemian elegance with its casual yet sophisticated decor. Ten meticulously designed suites blend comfort and luxury with custom tiles, doors and furnishings that reflect the vibrant culture of the island and region.",
-  },
-  {
-    slug: "encantada",
-    name: "Villa Encantada",
-    suites: 6,
-    guests: 12,
-    bedrooms: 6,
-    bathrooms: 6,
-    priceFrom: 2860,
-    description:
-      "The inaugural gem of the Coco B collection. Villa Encantada perfectly blends sophistication and elegance, with open living spaces that spill straight onto the water.",
-  },
-  {
-    slug: "lola",
-    name: "Casa Lola",
-    suites: 7,
-    guests: 14,
-    bedrooms: 7,
-    bathrooms: 8,
-    priceFrom: 3740,
-    description:
-      "The island's newest and most coveted beach villa. Seven exquisite suites, expansive open-air spaces and a rooftop terrace with stunning 360-degree views of the Caribbean.",
-  },
-  {
-    slug: "cielo",
-    name: "Casa Cielo",
-    suites: 4,
-    guests: 8,
-    bedrooms: 4,
-    bathrooms: 5,
-    priceFrom: 1665,
-    description:
-      "An intimate, newly renovated four-bedroom bungalow with a private oceanfront saltwater infinity pool and the best sunset vistas on the island. A fifth suite can be added on request.",
-    extra: "A 5th suite may be added for US$150–200 extra per night, depending on season.",
-  },
-];
 
 const galleryCounts: Record<string, number> = { coco: 5, encantada: 5, lola: 5, cielo: 5 };
 
@@ -61,7 +13,7 @@ type VillaDetailPageProps = {
 
 export default async function VillaDetailPage({ params }: VillaDetailPageProps) {
   const { slug } = await params;
-  const real = realVillas.find((v) => v.slug === slug);
+  const real = REAL_VILLAS.find((v) => v.slug === slug);
   const wp = await getVilla(slug);
 
   if (!real && !wp) {
@@ -134,11 +86,7 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
           <p className="border-t border-border pt-3 text-[11px] leading-5 text-muted">
             60% deposit at booking · 40% due 90 days before check-in
           </p>
-          <Link href="/solicitud">
-            <Button variant="primary" className="w-full">
-              Check Availability
-            </Button>
-          </Link>
+          <CheckAvailabilityButton villaSlug={slug} className="w-full" />
         </aside>
       </div>
     </div>

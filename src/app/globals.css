@@ -26,11 +26,13 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--cb-color-primary);
+  --color-primary-dark: var(--cb-color-primary-dark);
   --color-brand: var(--cb-color-brand);
   --color-surface: var(--cb-color-surface);
   --color-muted: var(--cb-color-muted);
   --color-accent: var(--cb-color-accent);
   --color-border: var(--cb-color-border);
+  --color-danger: var(--cb-color-danger);
   --font-sans: var(--font-raleway);
 }
 
