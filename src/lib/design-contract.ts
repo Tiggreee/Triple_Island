@@ -1,18 +1,20 @@
 export const DESIGN_TOKEN_PREFIX = "cb";
 
-// Cross-verified against the live reference build (cocobislanewsite.netlify.app
-// stylesheet) and the Figma villa/hero frames (node 6781) — both agree on these
-// values. Keep this file and globals.css in sync; they drifted apart once
+// Read directly from the live reference build's own :root custom properties
+// (cocobislanewsite.netlify.app/villas) — not frequency-guessed from compiled
+// CSS. Keep this file and globals.css in sync; they drifted apart once
 // already (globals.css kept rendering placeholder colors for a while).
 export const DESIGN_COLOR_TOKENS = {
-  "cb-color-background": "#fdf6e7",
-  "cb-color-foreground": "#0e2530",
-  "cb-color-primary": "#246a94", // CTAs — "Check availability" buttons
-  "cb-color-brand": "#107480", // logo/favicon mark
+  "cb-color-background": "#fbf8f3", // --sand
+  "cb-color-foreground": "#1c1c1c", // --ink
+  "cb-color-primary": "#246a94", // --action — CTAs
+  "cb-color-primary-dark": "#1b5273", // --action-dark — button hover
+  "cb-color-brand": "#107480", // --teal — logo/favicon mark
   "cb-color-surface": "#ffffff",
-  "cb-color-muted": "#8c8579",
-  "cb-color-accent": "#c9922b", // price/badge highlight
-  "cb-color-border": "#cfc7b9",
+  "cb-color-muted": "#4a4a4a", // --body
+  "cb-color-accent": "#8a5a12", // --high — price/badge highlight
+  "cb-color-border": "#e3dbce", // --line
+  "cb-color-danger": "#a32b1c",
 } as const;
 
 export const DESIGN_SPACING_TOKENS = {

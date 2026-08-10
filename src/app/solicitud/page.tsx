@@ -61,14 +61,17 @@ export default function SolicitudPage() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Solicitud de Reserva</h1>
-          <p className="mt-2 text-muted">Formulario base del flujo prioritario rentar villa.</p>
+    <div className="mx-auto w-full max-w-[1180px] px-4 py-16 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-3xl space-y-8">
+        <div className="text-center">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Get in touch</p>
+          <h1 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Request a Reservation</h1>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-muted">
+            Tell us your dates and group size — a real person replies within 24 hours.
+          </p>
         </div>
 
-      <form onSubmit={onSubmit} className="grid gap-4 rounded-lg border border-border bg-surface p-5 sm:grid-cols-2">
+      <form onSubmit={onSubmit} className="grid gap-4 rounded-2xl border border-border bg-surface p-6 sm:grid-cols-2">
         <input type="hidden" name="startedAt" value={startedAt} />
         <div className="absolute left-[-9999px] h-0 overflow-hidden opacity-0" aria-hidden="true">
           <label htmlFor="website">Sitio web</label>
