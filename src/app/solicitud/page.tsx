@@ -79,36 +79,36 @@ export default function SolicitudPage() {
         </div>
 
         <label className="grid gap-1 text-sm text-foreground">
-          Nombre
-          <Input type="text" name="name" placeholder="Nombre completo" required />
+          Name
+          <Input type="text" name="name" placeholder="Full name" required />
         </label>
 
         <label className="grid gap-1 text-sm text-foreground">
           Email
-          <Input type="email" name="email" placeholder="correo@dominio.com" required />
+          <Input type="email" name="email" placeholder="you@example.com" required />
         </label>
 
         <label className="grid gap-1 text-sm text-foreground sm:col-span-2">
-          Tipo de solicitud
+          What are you inquiring about?
           <Select name="leadType" defaultValue="solicitud" required>
-            <option value="solicitud">Solicitud de Villa y Boda</option>
+            <option value="solicitud">Villa &amp; Wedding Request</option>
             <option value="retiro">Retreat Host Questionnaire</option>
             <option value="waitlist">Pop-up Hotel Waitlist</option>
           </Select>
         </label>
 
         <label className="grid gap-1 text-sm text-foreground sm:col-span-2">
-          Mensaje
+          Message
           <Textarea
             name="message"
             className="min-h-28"
-            placeholder="Cuéntanos fechas, tamaño del grupo y tipo de evento"
+            placeholder="Dates, group size and what you have in mind"
             required
           />
         </label>
 
         <Button type="submit" disabled={submitState.status === "loading"} className="sm:col-span-2">
-          {submitState.status === "loading" ? "Enviando..." : "Enviar solicitud"}
+          {submitState.status === "loading" ? "Sending..." : "Send Request"}
         </Button>
 
         {turnstileSiteKey && (
