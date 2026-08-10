@@ -75,7 +75,7 @@ export default async function RetirosPage() {
           {list.map((retreat) => {
             const isFull = typeof retreat.spotsLeft === "number" && retreat.spotsLeft <= 0;
             return (
-              <article key={retreat.slug} className="flex flex-col border border-border">
+              <article key={retreat.slug} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
                 {retreat.photo ? (
                   <div className="relative aspect-[4/3] w-full">
                     <Image src={retreat.photo} alt={retreat.name} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />

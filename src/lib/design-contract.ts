@@ -1,15 +1,18 @@
 export const DESIGN_TOKEN_PREFIX = "cb";
 
-// Pulled from the Coco B Figma file (node 6038:2300) via get_variable_defs —
-// cocobisla.com's actual published values, not placeholders.
+// Cross-verified against the live reference build (cocobislanewsite.netlify.app
+// stylesheet) and the Figma villa/hero frames (node 6781) — both agree on these
+// values. Keep this file and globals.css in sync; they drifted apart once
+// already (globals.css kept rendering placeholder colors for a while).
 export const DESIGN_COLOR_TOKENS = {
-  "cb-color-background": "#ffffff", // color/white/solid
-  "cb-color-foreground": "#16161d", // Woodsmoke
-  "cb-color-primary": "#107480", // Surfie Green
-  "cb-color-surface": "#ffffff", // color/white/solid
-  "cb-color-muted": "#797979", // Boulder
-  "cb-color-accent": "#2d818f", // Lochinvar
-  "cb-color-border": "#d9d9d9", // Alto
+  "cb-color-background": "#fdf6e7",
+  "cb-color-foreground": "#0e2530",
+  "cb-color-primary": "#246a94", // CTAs — "Check availability" buttons
+  "cb-color-brand": "#107480", // logo/favicon mark
+  "cb-color-surface": "#ffffff",
+  "cb-color-muted": "#8c8579",
+  "cb-color-accent": "#c9922b", // price/badge highlight
+  "cb-color-border": "#cfc7b9",
 } as const;
 
 export const DESIGN_SPACING_TOKENS = {
@@ -21,9 +24,10 @@ export const DESIGN_SPACING_TOKENS = {
 } as const;
 
 export const DESIGN_RADIUS_TOKENS = {
-  "cb-radius-sm": "0.375rem",
-  "cb-radius-md": "0.5rem",
-  "cb-radius-lg": "0.75rem",
+  "cb-radius-sm": "0.5rem",
+  "cb-radius-md": "0.75rem",
+  "cb-radius-lg": "0.875rem", // 14px — card corners
+  "cb-radius-pill": "999px", // buttons/badges
 } as const;
 
 export const DESIGN_COMPONENT_NAMES = {

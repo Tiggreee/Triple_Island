@@ -60,7 +60,7 @@ export default async function VillasPage() {
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((villa) => (
-          <article key={villa.slug} className="flex flex-col border border-border">
+          <article key={villa.slug} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
             <div className="relative aspect-[4/3] w-full">
               <Image
                 src={villa.photo}

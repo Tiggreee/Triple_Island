@@ -9,13 +9,13 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
 };
 
-// Matches the real cocobisla.com button: border-black box, off-white fill, uppercase
-// tracked label — see the CTAs on the home page (page.tsx). There's only one real
-// button treatment on the live site, so primary/secondary/ghost are weight variants
-// of that same shape rather than distinct looks.
+// Matches the real reference build (cocobislanewsite.netlify.app) and the Figma
+// villa card (node 6781:265584): pill-shaped, Raleway SemiBold, uppercase with
+// wide tracking. primary = filled "Check availability" style, secondary =
+// outline "Details" style, ghost = text-only for low-emphasis actions.
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "border border-black bg-[#f5f5f5] text-black hover:bg-white",
-  secondary: "border border-border bg-transparent text-foreground hover:bg-surface",
+  primary: "border border-primary bg-primary text-white hover:opacity-90",
+  secondary: "border border-primary bg-transparent text-primary hover:bg-primary/5",
   ghost: "border-transparent bg-transparent text-foreground hover:bg-surface",
 };
 
@@ -40,7 +40,7 @@ export function Button({
             : DESIGN_COMPONENT_NAMES.button.ghost,
         isLoading ? DESIGN_COMPONENT_NAMES.button.loading : "",
         disabled || isLoading ? DESIGN_COMPONENT_NAMES.button.disabled : "",
-        "inline-flex items-center justify-center px-6 py-4 text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] transition-colors lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]",
+        "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[13px] font-semibold uppercase tracking-[1.6px] transition-colors",
         "focus:outline-none focus:ring-2 focus:ring-primary/30",
         variantClasses[variant],
         disabled || isLoading ? "cursor-not-allowed opacity-60" : "",
