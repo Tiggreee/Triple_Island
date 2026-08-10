@@ -64,7 +64,7 @@ export default function SolicitudPage() {
     <div className="mx-auto w-full max-w-[1180px] px-4 py-16 sm:px-6 lg:px-8">
       <section className="mx-auto max-w-3xl space-y-8">
         <div className="text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Get in touch</p>
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Get in touch</p>
           <h1 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Request a Reservation</h1>
           <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-muted">
             Tell us your dates and group size — a real person replies within 24 hours.

@@ -89,7 +89,7 @@ export default function Home() {
       <div className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
         {/* A collection, not a hotel */}
         <div className="mx-auto max-w-2xl space-y-3 text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">
             Luxury villas · Boutique hotels · Destination retreats
           </p>
           <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">A collection, not a hotel</h2>
@@ -103,7 +103,7 @@ export default function Home() {
         {/* Three kinds of gathering */}
         <div className="space-y-8">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">We live for</p>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">We live for</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Three kinds of gathering</h2>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -124,7 +124,7 @@ export default function Home() {
         {/* The collection */}
         <div className="space-y-8">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">The collection</p>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The collection</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
               Coco · Lola · Encantada · Cielo
             </h2>
@@ -168,7 +168,7 @@ export default function Home() {
         {/* Sac Bajo, from the water */}
         <div className="space-y-8">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">The island</p>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The island</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -185,7 +185,7 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-10 rounded-2xl border border-border bg-surface p-6 lg:grid-cols-2 lg:p-10">
           <div className="space-y-6">
             <div>
-              <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Destination retreats</p>
+              <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
               <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -215,7 +215,7 @@ export default function Home() {
         {/* Reviews */}
         <div className="space-y-6">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">What people say</p>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">What people say</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
           </div>
           <div className="grid grid-cols-3 gap-4">
@@ -235,7 +235,7 @@ export default function Home() {
         {/* Pop-up hotel */}
         <div className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-border bg-surface p-8 text-center lg:grid-cols-[2fr_1fr] lg:text-left">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Oceanfront boutique · pop-up hotel</p>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Oceanfront boutique · pop-up hotel</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Coco &amp; Lola, by the room</h2>
             <p className="mt-3 text-sm leading-7 text-muted">
               When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
@@ -251,7 +251,7 @@ export default function Home() {
         {/* Location */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
           <div className="space-y-4 text-center lg:text-left">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">A privileged location</p>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">A privileged location</p>
             <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Isla Mujeres</h2>
             <p className="text-sm leading-7 text-muted">
               Just a 25 minute boat ride off the coast of Cancún, you&rsquo;ll find Isla Mujeres — a small and
