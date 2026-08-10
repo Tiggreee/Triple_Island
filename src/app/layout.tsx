@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Inter } from "next/font/google";
+import { Raleway } from "next/font/google";
 import "./globals.css";
 import { ChatWidget } from "@/components/chat/chat-widget";
 
-// cocobisla.com is set entirely in Inter (font family/Font 1 in Figma) —
-// weights 300/400/500/700 cover every text style pulled from the design.
-const inter = Inter({
-  variable: "--font-inter",
+// The real reference build (cocobislanewsite.netlify.app) loads Raleway
+// 200–700 — confirmed from its stylesheet, not Inter as previously assumed.
+const raleway = Raleway({
+  variable: "--font-raleway",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["200", "300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -22,16 +22,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // /styleguide is intentionally not listed here — it's an internal reference
+  // page, not part of the public nav (see the brief's app/ structure notes).
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/villas", label: "Villas" },
     { href: "/retiros", label: "Retiros" },
     { href: "/solicitud", label: "Solicitud" },
-    { href: "/styleguide", label: "Styleguide" },
   ];
 
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${raleway.variable} h-full antialiased`}>
       <body className="min-h-full bg-background text-foreground">
         <div className="flex min-h-screen w-full flex-col">
           <header className="border-b border-border py-4">

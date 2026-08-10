@@ -1,13 +1,19 @@
 @import "tailwindcss";
 
+/* Real Coco B Isla palette — cross-verified from the live reference build
+   (cocobislanewsite.netlify.app CSS) and the Figma villa/hero frames.
+   Previously this file was never updated when design-contract.ts changed,
+   so the site was quietly rendering on placeholder colors. Keep the two
+   files in sync. */
 :root {
-  --cb-color-background: #f6f5f2;
-  --cb-color-foreground: #1f2a30;
-  --cb-color-primary: #0d9488;
+  --cb-color-background: #fdf6e7;
+  --cb-color-foreground: #0e2530;
+  --cb-color-primary: #246a94;
+  --cb-color-brand: #107480;
   --cb-color-surface: #ffffff;
-  --cb-color-muted: #6b7280;
-  --cb-color-accent: #e2725b;
-  --cb-color-border: #d7dbdd;
+  --cb-color-muted: #8c8579;
+  --cb-color-accent: #c9922b;
+  --cb-color-border: #cfc7b9;
   --background: var(--cb-color-background);
   --foreground: var(--cb-color-foreground);
 }
@@ -16,15 +22,16 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--cb-color-primary);
+  --color-brand: var(--cb-color-brand);
   --color-surface: var(--cb-color-surface);
   --color-muted: var(--cb-color-muted);
   --color-accent: var(--cb-color-accent);
   --color-border: var(--cb-color-border);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-raleway);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-raleway), sans-serif;
 }
