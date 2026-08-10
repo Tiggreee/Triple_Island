@@ -128,6 +128,12 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
           ) : (
             <p className="text-[13px] text-muted">Contact us for rates and availability.</p>
           )}
+          {/* Confirmed by Caro (client), 2026-08-10: 60/40 deposit structure, placed with the
+              other hard facts (min-stay/tax). Applies only once a booking is confirmed — the
+              inquiry itself stays free, no payment/card, matching the stepper's messaging. */}
+          <p className="border-t border-border pt-3 text-[11px] leading-5 text-muted">
+            60% deposit at booking · 40% due 90 days before check-in
+          </p>
           <Link href="/solicitud">
             <Button variant="primary" className="w-full">
               Check Availability
