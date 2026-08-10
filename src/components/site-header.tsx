@@ -69,12 +69,12 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <Link href="/villas">
+          <Link href={pathname === "/villas" ? "/solicitud" : "/villas"}>
             <Button
               variant="primary"
               className={`!px-5 !py-2.5 text-[11px] ${transparent ? "!border-white/55 !bg-white/15 backdrop-blur-sm hover:!bg-white/25" : ""}`}
             >
-              Explore the Villas
+              {pathname === "/villas" ? "Check Availability" : "Explore the Villas"}
             </Button>
           </Link>
         </div>
