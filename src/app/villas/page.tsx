@@ -23,16 +23,48 @@ export default async function VillasPage() {
   });
 
   return (
-    <div className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
-      <div className="text-center">
-        <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-          Our Villa Collection
-        </h1>
-        <p className="mt-[31px] max-w-2xl mx-auto text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
-          Four private villas on the Sac Bajo peninsula — four to twenty-seven suites, steps from calm water.
-        </p>
+    <div className="w-full">
+      {/* Hero — was missing entirely before (Change found via pixel-diff against the live
+          reference, 2026-08-10): this page used to jump straight into the card grid with no
+          hero at all. Same transparent-nav-over-hero treatment as Home; see SiteHeader. */}
+      <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
+        <Image
+          src="/media/coco/villas-hero-night.jpg"
+          alt="Coco B Isla villa terrace and pool at night"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/30 to-foreground/65" />
+        <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
+          <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Mexico</p>
+          <h1 className="mt-4 font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Villas</h1>
+          <p className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[2.5px] text-white/90">
+            {["Lola", "Encantada", "Coco", "Cielo"].map((name, i) => (
+              <span key={name} className="flex items-center gap-3">
+                {i > 0 ? <span className="h-1 w-1 rounded-full bg-brand" /> : null}
+                {name}
+              </span>
+            ))}
+          </p>
+          <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-white/90">
+            A sanctuary of luxury and tranquility nestled on the pristine Sac Bajo peninsula. Four private villas,
+            three to twenty-seven suites, steps from calm water.
+          </p>
+        </div>
+        <a
+          href="#collection"
+          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
+        >
+          The Collection
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/40 text-xs">
+            &darr;
+          </span>
+        </a>
       </div>
 
+      <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-16 sm:px-6 lg:px-8">
       <hr className="border-t border-primary" />
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -127,6 +159,7 @@ export default async function VillasPage() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

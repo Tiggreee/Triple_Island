@@ -3,6 +3,7 @@ import { Raleway } from "next/font/google";
 import "./globals.css";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { ChatWidget } from "@/components/chat/chat-widget";
+import { CookieConsent } from "@/components/cookie-consent";
 import { SiteHeader } from "@/components/site-header";
 
 // The real reference build (cocobislanewsite.netlify.app) loads Raleway
@@ -32,6 +33,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
         </div>
         <ChatWidget />
+        <CookieConsent />
       </body>
     </html>
   );
