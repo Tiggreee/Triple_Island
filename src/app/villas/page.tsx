@@ -143,7 +143,7 @@ export default async function VillasPage() {
           billed as an extra. Don't reword this — it's already client-approved language. */}
       <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Included</p>
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Included</p>
           <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
             Concierge Services
           </h2>
@@ -170,7 +170,7 @@ export default async function VillasPage() {
         </div>
 
         <div className="border-t border-border pt-6 text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">On request</p>
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">On request</p>
           <h3 className="mt-2 text-lg font-light uppercase tracking-[1.5px] text-foreground">Complement Your Stay</h3>
           <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-muted">
             Your concierge — already included in the rental — arranges every one of these before you arrive.
