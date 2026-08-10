@@ -61,8 +61,12 @@ const reviews = [
 export default function Home() {
   return (
     <div className="w-full">
-      {/* Hero */}
-      <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden rounded-2xl lg:min-h-[780px]">
+      {/* Hero — sits flush at the very top so SiteHeader's transparent state (on "/" only,
+          before scroll) overlaps it, matching the reference. No CTA button in here: the real
+          design's only hero-area action is the nav's "Explore the Villas" pill; the element at
+          the bottom is a scroll cue, not a link. Villa list uses white/accent-dot styling, not
+          text-accent — that color reads as illegible on a dark photo. */}
+      <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
         <Image
           src="/media/coco/portfolio-pool.jpg"
           alt="Coco B Isla poolside, palm trees and the Caribbean Sea"
@@ -71,22 +75,35 @@ export default function Home() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/50 via-foreground/20 to-foreground/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/55 via-foreground/25 to-foreground/60" />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Quintana Roo · Mexico</p>
           <h1 className="mt-4 font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Coco B Isla</h1>
-          <p className="mt-4 text-xs uppercase tracking-[2.5px] text-accent">Lola · Encantada · Coco · Cielo</p>
+          <p className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[2.5px] text-white/90">
+            {["Lola", "Encantada", "Coco", "Cielo"].map((name, i) => (
+              <span key={name} className="flex items-center gap-3">
+                {i > 0 ? <span className="h-1 w-1 rounded-full bg-brand" /> : null}
+                {name}
+              </span>
+            ))}
+          </p>
           <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-white/90">
             Luxury villas, boutique hotels and destination retreats, set on the shores of Isla Mujeres — one of
             Mexico and the Caribbean&rsquo;s most idyllic settings.
           </p>
-          <Link href="/villas" className="mt-8">
-            <Button variant="primary">Explore</Button>
-          </Link>
         </div>
+        <a
+          href="#collection"
+          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
+        >
+          Explore
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/40 text-xs">
+            &darr;
+          </span>
+        </a>
       </div>
 
-      <div className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
+      <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
         {/* A collection, not a hotel */}
         <div className="mx-auto max-w-2xl space-y-3 text-center">
           <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">
