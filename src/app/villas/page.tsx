@@ -137,6 +137,53 @@ export default async function VillasPage() {
         Lola &amp; Encantada or Coco &amp; Cielo can be combined for larger groups — one calendar, one contract, one
         quote. <Link href="/solicitud" className="text-primary underline underline-offset-2">Ask about combined stays</Link>.
       </p>
+
+      {/* Concierge services — real copy from the reference build. Doubles as the Change-2 proof
+          point from Caro's feedback (2026-08-10): concierge is included in the rental, never
+          billed as an extra. Don't reword this — it's already client-approved language. */}
+      <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Included</p>
+          <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
+            Concierge Services
+          </h2>
+          <p className="mt-3 text-sm leading-7 text-muted">
+            Breathe, nourish, flow — the island does most of the work. Everything here is already in the rate: daily
+            housekeeping, breakfast prepared by our in-house chef, paddle boards and kayaks, private transfers,
+            pre-stock service and a 24-hour concierge. None of it is charged as an extra.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            { title: "Daily housekeeping", body: "Rooms reset while you are at the beach — fresh linens, fresh flowers, and purified water in glass carafes on every nightstand." },
+            { title: "Gourmet breakfast", body: "Cooked each morning by our in-house chef and served wherever you want it — roof deck, terrace, or the shade beside the pool." },
+            { title: "Paddle boards & kayaks", body: "Flat, clear water straight off the deck. Bicycles too, for when the island starts calling." },
+            { title: "Pre-stock service", body: "Send us your list. Fridge, pantry and bar are filled with local, seasonal produce before you land." },
+            { title: "24-hour concierge", body: "Transfers, boat charters and dinner reservations, handled before you have to ask twice — included in every villa rental, at no extra cost." },
+          ].map((item) => (
+            <div key={item.title} className="space-y-2">
+              <h3 className="text-xs font-semibold uppercase tracking-[1px] text-foreground">{item.title}</h3>
+              <p className="text-xs leading-6 text-muted">{item.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t border-border pt-6 text-center">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">On request</p>
+          <h3 className="mt-2 text-lg font-light uppercase tracking-[1.5px] text-foreground">Complement Your Stay</h3>
+          <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-muted">
+            Your concierge — already included in the rental — arranges every one of these before you arrive.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            {["Yoga & Wellness", "Private Boat Transfers", "Private Chef Dinners", "Weddings & Events", "Excursions & Activities"].map((tag) => (
+              <span key={tag} className="rounded-full border border-border px-3 py-1.5 text-xs uppercase tracking-[1px] text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
