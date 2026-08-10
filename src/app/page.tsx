@@ -1,828 +1,307 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
+// Content and copy below is pulled directly from the live reference build
+// (cocobislanewsite.netlify.app) — curled HTML, not paraphrased. Photos are
+// the same file bytes the live site serves (extracted from its inlined
+// base64 assets / downloaded from its /img/villas/ gallery), not stand-ins.
+
+const gatherings = [
+  {
+    title: "Friends & family",
+    body: "Whole houses for people who want the island to themselves.",
+    photo: "/media/coco/catamaran.jpg",
+  },
+  {
+    title: "Wellness & team retreats",
+    body: "Yoga, culinary, fitness and corporate programmes, fully hosted.",
+    photo: "/media/coco/yoga-mats.jpg",
+  },
+  {
+    title: "Weddings & celebrations",
+    body: "Ceremonies on the sand, dinners under the palapa.",
+    photo: "/media/coco/wedding-beach.jpg",
+  },
+];
+
+const villas = [
+  { slug: "lola", name: "Casa Lola", tag: "The newest gem", note: "Rooftop terrace, 360° views of the Caribbean", photo: "/media/coco/villas/lola-01.webp" },
+  { slug: "encantada", name: "Villa Encantada", tag: "The inaugural villa", note: "", photo: "/media/coco/villas/encantada-01.webp" },
+  { slug: "coco", name: "Casa Coco", tag: "Bohemian elegance", note: "", photo: "/media/coco/villas/coco-01.webp" },
+  { slug: "cielo", name: "Casa Cielo", tag: "The sunset bungalow", note: "Private oceanfront saltwater infinity pool", photo: "/media/coco/villas/cielo-01.webp" },
+];
+
+const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
+
+const testimonials = [
+  {
+    quote:
+      "I've been leading yoga retreats for almost 15 years and this was by far one of the very best ever. Casa Coco is stunning and the staff became our friends.",
+    author: "Jill Knouse · Tripadvisor",
+  },
+  {
+    quote:
+      "A beautiful oasis with warm staff, stunning rooms and a yoga studio with magnificent views from every angle.",
+    author: "Paul Gould & Jennifer Fox · NamaStay Yoga",
+  },
+  {
+    quote:
+      "The energy here is so incredible that it will heal you completely and energize you — maybe even change your life.",
+    author: "Alice R. · Mexico City",
+  },
+];
+
+const reviews = [
+  { score: "4.8", count: "142 reviews" },
+  { score: "9.5", count: "69 reviews" },
+  { score: "4.9", count: "159 reviews" },
+];
 
 export default function Home() {
   return (
-    <div className="w-full space-y-24">
-      <div className="mx-auto w-full max-w-[1180px] space-y-24 pb-24 pt-2">
-      {/* Hero — Figma node 6038:2393 (mobile, 390w default) */}
-      <div className="relative flex h-[780px] w-full items-start justify-center overflow-hidden rounded-2xl lg:h-[900px]">
+    <div className="w-full">
+      {/* Hero */}
+      <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden rounded-2xl lg:min-h-[780px]">
         <Image
-          src="/media/figma/hero-mobile.jpg"
-          alt="Coco B Isla villa terrace among palm trees at golden hour, Isla Mujeres"
+          src="/media/coco/portfolio-pool.jpg"
+          alt="Coco B Isla poolside, palm trees and the Caribbean Sea"
           fill
           priority
           sizes="100vw"
-          className="object-cover lg:hidden"
+          className="object-cover"
         />
-        <Image
-          src="/media/figma/hero-desktop.jpg"
-          alt="Coco B Isla villa terrace among palm trees at golden hour, Isla Mujeres"
-          fill
-          priority
-          sizes="100vw"
-          className="hidden object-cover lg:block"
-        />
-        <div className="relative z-10 flex flex-col items-center px-6 pt-[329px] text-center text-white lg:pt-[380px]">
-          <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-            Coco B Isla
-          </h1>
-          <p className="mt-[31px] text-[16.4px] font-light uppercase leading-[16.87px] tracking-[1.863px] lg:mt-[34px] lg:text-[18.1px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            Isla Mujeres
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/50 via-foreground/20 to-foreground/60" />
+        <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
+          <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Quintana Roo · Mexico</p>
+          <h1 className="mt-4 font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Coco B Isla</h1>
+          <p className="mt-4 text-xs uppercase tracking-[2.5px] text-accent">Lola · Encantada · Coco · Cielo</p>
+          <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-white/90">
+            Luxury villas, boutique hotels and destination retreats, set on the shores of Isla Mujeres — one of
+            Mexico and the Caribbean&rsquo;s most idyllic settings.
           </p>
-          <p className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            Mexico
-          </p>
-        </div>
-      </div>
-
-      {/* Coco B Isla intro — Figma 6038:2410 (mobile) / 6020:8465 (desktop) */}
-      <div className="flex flex-col items-center gap-8 text-center lg:gap-[34px]">
-        <div className="order-1">
-          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-            Coco B Isla
-          </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[17.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            <span className="lg:hidden">
-              Luxury Villas &nbsp;&nbsp; Boutique Hotels
-              <br />
-              Destination Retreats
-            </span>
-            <span className="hidden lg:inline">Luxury Villas &nbsp;&nbsp; Boutique Hotels &nbsp;&nbsp; Destination Retreats</span>
-          </p>
-        </div>
-
-        <div className="order-2 flex flex-wrap items-stretch justify-center gap-4 lg:order-4 lg:gap-6">
-          <Link
-            href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            <span className="lg:hidden">
-              Private
-              <br />
-              Villa
-              <br />
-              Inquiry
-            </span>
-            <span className="hidden lg:inline">Private Villa Inquiry</span>
-          </Link>
-          <Link
-            href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            <span className="lg:hidden">
-              Hotel
-              <br />
-              Reservations
-            </span>
-            <span className="hidden lg:inline">Hotel Reservations</span>
-          </Link>
-          <Link
-            href="/solicitud"
-            className="hidden items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white lg:flex"
-          >
-            Retreat Host Inquiry
-          </Link>
-        </div>
-
-        <hr className="order-3 w-full border-t border-primary" />
-
-        <p className="order-5 max-w-md text-[16.9px] font-light leading-[33.56px] text-muted lg:order-2 lg:max-w-3xl lg:text-[19.8px] lg:leading-[40.65px]">
-          Set on the shores of Isla Mujeres, in one of Mexico and the Caribbean&rsquo;s most idyllic settings.
-        </p>
-        <p className="order-6 max-w-md text-[16.9px] font-light leading-[33.56px] text-muted lg:order-3 lg:max-w-3xl lg:text-[20.2px] lg:leading-[40.65px]">
-          A collection of luxury villas, retreat center, &amp; pop-up boutique hotel
-        </p>
-
-        <hr className="order-7 w-full border-t border-primary lg:order-5" />
-
-        <div className="order-8 space-y-4 lg:order-6">
-          <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            We Live For:
-          </h3>
-          <p className="text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
-            Friends &amp; Family
-            <br />
-            Wellness &amp; Team Retreats
-            <br />
-            Weddings &amp; Celebrations
-          </p>
-          <p className="text-base font-light leading-[27.2px] text-muted lg:text-[17px] lg:leading-[28.9px]">We Bring::</p>
-          <p className="text-[13.5px] font-light leading-[27.2px] text-muted lg:text-[14.3px] lg:leading-[28.9px]">
-            Exceptional Service for Exceptional Experiences
-          </p>
-        </div>
-
-        <Link
-          href="/solicitud"
-          className="order-9 flex items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:hidden"
-        >
-          Retreat
-          <br />
-          Host
-          <br />
-          Inquiry
-        </Link>
-      </div>
-
-      {/* Luxury Villa Collection — Figma node 6038:2455 */}
-      <div className="flex flex-col items-center gap-8 text-center">
-        <div>
-          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[29.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-            <span className="lg:hidden">
-              Luxury Villa
-              <br />
-              Collection
-            </span>
-            <span className="hidden lg:inline">Luxury Villa Collection</span>
-          </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[18.1px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            <span className="lg:hidden">
-              Coco &nbsp;&nbsp; Lola &nbsp;&nbsp; Encantada
-              <br />
-              Cielo
-            </span>
-            <span className="hidden lg:inline">Coco &nbsp;&nbsp; Lola &nbsp;&nbsp; Encantada &nbsp;&nbsp; Cielo</span>
-          </p>
-        </div>
-
-        <hr className="w-full border-t border-primary" />
-
-        <div className="flex flex-wrap items-stretch justify-center gap-4 lg:gap-6">
-          <Link
-            href="/villas"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            <span className="lg:hidden">
-              Explore
-              <br />
-              Villas
-            </span>
-            <span className="hidden lg:inline">Explore Villas</span>
-          </Link>
-          <Link
-            href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            <span className="lg:hidden">
-              Inquire
-              <br />
-              Villas
-            </span>
-            <span className="hidden lg:inline">Inquire Villas</span>
-          </Link>
-        </div>
-
-        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[670/429]">
-            <Image
-              src="/media/figma/villa-encantada-1.jpg"
-              alt="Villa Encantada exterior with private pool, Isla Mujeres"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[343/269] w-full overflow-hidden lg:aspect-[670/429]">
-            <Image
-              src="/media/figma/casa-coco-1.jpg"
-              alt="Casa Coco palapa terrace and pool"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-
-        <div className="max-w-3xl space-y-4">
-          <h3 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.4px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            Our Villa Collection
-          </h3>
-          <p className="mx-auto max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-none lg:text-[14.3px] lg:leading-[28.9px]">
-            Our exclusive collection includes four exquisite villas: Lola, Encantada, Coco, and Cielo.
-          </p>
-          <p className="mx-auto max-w-md text-[13.4px] font-light leading-[27.2px] text-muted lg:max-w-none lg:text-[13.9px] lg:leading-[28.9px]">
-            Each villa offers a unique blend of indoor and outdoor living spaces, perfect for families, friends,
-            corporate retreats, weddings, or wellness getaways. With direct access to calm waters and breathtaking
-            sunsets over the Mexican Caribbean, Coco B Isla Villas promises an exceptional and unforgettable
-            experience.
-          </p>
-        </div>
-
-        <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[670/429]">
-            <Image
-              src="/media/figma/villa-encantada-2.jpg"
-              alt="Isla Mujeres Villa Encantada facade with palm trees"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[343/234] w-full overflow-hidden lg:aspect-[670/429]">
-            <Image
-              src="/media/figma/img-1029.jpg"
-              alt="Villa infinity pool overlooking the Caribbean Sea"
-              fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Retreats — Figma 6038:2509 (mobile) / 6020:8561 (desktop) */}
-      <div className="flex flex-col items-center gap-8 text-center lg:gap-[34px]">
-        <div className="order-10">
-          <h2 className="text-[23.3px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-            Retreats
-          </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[17.8px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            <span className="lg:hidden">
-              Weddings &nbsp;&nbsp; Yoga &nbsp;&nbsp; Wellness
-              <br />
-              Culinary &nbsp;&nbsp; Fitness &nbsp;&nbsp; Corporate
-            </span>
-            <span className="hidden lg:inline">
-              Weddings &nbsp;&nbsp; Yoga &nbsp;&nbsp; Wellness &nbsp;&nbsp; Culinary &nbsp;&nbsp; Fitness &nbsp;&nbsp; Corporate
-            </span>
-          </p>
-        </div>
-
-        <hr className="order-20 w-full border-t border-primary" />
-
-        {/* Buttons: stacked/split on mobile, one row on desktop */}
-        <Link
-          href="/retiros"
-          className="order-30 flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:hidden"
-        >
-          Inquire Retreat
-        </Link>
-        <div className="order-30 hidden flex-wrap items-stretch justify-center gap-6 lg:flex">
-          <Link
-            href="/retiros"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
-          >
-            Inquire Retreat
-          </Link>
-          <Link
-            href="/retiros"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
-          >
-            Retreat Calendar
-          </Link>
-        </div>
-
-        {/* Videos: after the intro on mobile, at the very end on desktop */}
-        {[
-          { src: "/media/figma/retreat-video-1.jpg", alt: "Yoga retreat session preview", order: "order-[40]" },
-          { src: "/media/figma/retreat-video-2.jpg", alt: "Ocean paddleboard retreat preview", order: "order-[41]" },
-          { src: "/media/figma/retreat-video-3.jpg", alt: "Culinary retreat gathering preview", order: "order-[42]" },
-        ].map((video) => (
-          <div key={video.src} className={`relative ${video.order} aspect-[343/193] w-full overflow-hidden lg:hidden`}>
-            <Image src={video.src} alt={video.alt} fill sizes="100vw" className="object-cover" />
-            <span className="absolute inset-0 flex items-center justify-center">
-              <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
-                <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
-                  <path d="M0 0L16 9L0 18V0Z" />
-                </svg>
-              </span>
-            </span>
-          </div>
-        ))}
-        <div className="order-[90] hidden w-full grid-cols-3 gap-4 lg:grid">
-          {[
-            { src: "/media/figma/retreat-video-1.jpg", alt: "Yoga retreat session preview" },
-            { src: "/media/figma/retreat-video-2.jpg", alt: "Ocean paddleboard retreat preview" },
-            { src: "/media/figma/retreat-video-3.jpg", alt: "Culinary retreat gathering preview" },
-          ].map((video) => (
-            <div key={video.src} className="relative aspect-[443/249] w-full overflow-hidden">
-              <Image src={video.src} alt={video.alt} fill sizes="33vw" className="object-cover" />
-              <span className="absolute inset-0 flex items-center justify-center">
-                <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
-                  <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
-                    <path d="M0 0L16 9L0 18V0Z" />
-                  </svg>
-                </span>
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <h3 className="order-[50] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.1px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-          <span className="lg:hidden">
-            Full Service Planning and
-            <br />
-            Support for Your Destination
-            <br />
-            Retreat
-          </span>
-          <span className="hidden lg:inline">Full Service Planning and Support for Your Destination Retreat</span>
-        </h3>
-
-        {/* Images: couple-beach solo + [lola, img9359] pair on mobile; [couple-beach, lola] + [dining, img9359] pairs on desktop */}
-        <div className="order-[80] relative aspect-[343/199] w-full overflow-hidden lg:hidden">
-          <Image
-            src="/media/figma/retreat-couple-beach.jpg"
-            alt="Couple walking the beach at sunset during a Coco B retreat"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-        <div className="order-[90] grid w-full grid-cols-2 gap-3 lg:hidden">
-          <div className="relative aspect-[166/234] overflow-hidden">
-            <Image
-              src="/media/figma/retreat-lola-yoga.jpg"
-              alt="Yoga session at Villa Lola"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[166/234] overflow-hidden">
-            <Image
-              src="/media/figma/retreat-img9359.jpg"
-              alt="Retreat group gathering by the water"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-        <div className="order-[40] hidden w-full grid-cols-2 gap-4 lg:grid">
-          <div className="relative aspect-[670/429] overflow-hidden">
-            <Image
-              src="/media/figma/retreat-couple-beach.jpg"
-              alt="Couple walking the beach at sunset during a Coco B retreat"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[670/429] overflow-hidden">
-            <Image
-              src="/media/figma/retreat-lola-yoga.jpg"
-              alt="Yoga session at Villa Lola"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-        <div className="order-[70] hidden w-full grid-cols-2 gap-4 lg:grid">
-          <div className="relative aspect-[670/429] overflow-hidden">
-            <Image
-              src="/media/figma/retreat-dining.jpg"
-              alt="Outdoor dining set up for a Coco B yoga teacher training"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[670/429] overflow-hidden">
-            <Image
-              src="/media/figma/retreat-img9359.jpg"
-              alt="Retreat group gathering by the water"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-        <div className="order-[100] relative aspect-[343/199] w-full overflow-hidden lg:hidden">
-          <Image
-            src="/media/figma/retreat-dining.jpg"
-            alt="Outdoor dining set up for a Coco B yoga teacher training"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-
-        {/* Press quote + Jill testimonial: stacked on mobile, side by side on desktop */}
-        <div className="contents lg:grid lg:order-[60] lg:grid-cols-2 lg:items-start lg:gap-16 lg:text-left">
-          <p className="order-[60] max-w-md text-[17.5px] italic font-light leading-[33.56px] text-muted lg:mx-0 lg:max-w-none lg:text-[21.1px] lg:leading-[40.65px]">
-            &ldquo;Best Island Retreat Center in the Americas&rdquo;
-            <br />
-            <span className="text-[15.9px] not-italic lg:text-[17px]">Luxe Life Magazine</span>
-          </p>
-
-          <figure className="order-[70] max-w-md space-y-3 lg:max-w-none">
-            <blockquote className="text-[12.5px] italic font-light leading-[27.2px] text-muted lg:text-[13.3px] lg:leading-[28.9px]">
-              Incredible Memories Made! I have been leading yoga retreats for almost 15 years and this was by far one
-              of the very best EVER. Casa Coco is stunning. The dedicated staff were professional, attentive to the
-              many details and moving parts, they were so much fun + kind, more than accommodating and after five
-              days with our group of fifteen guests, they became our friends. Honestly, I was just blown away by
-              every aspect of this retreat. I&rsquo;m already looking for the right time to head back down for round
-              two. THANK YOU ALL FOR EVERYTHING.
-            </blockquote>
-            <figcaption className="text-right text-[13.3px] font-light leading-[27.2px] text-muted lg:text-[14.1px] lg:leading-[28.9px]">
-              — Jill Knouse - Trip Advisor
-            </figcaption>
-          </figure>
-        </div>
-
-        {/* Paul Gould + Alice R testimonials: stacked on mobile, side by side on desktop */}
-        <div className="contents lg:grid lg:order-[80] lg:grid-cols-2 lg:items-start lg:gap-16 lg:text-left">
-          <figure className="order-[110] max-w-md space-y-3 lg:max-w-none">
-            <blockquote className="text-[12.6px] italic font-light leading-[27.2px] text-muted lg:text-[13.1px] lg:leading-[28.9px]">
-              &ldquo;What a beautiful oasis with warm, wonderful staff, stunning rooms and a yoga studio with
-              magnificent views from every angle makes you feel as if you are part of nature. We look forward to
-              returning next year and so appreciate the care and time spent with owner Jeff and our host,
-              Lisa.&rdquo;
-            </blockquote>
-            <figcaption className="text-right text-[13.4px] font-light leading-[27.2px] text-muted lg:text-[14.2px] lg:leading-[28.9px]">
-              — Paul Gould and Jennifer Fox NamaStay Yoga
-            </figcaption>
-          </figure>
-
-          <figure className="order-[120] max-w-md space-y-3 lg:max-w-none">
-            <blockquote className="text-[12.4px] italic font-light leading-[27.2px] text-muted lg:text-[13.1px] lg:leading-[28.9px]">
-              &ldquo;The energy here is so incredible that it will heal you completely and energize you, and maybe
-              even change your life.&rdquo;
-            </blockquote>
-            <figcaption className="text-right text-[14px] font-light leading-[27.2px] text-muted lg:text-[14.7px] lg:leading-[28.9px]">
-              — Alice R. Mexico City
-            </figcaption>
-          </figure>
-        </div>
-
-        <hr className="order-[130] w-full border-t border-primary lg:hidden" />
-
-        <Link
-          href="/retiros"
-          className="order-[140] flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:hidden"
-        >
-          Retreat Calendar
-        </Link>
-      </div>
-
-      {/* Oceanfront Boutique (Pop-Up) Hotels — Figma 6038:2670 (mobile) / 6020:8720 (desktop) */}
-      <div className="flex flex-col items-center gap-8 text-center lg:gap-[34px]">
-        <div>
-          <h2 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.4px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-            <span className="lg:hidden">
-              Oceanfront Boutique
-              <br />
-              (Pop-Up) Hotels
-            </span>
-            <span className="hidden lg:inline">Oceanfront Boutique (Pop-Up) Hotels</span>
-          </h2>
-          <p className="mt-[31px] text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:mt-[34px] lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-            Coco &amp; Lola
-          </p>
-        </div>
-
-        <hr className="w-full border-t border-primary" />
-
-        <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-2xl lg:text-[14.3px] lg:leading-[28.9px]">
-          Coco B Isla is a Pop-Up Hotel Serving Guests Looking for Last Minute Stays.
-        </p>
-        <p className="max-w-md text-[13.5px] font-light leading-[27.2px] text-muted lg:max-w-2xl lg:text-[14.3px] lg:leading-[28.9px]">
-          (Book stays inside 30 days from arrival or contact us{" "}
-          <Link href="/solicitud" className="font-bold text-accent">
-            HERE
-          </Link>{" "}
-          to be on our call list)
-        </p>
-
-        <div className="flex flex-wrap items-stretch justify-center gap-4 lg:gap-6">
-          <Link
-            href="/villas"
-            className="order-1 flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:order-2 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            <span className="lg:hidden">
-              Book Hotel
-              <br />
-              Coco
-            </span>
-            <span className="hidden lg:inline">Book Hotel Coco</span>
-          </Link>
-          <Link
-            href="/villas"
-            className="order-2 flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:order-3 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            <span className="lg:hidden">
-              Book Hotel
-              <br />
-              Lola
-            </span>
-            <span className="hidden lg:inline">Book Hotel Lola</span>
-          </Link>
-          <Link
-            href="/villas"
-            className="order-3 flex items-center justify-center border border-black bg-[#f5f5f5] px-7 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white lg:order-1 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            Explore Hotels
+          <Link href="/villas" className="mt-8">
+            <Button variant="primary">Explore</Button>
           </Link>
         </div>
       </div>
 
-      {/* Gallery + press awards — Figma 6038:2707 (mobile) / 6020:8755 (desktop) */}
-      <div className="flex flex-col items-center gap-6 text-center lg:gap-8">
-        <h2 className="order-1 text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:order-[45] lg:text-[30.1px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-          <span className="lg:hidden">
-            &middot; Luxury Villas
-            <br />
-            Boutique Hotels &middot;
-            <br />
-            Destination Retreats &middot;
-          </span>
-          <span className="hidden lg:inline">&middot; Luxury Villas &middot; Boutique Hotels &middot; Destination Retreats &middot;</span>
-        </h2>
+      <div className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
+        {/* A collection, not a hotel */}
+        <div className="mx-auto max-w-2xl space-y-3 text-center">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">
+            Luxury villas · Boutique hotels · Destination retreats
+          </p>
+          <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">A collection, not a hotel</h2>
+          <p className="text-sm leading-7 text-muted">
+            Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct
+            access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for
+            exceptional experiences.
+          </p>
+        </div>
 
-        {/* 8 gallery photos: stacked/paired on mobile, two rows of 4 on desktop */}
-        <div className="grid w-full grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
-          <div className="relative order-2 col-span-2 aspect-[343/164] overflow-hidden lg:order-[80] lg:col-span-1 lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-dea277ac.jpg" alt="Villa interior detail" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
+        {/* Three kinds of gathering */}
+        <div className="space-y-8">
+          <div className="text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">We live for</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Three kinds of gathering</h2>
           </div>
-          <div className="relative order-3 aspect-[166/199] overflow-hidden lg:order-[50] lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-encantada-83.jpg" alt="Villa Encantada poolside" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-          </div>
-          <div className="relative order-4 aspect-[166/199] overflow-hidden lg:order-[70] lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-cc-pool-sunset.jpg" alt="Casa Coco pool at sunset" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-          </div>
-          <div className="relative order-5 col-span-2 aspect-[343/164] overflow-hidden lg:order-[60] lg:col-span-1 lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-encantada-122.jpg" alt="Villa Encantada exterior" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
-          </div>
-          <div className="relative order-6 col-span-2 aspect-[343/164] overflow-hidden lg:order-[10] lg:col-span-1 lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-encantada-81.jpg" alt="Villa Encantada aerial view" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
-          </div>
-          <div className="relative order-7 aspect-[166/199] overflow-hidden lg:order-[20] lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-encantada-64.jpg" alt="Villa Encantada bedroom" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-          </div>
-          <div className="relative order-8 aspect-[166/199] overflow-hidden lg:order-[40] lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-encantada-54.jpg" alt="Villa Encantada terrace" fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-          </div>
-          <div className="relative order-9 col-span-2 aspect-[343/164] overflow-hidden lg:order-[30] lg:col-span-1 lg:aspect-[329/189]">
-            <Image src="/media/figma/gallery-img1519.jpg" alt="Villa dining setup" fill sizes="(min-width: 1024px) 25vw, 100vw" className="object-cover" />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {gatherings.map((item) => (
+              <article key={item.title} className="overflow-hidden rounded-2xl border border-border bg-surface">
+                <div className="relative aspect-[4/3] w-full">
+                  <Image src={item.photo} alt={item.title} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-sm font-semibold uppercase tracking-[1px] text-foreground">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted">{item.body}</p>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
 
-        {/* Press logos: stacked on mobile, one row on desktop */}
-        <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
-          <Image
-            src="/media/figma/award-boutique-hotel.jpg"
-            alt="2016 World Boutique Hotel Awards winner medallion"
-            width={166}
-            height={164}
-            className="h-auto w-[166px] lg:w-[159px]"
-          />
-          <Image src="/media/figma/logo-tripadvisor.png" alt="Tripadvisor" width={166} height={199} className="h-auto w-[140px] lg:w-[180px]" />
-          <Image
-            src="/media/figma/logo-travelmyth.png"
-            alt="TravelMyth — Featured in the Honeymoon Hotels Collection, Casa Coco by Coco B Isla"
-            width={255}
-            height={234}
-            className="h-auto w-[200px] lg:w-[159px]"
-          />
-          <Image
-            src="/media/figma/logo-conde-nast.png"
-            alt="Cond&eacute; Nast Traveler"
-            width={255}
-            height={164}
-            className="h-auto w-[200px] lg:w-[180px]"
-          />
-        </div>
-
-        <p className="text-[12.6px] italic font-light leading-[27.2px] text-muted lg:max-w-md lg:text-[13.8px] lg:leading-[28.9px]">
-          &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
-        </p>
-
-        <div className="flex flex-col gap-8 lg:w-full lg:flex-row lg:items-start lg:justify-center lg:gap-16">
-          <div className="space-y-1 lg:order-2 lg:flex-1">
-            <h3 className="text-[15.3px] italic font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[16.5px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-              &ldquo;Best Island Retreat Center&rdquo; in
-              <br />
-              the Caribbean&rdquo; 2022
-            </h3>
-            <h4 className="text-[17.9px] font-light uppercase leading-[17.73px] tracking-[1.966px] text-foreground lg:text-[20.5px] lg:leading-[20.29px] lg:tracking-[2.25px]">
-              LUXlife Magazine
-            </h4>
-          </div>
-
-          <div className="space-y-1 lg:order-1 lg:flex-1">
-            <h3 className="text-[15.2px] italic font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[16.8px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-              &ldquo;Best Luxury Villa Collection&rdquo;
-            </h3>
-            <h3 className="text-[16.9px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground lg:text-[18.7px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-              Q Roo. Mexico 2023
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      {/* Villa Inquiry / Retreat Host Questionnaire / Book Hotel CTA + video previews —
-          Figma 6038:2799 (mobile) / 6020:8845 (desktop). This sits directly after the
-          press-awards block; the design has no heading here. On mobile the two videos
-          are interleaved between the buttons (button, button, video, button, video); on
-          desktop the 3 buttons sit in one row above a 2-column video grid, so — like the
-          Retreats testimonial pairs — the buttons/videos are duplicated per breakpoint
-          rather than reflowed with `order`, since it's a real regrouping, not just a
-          reorder. */}
-      <div className="flex flex-col items-center gap-6 lg:hidden">
-        <Link
-          href="/solicitud"
-          className="flex w-full items-center justify-center border border-black bg-[#f5f5f5] px-9 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
-        >
-          Villa Inquiry
-        </Link>
-        <Link
-          href="/solicitud"
-          className="flex w-full items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
-        >
-          Retreat Host Questionnaire
-        </Link>
-        <div className="relative aspect-[343/193] w-full overflow-hidden">
-          <Image
-            src="/media/figma/cta-video-yoga-wellness.png"
-            alt="Coco B Yoga &amp; Wellness Punta Sur Isla Mujeres video preview"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <span className="absolute inset-0 flex items-center justify-center">
-            <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
-              <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
-                <path d="M0 0L16 9L0 18V0Z" />
-              </svg>
-            </span>
-          </span>
-        </div>
-        <Link
-          href="/solicitud"
-          className="flex w-full items-center justify-center border border-black bg-[#f5f5f5] px-6 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-black transition-colors hover:bg-white"
-        >
-          Book Hotel
-        </Link>
-        <div className="relative aspect-[343/193] w-full overflow-hidden">
-          <Image
-            src="/media/figma/cta-video-hotel-casa-coco.png"
-            alt="Coco B Wellness &amp; Casa Coco video preview"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-          <span className="absolute inset-0 flex items-center justify-center">
-            <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
-              <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
-                <path d="M0 0L16 9L0 18V0Z" />
-              </svg>
-            </span>
-          </span>
-        </div>
-      </div>
-
-      <div className="hidden flex-col items-center gap-8 lg:flex">
-        <div className="flex w-full items-center justify-center gap-6">
-          <Link
-            href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
-          >
-            Villa Inquiry
-          </Link>
-          <Link
-            href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
-          >
-            Retreat Host Questionnaire
-          </Link>
-          <Link
-            href="/solicitud"
-            className="flex items-center justify-center border border-black bg-[#f5f5f5] px-6 py-[18px] text-center text-[11.9px] font-medium uppercase leading-none tracking-[2.86px] text-black transition-colors hover:bg-white"
-          >
-            Book Hotel
-          </Link>
-        </div>
-        <div className="grid w-full grid-cols-2 gap-6">
-          <div className="relative aspect-[670/378] w-full overflow-hidden">
-            <Image
-              src="/media/figma/cta-video-yoga-wellness.png"
-              alt="Coco B Yoga &amp; Wellness Punta Sur Isla Mujeres video preview"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-            <span className="absolute inset-0 flex items-center justify-center">
-              <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
-                <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
-                  <path d="M0 0L16 9L0 18V0Z" />
-                </svg>
-              </span>
-            </span>
-          </div>
-          <div className="relative aspect-[670/378] w-full overflow-hidden">
-            <Image
-              src="/media/figma/cta-video-hotel-casa-coco.png"
-              alt="Coco B Wellness &amp; Casa Coco video preview"
-              fill
-              sizes="50vw"
-              className="object-cover"
-            />
-            <span className="absolute inset-0 flex items-center justify-center">
-              <span className="flex size-14 items-center justify-center rounded-full bg-black/90">
-                <svg width="16" height="18" viewBox="0 0 16 18" fill="white" aria-hidden="true">
-                  <path d="M0 0L16 9L0 18V0Z" />
-                </svg>
-              </span>
-            </span>
-          </div>
-        </div>
-      </div>
-      </div>
-
-      {/* Newsletter — Figma 6038:2333 (mobile) / 6020:8385 (desktop). Real content: grey
-          (#d9d9d9) background, dark heading, a static "Learn more" button — not an email
-          form. There's no signup backend on this site, so it points at /solicitud like
-          the other CTAs rather than faking a working subscribe form. */}
-      <section className="w-full bg-[#d9d9d9] px-6 py-10 lg:px-12 lg:py-12">
-        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-6 text-center lg:flex-row lg:items-start lg:justify-between lg:gap-10 lg:text-left">
-          <div className="contents lg:flex lg:max-w-xl lg:flex-1 lg:flex-col lg:gap-6">
-            <h2 className="order-1 text-[22.2px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[28.9px] lg:leading-[29.84px] lg:tracking-[3.391px]">
-              Sign Up Today for Coco B Isla&rsquo;s Exclusive Newsletter!
+        {/* The collection */}
+        <div className="space-y-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">The collection</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
+              Coco · Lola · Encantada · Cielo
             </h2>
-            <p className="order-3 max-w-md text-[16.2px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-muted lg:order-2 lg:max-w-none lg:text-[17.8px] lg:leading-[18.65px] lg:tracking-[2.06px]">
-              Join our community of luxury seekers and wellness enthusiasts today. Sign up now and
-              start your journey to experience the best of Coco B Isla!
+            <p className="mt-3 text-sm leading-7 text-muted">
+              Each villa blends indoor and outdoor living, perfect for families, friends, corporate retreats or
+              wellness getaways.
             </p>
           </div>
-          <Link
-            href="/solicitud"
-            className="order-2 flex items-center justify-center border border-muted bg-white px-8 py-4 text-center text-[13.2px] font-medium uppercase leading-tight tracking-[3.179px] text-muted transition-colors hover:bg-[#f5f5f5] lg:order-3 lg:px-6 lg:py-[18px] lg:text-[11.9px] lg:leading-none lg:tracking-[2.86px]"
-          >
-            Learn more
-          </Link>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {villas.map((villa) => (
+              <Link
+                key={villa.slug}
+                href={`/villas/${villa.slug}`}
+                className="group overflow-hidden rounded-2xl border border-border bg-surface"
+              >
+                <div className="relative aspect-[4/3] w-full">
+                  <Image
+                    src={villa.photo}
+                    alt={`${villa.name} exterior`}
+                    fill
+                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    className="object-cover transition-transform group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4">
+                  <p className="text-[11px] uppercase tracking-[1.5px] text-accent">{villa.tag}</p>
+                  <h3 className="mt-1 text-base font-light uppercase tracking-[1px] text-foreground">{villa.name}</h3>
+                  {villa.note ? <p className="mt-1 text-xs leading-5 text-muted">{villa.note}</p> : null}
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <Link href="/villas">
+              <Button variant="primary">Explore the villas</Button>
+            </Link>
+            <p className="text-xs text-muted">Rates, real availability and combined stays for larger groups.</p>
+          </div>
         </div>
-        <hr className="mx-auto mt-8 max-w-[1180px] border-t border-black lg:mt-10" />
-      </section>
 
-      {/* Footer — Figma 6038:2332/2348 (mobile) / 6020:8401 (desktop). Real content: logo,
-          a Privacy Policy link, and 3 direct-contact blocks (Villa Groups / Hotel /
-          Concierge & Front Desk) — the design has no nav columns, social links, or
-          copyright line. */}
-      <footer className="w-full bg-[#d9d9d9] px-6 py-12 lg:px-12 lg:py-14">
-        <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-10 text-center lg:grid lg:grid-cols-4 lg:items-start lg:gap-8 lg:text-left">
-          <div className="flex flex-col items-center gap-4 lg:items-start">
-            <div className="relative h-[129px] w-[154px]">
-              <Image src="/media/figma/footer-logo.png" alt="Coco B Isla" fill sizes="154px" className="object-contain" />
+        {/* Sac Bajo, from the water */}
+        <div className="space-y-8">
+          <div className="text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">The island</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:aspect-[16/9]">
+              <Image src="/media/coco/beach-kayak.jpg" alt="Beach access with kayak, Sac Bajo peninsula" fill sizes="(min-width: 640px) 66vw, 100vw" className="object-cover" />
             </div>
-            {/* No /privacy route exists yet — anchor matches the design's link styling. */}
-            <a href="#" className="text-[13.4px] font-light tracking-[0.16px] text-[#444444] underline lg:text-[14.3px]">
-              Privacy Policy
-            </a>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-[16.9px] font-bold uppercase tracking-[1.966px] text-[#707070]/70 lg:text-[19.9px] lg:tracking-[2.25px]">
-              Villa Groups
-            </h4>
-            <p className="text-[14.3px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252] lg:text-[15.1px]">
-              (3 - 27 Suites)
-            </p>
-            <p className="text-[13.6px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252] lg:text-[14.5px]">
-              Private Villa /Group Reservation:
-              <br />+ 1 206-579-0798 USA Cell
-              <br />
-              Jeffrey@cocobisla.com
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-[17.5px] font-bold uppercase tracking-[1.966px] text-[#707070]/70 lg:text-[20px] lg:tracking-[2.25px]">
-              Hotel
-            </h4>
-            <p className="text-[13px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
-              <span className="font-bold">reservations@cocobisla.com</span>
-              <br />
-              +52 998 315 4343
-            </p>
-            <p className="text-[14.1px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
-              Toll-free: 833 - 439 -2626 x
-            </p>
-            <p className="text-[13.8px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
-              (9a.m. -5 p.m. Central)
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-[17.3px] font-bold uppercase tracking-[1.966px] text-[#707070]/70 lg:text-[19.9px] lg:tracking-[2.25px]">
-              Concierge &amp; Front Desk
-            </h4>
-            <p className="text-[13.6px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
-              (7 a.m. - 11 p.m. Central)
-            </p>
-            <p className="text-[14.1px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
-              Call &amp; WhatsApp: +52 - 998 - 315 - 4343
-              <br />
-              Call: +52 998 209 6937
-            </p>
-            <p className="text-[14.6px] font-light leading-[27.2px] tracking-[0.16px] text-[#525252]">
-              US Toll-Free (with VM &amp; AFTER HOURS):
-              <br />1 833 - 439 -2626
-            </p>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+              <Image src="/media/coco/paddleboards.jpg" alt="Paddleboards among the palms" fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
+            </div>
           </div>
         </div>
+
+        {/* Full-service planning + testimonials */}
+        <div className="grid grid-cols-1 gap-10 rounded-2xl border border-border bg-surface p-6 lg:grid-cols-2 lg:p-10">
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Destination retreats</p>
+              <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {retreatTags.map((tag) => (
+                <span key={tag} className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[1px] text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+              <Image src="/media/coco/dining.jpg" alt="Outdoor dining set up for a Coco B retreat" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+            </div>
+            <Link href="/retiros">
+              <Button variant="secondary">Inquire about a retreat</Button>
+            </Link>
+          </div>
+          <div className="space-y-6">
+            {testimonials.map((t) => (
+              <figure key={t.author} className="space-y-2 border-b border-border pb-6 last:border-0 last:pb-0">
+                <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption className="text-xs uppercase tracking-[1px] text-foreground">{t.author}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+
+        {/* Reviews */}
+        <div className="space-y-6">
+          <div className="text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">What people say</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {reviews.map((r) => (
+              <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
+                <p className="text-2xl font-semibold text-primary">{r.score}</p>
+                <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mx-auto max-w-2xl text-center text-xs italic leading-6 text-muted">
+            &ldquo;Best Luxury Villa Collection&rdquo; Q. Roo 2023 · &ldquo;Best Island Retreat Center in the Caribbean&rdquo; 2022,
+            LUXlife Magazine · &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
+          </p>
+        </div>
+
+        {/* Pop-up hotel */}
+        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-border bg-surface p-8 text-center lg:grid-cols-[2fr_1fr] lg:text-left">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">Oceanfront boutique · pop-up hotel</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Coco &amp; Lola, by the room</h2>
+            <p className="mt-3 text-sm leading-7 text-muted">
+              When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
+            </p>
+          </div>
+          <div className="flex justify-center lg:justify-end">
+            <Link href="/solicitud">
+              <Button variant="primary">Ask about last-minute stays</Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Location */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-4 text-center lg:text-left">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-muted">A privileged location</p>
+            <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Isla Mujeres</h2>
+            <p className="text-sm leading-7 text-muted">
+              Just a 25 minute boat ride off the coast of Cancún, you&rsquo;ll find Isla Mujeres — a small and
+              alluring island with some of the most beautiful beaches and coastlines in all the Caribbean.
+            </p>
+            <p className="text-sm leading-7 text-muted">
+              Our location on the Sac Bajo peninsula lets you enjoy a sargasso-free experience all year long. All
+              four villas are within walking distance of one another.
+            </p>
+            <Link href="/villas">
+              <Button variant="secondary">Explore the villas</Button>
+            </Link>
+          </div>
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+            <Image src="/media/coco/isla-aerial.jpg" alt="Aerial view of the Isla Mujeres peninsula" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="rounded-2xl border border-border bg-[color:var(--cb-color-foreground,#0e2530)] px-8 py-12 text-white">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          <div className="space-y-2">
+            <p className="text-base font-medium uppercase tracking-[1.5px]">Sac Bajo, Isla Mujeres</p>
+            <p className="text-white/70">Isla Mujeres, Quintana Roo, Mexico.</p>
+            <p className="text-white/70">Luxury villas on the Sac Bajo peninsula.</p>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Villa groups</p>
+            <p className="text-white/80">3 – 27 suites</p>
+            <p className="text-white/80">+1 206 579 0798</p>
+            <p className="text-white/80">jeffrey@cocobisla.com</p>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Reservations</p>
+            <p className="text-white/80">US toll-free 833 439 2626</p>
+            <p className="text-white/80">9 a.m. – 5 p.m. Central</p>
+            <p className="text-white/80">reservations@cocobisla.com</p>
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Concierge</p>
+            <p className="text-white/80">7 a.m. – 11 p.m. Central</p>
+            <p className="text-white/80">WhatsApp +52 998 315 4343</p>
+          </div>
+        </div>
+        <p className="mx-auto mt-8 max-w-[1180px] border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
+          All rates are per night in US dollars and subject to 21% Mexican tax. Minimum stay requirements apply to
+          each season: 5 nights at Thanksgiving and Spring Break, 7 nights at Christmas and New Year. Rates shown
+          are the published 2026–2028 peak-season starting rates.
+        </p>
       </footer>
     </div>
   );
