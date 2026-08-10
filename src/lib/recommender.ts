@@ -35,7 +35,7 @@ function stripHtml(value: string) {
 
 function capacityFit(villa: Villa, groupSize?: number) {
   if (!groupSize || groupSize <= 0) return 0.5;
-  const suites = villa.acf?.suites;
+  const suites = villa.meta?.suite_capacity;
   if (!suites || suites <= 0) return 0.5;
   const capacity = suites * GUESTS_PER_SUITE;
   return capacity >= groupSize ? 1 : Math.max(0, capacity / groupSize);
@@ -49,7 +49,7 @@ export function recommend(
   const villaMatches: VillaMatch[] = villas
     .map((villa) => {
       const score = capacityFit(villa, input.groupSize);
-      const suites = villa.acf?.suites;
+      const suites = villa.meta?.suite_capacity;
       const reason =
         input.groupSize && suites
           ? `Sleeps up to ~${suites * GUESTS_PER_SUITE} guests across ${suites} suites`
@@ -63,14 +63,14 @@ export function recommend(
 
   const wantedTypes = input.purpose ? PURPOSE_RETREAT_TYPES[input.purpose] : [];
   const retreatPool = wantedTypes.length
-    ? retreats.filter((r) => wantedTypes.includes((r.acf?.retreat_type ?? "").toLowerCase()))
+    ? retreats.filter((r) => wantedTypes.includes((r.meta?.retreat_type ?? "").toLowerCase()))
     : retreats;
 
   const retreatMatches: RetreatMatch[] = retreatPool.slice(0, 2).map((retreat) => ({
     slug: retreat.slug,
     name: stripHtml(retreat.title.rendered),
-    reason: retreat.acf?.retreat_type
-      ? `${retreat.acf.retreat_type} retreat`
+    reason: retreat.meta?.retreat_type
+      ? `${retreat.meta.retreat_type} retreat`
       : "Curated retreat",
   }));
 

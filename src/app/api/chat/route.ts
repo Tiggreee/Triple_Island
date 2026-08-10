@@ -34,7 +34,7 @@ async function withVillaGrounding(messages: ChatMessage[]): Promise<ChatMessage[
     ? villas
         .map((v) => {
           const name = v.title.rendered.replace(/<[^>]*>/g, "").trim();
-          const suites = v.acf?.suites ? `, ${v.acf.suites} suites` : "";
+          const suites = v.meta?.suite_capacity ? `, ${v.meta.suite_capacity} suites` : "";
           return `${name}${suites}`;
         })
         .join("; ")

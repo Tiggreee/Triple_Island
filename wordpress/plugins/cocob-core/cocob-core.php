@@ -28,6 +28,8 @@ add_action('init', function () {
         'min_stay_nights' => ['type' => 'integer'],
         'bedrooms' => ['type' => 'integer'],
         'bathrooms' => ['type' => 'integer'],
+        'guest_capacity' => ['type' => 'integer'],
+        'price_from' => ['type' => 'integer'],
         'location' => ['type' => 'string'],
         'short_description' => ['type' => 'string'],
         'long_description' => ['type' => 'string'],
