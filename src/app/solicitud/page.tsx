@@ -48,7 +48,7 @@ export default function SolicitudPage() {
     if (!response.ok || !data.ok) {
       setSubmitState({
         status: "error",
-        message: data.error ?? "No se pudo enviar la solicitud.",
+        message: data.error ?? "Something went wrong sending your request.",
       });
       return;
     }
@@ -56,7 +56,7 @@ export default function SolicitudPage() {
     form.reset();
     setSubmitState({
       status: "success",
-      message: data.message ?? "Solicitud enviada correctamente.",
+      message: data.message ?? "Request sent — we'll reply within 24 hours.",
     });
   }
 
@@ -74,7 +74,7 @@ export default function SolicitudPage() {
       <form onSubmit={onSubmit} className="grid gap-4 rounded-2xl border border-border bg-surface p-6 sm:grid-cols-2">
         <input type="hidden" name="startedAt" value={startedAt} />
         <div className="absolute left-[-9999px] h-0 overflow-hidden opacity-0" aria-hidden="true">
-          <label htmlFor="website">Sitio web</label>
+          <label htmlFor="website">Website</label>
           <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>
 
@@ -116,7 +116,7 @@ export default function SolicitudPage() {
         )}
 
         {submitState.status === "success" && (
-          <p className="text-sm text-emerald-700 sm:col-span-2">{submitState.message}</p>
+          <p className="text-sm text-primary sm:col-span-2">{submitState.message}</p>
         )}
 
         {submitState.status === "error" && (
