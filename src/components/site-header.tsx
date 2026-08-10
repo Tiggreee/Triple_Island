@@ -14,31 +14,33 @@ const navItems = [
 ];
 
 // Matches the reference site's actual behavior: transparent, white logo/text
-// over the home hero photo until you scroll past it, then solid. Every other
-// page just gets the solid state permanently — they don't have a full-bleed
-// dark hero at the top for a transparent nav to sit on.
+// over a full-bleed dark hero photo until you scroll past it, then solid.
+// Home and Villas both open on this kind of hero; every other page just gets
+// the solid state permanently.
+const HERO_PAGES = ["/", "/villas"];
+
 export function SiteHeader() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const hasHero = HERO_PAGES.includes(pathname);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    if (!isHome) return;
+    if (!hasHero) return;
     function onScroll() {
       setScrolled(window.scrollY > 80);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [isHome]);
+  }, [hasHero]);
 
-  const transparent = isHome && !scrolled;
+  const transparent = hasHero && !scrolled;
 
   return (
     <header
       className={`sticky top-0 z-40 transition-colors duration-300 ${
         transparent ? "border-b border-transparent bg-transparent" : "border-b border-border bg-surface"
-      } ${isHome ? "-mb-[78px] lg:-mb-[118px]" : ""}`}
+      } ${hasHero ? "-mb-[78px] lg:-mb-[118px]" : ""}`}
     >
       <div className="mx-auto flex h-[78px] max-w-[1180px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[118px] lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-2">
