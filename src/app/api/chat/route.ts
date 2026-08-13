@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { aiServerEnvKeys, getMissingServerEnv } from "@/lib/server-env";
+import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
 type ChatRole = "user" | "assistant" | "system";
@@ -27,24 +28,34 @@ function normalizeMessages(payload: ChatRequestPayload): ChatMessage[] {
     }));
 }
 
-// Grounds the model on real villa data from WordPress when available, so it never invents names.
+// Grounds the model on real villa data — from WordPress once #5/INFRA-07 connects it, and the
+// real static rate-card data (src/lib/villas-data.ts) as the fallback in the meantime, not just
+// bare names. The model was previously grounded on names alone and hallucinated everything else
+// (bedroom counts, amenities) despite the "never invent" instruction only covering names/prices/
+// availability — this closes that gap without waiting on the WordPress connection.
 async function withVillaGrounding(messages: ChatMessage[]): Promise<ChatMessage[]> {
-  const villas = await getVillas();
-  const facts = villas.length
-    ? villas
+  const wpVillas = await getVillas();
+  const facts = wpVillas.length
+    ? wpVillas
         .map((v) => {
           const name = v.title.rendered.replace(/<[^>]*>/g, "").trim();
-          const suites = v.acf?.suites ? `, ${v.acf.suites} suites` : "";
+          const suites = v.meta?.suite_capacity ? `, ${v.meta.suite_capacity} suites` : "";
           return `${name}${suites}`;
         })
         .join("; ")
-    : "Coco; Lola; Encantada; Cielo";
+    : REAL_VILLAS.map(
+        (v) =>
+          `${v.name} (slug: ${v.slug}): ${v.bedrooms} bedrooms, ${v.bathrooms} bathrooms, sleeps up to ` +
+          `${v.guests} guests across ${v.suites} suites, from $${v.priceFrom}/night` +
+          (v.extra ? `. ${v.extra}` : "."),
+      ).join(" ");
 
   const base =
     "You are the Coco B Isla concierge for luxury villas, wellness retreats and a pop-up " +
     "boutique hotel in Isla Mujeres, Mexico. Be warm and concise. Never invent villa names, " +
-    "prices or availability. To book or check availability, send guests to /solicitud. " +
-    `Authoritative villa collection: ${facts}.`;
+    "specs, prices or availability — only use the facts given below. To book or check " +
+    "availability, send guests to /solicitud. " +
+    `Authoritative villa collection: ${facts}`;
 
   return [{ role: "system", content: base }, ...messages];
 }

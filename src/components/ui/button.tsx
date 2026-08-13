@@ -9,10 +9,14 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
 };
 
+// Matches the real reference build (cocobislanewsite.netlify.app) and the Figma
+// villa card (node 6781:265584): pill-shaped, Raleway SemiBold, uppercase with
+// wide tracking. primary = filled "Check availability" style, secondary =
+// outline "Details" style, ghost = text-only for low-emphasis actions.
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-white hover:opacity-90",
-  secondary: "bg-surface text-foreground border border-border hover:bg-background",
-  ghost: "bg-transparent text-foreground hover:bg-background",
+  primary: "border border-primary bg-primary text-white hover:opacity-90",
+  secondary: "border border-primary bg-transparent text-primary hover:bg-primary/5",
+  ghost: "border-transparent bg-transparent text-foreground hover:bg-surface",
 };
 
 export function Button({
@@ -36,7 +40,7 @@ export function Button({
             : DESIGN_COMPONENT_NAMES.button.ghost,
         isLoading ? DESIGN_COMPONENT_NAMES.button.loading : "",
         disabled || isLoading ? DESIGN_COMPONENT_NAMES.button.disabled : "",
-        "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition",
+        "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[13px] font-semibold uppercase tracking-[1.6px] transition-colors",
         "focus:outline-none focus:ring-2 focus:ring-primary/30",
         variantClasses[variant],
         disabled || isLoading ? "cursor-not-allowed opacity-60" : "",

@@ -48,7 +48,7 @@ export default function SolicitudPage() {
     if (!response.ok || !data.ok) {
       setSubmitState({
         status: "error",
-        message: data.error ?? "No se pudo enviar la solicitud.",
+        message: data.error ?? "Something went wrong sending your request.",
       });
       return;
     }
@@ -56,56 +56,59 @@ export default function SolicitudPage() {
     form.reset();
     setSubmitState({
       status: "success",
-      message: data.message ?? "Solicitud enviada correctamente.",
+      message: data.message ?? "Request sent — we'll reply within 24 hours.",
     });
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <section className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Solicitud de Reserva</h1>
-          <p className="mt-2 text-muted">Formulario base del flujo prioritario rentar villa.</p>
+    <div className="mx-auto w-full max-w-[1180px] px-4 py-16 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-3xl space-y-8">
+        <div className="text-center">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Get in touch</p>
+          <h1 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Request a Reservation</h1>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-muted">
+            Tell us your dates and group size — a real person replies within 24 hours.
+          </p>
         </div>
 
-      <form onSubmit={onSubmit} className="grid gap-4 rounded-lg border border-border bg-surface p-5 sm:grid-cols-2">
+      <form onSubmit={onSubmit} className="grid gap-4 rounded-2xl border border-border bg-surface p-6 sm:grid-cols-2">
         <input type="hidden" name="startedAt" value={startedAt} />
         <div className="absolute left-[-9999px] h-0 overflow-hidden opacity-0" aria-hidden="true">
-          <label htmlFor="website">Sitio web</label>
+          <label htmlFor="website">Website</label>
           <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>
 
         <label className="grid gap-1 text-sm text-foreground">
-          Nombre
-          <Input type="text" name="name" placeholder="Nombre completo" required />
+          Name
+          <Input type="text" name="name" placeholder="Full name" required />
         </label>
 
         <label className="grid gap-1 text-sm text-foreground">
           Email
-          <Input type="email" name="email" placeholder="correo@dominio.com" required />
+          <Input type="email" name="email" placeholder="you@example.com" required />
         </label>
 
         <label className="grid gap-1 text-sm text-foreground sm:col-span-2">
-          Tipo de solicitud
+          What are you inquiring about?
           <Select name="leadType" defaultValue="solicitud" required>
-            <option value="solicitud">Solicitud de Villa y Boda</option>
+            <option value="solicitud">Villa &amp; Wedding Request</option>
             <option value="retiro">Retreat Host Questionnaire</option>
             <option value="waitlist">Pop-up Hotel Waitlist</option>
           </Select>
         </label>
 
         <label className="grid gap-1 text-sm text-foreground sm:col-span-2">
-          Mensaje
+          Message
           <Textarea
             name="message"
             className="min-h-28"
-            placeholder="Cuéntanos fechas, tamaño del grupo y tipo de evento"
+            placeholder="Dates, group size and what you have in mind"
             required
           />
         </label>
 
         <Button type="submit" disabled={submitState.status === "loading"} className="sm:col-span-2">
-          {submitState.status === "loading" ? "Enviando..." : "Enviar solicitud"}
+          {submitState.status === "loading" ? "Sending..." : "Send Request"}
         </Button>
 
         {turnstileSiteKey && (
@@ -113,7 +116,7 @@ export default function SolicitudPage() {
         )}
 
         {submitState.status === "success" && (
-          <p className="text-sm text-emerald-700 sm:col-span-2">{submitState.message}</p>
+          <p className="text-sm text-primary sm:col-span-2">{submitState.message}</p>
         )}
 
         {submitState.status === "error" && (
