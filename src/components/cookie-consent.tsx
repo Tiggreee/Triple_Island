@@ -13,10 +13,6 @@ export function CookieConsent() {
   const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
-    // One-time read of a browser-only API (localStorage) after hydration, deliberately
-    // deferred to avoid an SSR/client mismatch — visible must default to false on both
-    // server and first client render. eslint-disable: this rule wants setState to only
-    // fire from a subscription callback, but there's nothing to subscribe to here.
     let hasSavedConsent = false;
     try {
       hasSavedConsent = Boolean(localStorage.getItem(STORAGE_KEY));
@@ -30,11 +26,7 @@ export function CookieConsent() {
   function save(consent: Consent) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
-    } catch {
-      // storage unavailable — consent just won't persist across reloads
-    }
-    // GA4/pixel firing gates on this, per the handoff's ckApply() note — not wired yet,
-    // no analytics provider configured. Hook goes here once one is.
+    } catch {}
     setVisible(false);
   }
 
