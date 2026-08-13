@@ -47,6 +47,5 @@ next-env.d.ts
 # scratch captures from manual Figma exploration — not source of truth
 .tmp-*.png
 
-# local Claude Code state and reference material dropped in for review —
-# never source of truth, never meant to be committed
 .claude/
+reference/
