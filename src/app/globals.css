@@ -1,22 +1,15 @@
 @import "tailwindcss";
 
-/* Real Coco B Isla palette — read directly from the live reference build's
-   own :root custom properties (cocobislanewsite.netlify.app/villas), not
-   frequency-guessed from compiled CSS. That guess was close but wrong on
-   foreground/muted/border/accent — this is the authoritative source.
-   Previously this file was never updated when design-contract.ts changed,
-   so the site was quietly rendering on placeholder colors. Keep the two
-   files in sync. */
 :root {
-  --cb-color-background: #fbf8f3; /* --sand */
-  --cb-color-foreground: #1c1c1c; /* --ink */
-  --cb-color-primary: #246a94; /* --action */
-  --cb-color-primary-dark: #1b5273; /* --action-dark, button hover */
-  --cb-color-brand: #107480; /* --teal */
+  --cb-color-background: #fbf8f3;
+  --cb-color-foreground: #1c1c1c;
+  --cb-color-primary: #246a94;
+  --cb-color-primary-dark: #1b5273;
+  --cb-color-brand: #107480;
   --cb-color-surface: #ffffff;
-  --cb-color-muted: #4a4a4a; /* --body */
-  --cb-color-accent: #8a5a12; /* --high */
-  --cb-color-border: #e3dbce; /* --line */
+  --cb-color-muted: #4a4a4a;
+  --cb-color-accent: #8a5a12;
+  --cb-color-border: #e3dbce;
   --cb-color-danger: #a32b1c;
   --background: var(--cb-color-background);
   --foreground: var(--cb-color-foreground);
@@ -42,10 +35,6 @@ body {
   font-family: var(--font-raleway), sans-serif;
 }
 
-/* Chat concierge widget — animation keyframes from the handoff package's
-   13-01/13-03 chat components (figma-parts.zip). Kept in globals.css since
-   Tailwind's arbitrary `animate-[...]` utility still needs a real @keyframes
-   rule to point at; everything else about the widget is plain Tailwind. */
 @keyframes cw-ring-pulse {
   0% {
     transform: scale(0.85);

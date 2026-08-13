@@ -2,11 +2,6 @@
 
 import { CSSProperties, FormEvent, useEffect, useRef, useState } from "react";
 
-// Rebuilt against the handoff package's real chat components (figma-parts.zip
-// 13-01 through 13-09: FAB, teaser, panel, header, bubbles, quick replies,
-// composer) instead of the generic widget that was here before — same
-// approach as the rest of the site's Figma-fidelity pass.
-
 type ChatRole = "user" | "assistant";
 type ChatMessage = { role: ChatRole; content: string; time: string };
 
@@ -21,8 +16,6 @@ function timeNow() {
   return new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 }
 
-// Concierge hours are 7:00 a.m.–11:00 p.m. Central, per the handoff's 13-04
-// header spec — computed off the clock, not hardcoded, so it tracks DST.
 function isWithinConciergeHours(date: Date): boolean {
   const hour = Number(
     new Intl.DateTimeFormat("en-US", {
@@ -34,9 +27,6 @@ function isWithinConciergeHours(date: Date): boolean {
   return hour >= 7 && hour < 23;
 }
 
-// The brand tile mark ("azulejo") from the handoff's shared #az symbol —
-// reused here as the avatar glyph, the header watermark and the send icon,
-// same as the real components do.
 function AzulejoMark({ className, style }: { className?: string; style?: CSSProperties }) {
   return (
     <svg viewBox="0 0 255 254" fill="currentColor" aria-hidden="true" className={className} style={style}>
@@ -63,15 +53,11 @@ export function ChatWidget() {
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  // Read from the timeout callback below, which fires long after mount and
-  // needs the *current* open/dismissed state, not the empty-deps closure's.
   const suppressTeaserRef = useRef(false);
   useEffect(() => {
     suppressTeaserRef.current = open || teaserDismissed;
   }, [open, teaserDismissed]);
 
-  // Teaser bubble, 2.6s after mount — only above the 620px breakpoint where
-  // the real component allows it (on mobile it would cover half the screen).
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia("(min-width: 621px)").matches) return;
     const timer = window.setTimeout(() => {
@@ -118,9 +104,6 @@ export function ChatWidget() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          // The server already grounds the model on real villa data
-          // (src/app/api/chat/route.ts, withVillaGrounding) — no need to
-          // duplicate a static system prompt here that could drift from it.
           messages: nextMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
       });

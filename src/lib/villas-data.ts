@@ -1,7 +1,3 @@
-// Real villa data, pulled directly from the live reference build's own
-// `const V=[...]` array (cocobislanewsite.netlify.app/villas) — not
-// estimated. Shared by the listing page, detail page, and booking modal
-// so there's one source instead of three copies drifting apart.
 export type VillaData = {
   slug: string;
   name: string;

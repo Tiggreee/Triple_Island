@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 
-// Real copy + behavior from the live reference build: dismissible, no
-// persistence across reloads — a plain client-side toggle, same as theirs.
 export function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false);
 
