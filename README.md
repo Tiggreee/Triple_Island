@@ -1,52 +1,53 @@
-# Triple Island
+Triple Island
 
 Unified platform for Coco B Isla luxury villas, boutique hotels, and wellness retreats in Isla Mujeres, Mexico.
 
-## Features
+Features
 
-**Content Management**
+Content Management
 - Headless WordPress CMS integration
 - Custom Post Types: Villas, Retreats, Packages, Testimonials
 - Dynamic routing for villas and retreats
 - Full TypeScript type safety for CMS data
 
-**Lead Capture & CRM**
+Lead Capture & CRM
 - HubSpot Forms API integration
 - Multi-form support (villa inquiry, retreat booking, waitlist)
 - Anti-spam protection via Cloudflare Turnstile (optional)
 - Server-side form validation
 
-**AI-Powered Features**
-- Chatbot widget with AI provider support (Groq primary, Gemini fallback)
+AI-Powered Features
+- Chatbot widget, single AI provider selected via AI_PROVIDER (Groq or Gemini — no automatic failover between them)
 - Server-side villa grounding (prevents hallucination)
 - Deterministic villa/retreat recommender system
 - `/api/chat` and `/api/recommend` endpoints
 
-**Design System**
+Design System
 - Figma-to-code fidelity (390w mobile, 1440w desktop)
 - Central design contract with semantic tokens
 - Full-bleed layout support for marketing sections
 - Responsive breakpoints matching real Figma specs
 
-## Stack
+Stack
 
-- **Framework**: Next.js 16 (App Router, Turbopack)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
-- **CMS**: WordPress REST API (headless)
-- **CRM**: HubSpot Forms API v3
-- **AI**: Groq (llama-3.1-8b-instant), Gemini (gemini-1.5-flash)
-- **Anti-spam**: Cloudflare Turnstile
-- **Deployment**: Vercel (planned)
+- Framework: Next.js 16 (App Router, Turbopack)
+- Language: TypeScript
+- Styling: Tailwind CSS v4
+- CMS: WordPress REST API (headless)
+- CRM: HubSpot Forms API v3
+- AI: Groq (llama-3.1-8b-instant) or Gemini (gemini-1.5-flash), one at a time
+- Anti-spam: Cloudflare Turnstile
+- Deployment: Vercel (planned)
 
-## Getting Started
+Getting Started
 
-### Install Dependencies
+Install dependencies
 ```bash
 npm install
 ```
 
-### Environment Variables
+Environment variables
+
 Copy `.env.example` to `.env.local` and configure:
 
 ```bash
@@ -59,11 +60,10 @@ HUBSPOT_FORM_ID_SOLICITUD=your-form-id
 HUBSPOT_FORM_ID_RETIRO=your-form-id
 HUBSPOT_FORM_ID_WAITLIST=your-form-id
 
-# AI Provider (Groq primary, Gemini fallback)
-AI_PROVIDER=groq                           # or "gemini"
-GROQ_API_KEY=your-groq-key
-GEMINI_API_KEY=your-gemini-key
-AI_MODEL=llama-3.1-8b-instant              # or "gemini-1.5-flash"
+# AI provider — one key for whichever provider AI_PROVIDER points at
+AI_PROVIDER=groq                    # or "gemini"
+AI_API_KEY=your-api-key
+AI_MODEL=llama-3.1-8b-instant       # or "gemini-1.5-flash"
 
 # Anti-spam (optional, gated by presence of secret)
 TURNSTILE_SECRET_KEY=your-turnstile-secret
@@ -73,25 +73,25 @@ NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-site-key
 LEAD_MIN_SUBMIT_SECONDS=3
 ```
 
-### Development Server
+Development server
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
 
-### Production Build
+Production build
 ```bash
 npm run build
 npm start
 ```
 
-### Linting
+Linting
 ```bash
 npm run lint
 ```
 
-## WordPress Local Setup
+WordPress local setup
 
 Run WordPress locally with Docker:
 
@@ -103,14 +103,13 @@ WordPress will be available at `http://localhost:8080`
 
 Full setup guide: [INFRA-02-WORDPRESS-LOCAL.md](INFRA-02-WORDPRESS-LOCAL.md)
 
-**Custom Plugin**: [wordpress/plugins/cocob-core](wordpress/plugins/cocob-core)  
-Registers CPTs: Villa, Retiro, Paquete, Testimonio
+Custom plugin: [wordpress/plugins/cocob-core](wordpress/plugins/cocob-core) — registers CPTs: Villa, Retiro, Paquete, Testimonio
 
-## Architecture
+Architecture
 
-### Routes
+Routes
 
-**Pages**
+Pages
 - `/` — Home (hero, villas, retreats, hotels, gallery, newsletter, footer)
 - `/villas` — Villa catalog
 - `/villas/[slug]` — Villa detail
@@ -118,127 +117,122 @@ Registers CPTs: Villa, Retiro, Paquete, Testimonio
 - `/solicitud` — Lead capture form (villa inquiry)
 - `/styleguide` — Design token reference
 
-**API Endpoints**
+API endpoints
 - `/api/lead` — HubSpot form submission (POST)
 - `/api/chat` — AI chatbot (POST, grounded on real villas)
 - `/api/recommend` — Deterministic villa/retreat matcher (GET)
 
-### Data Flow
+Data flow
 
 ```
 WordPress CMS → REST API → src/lib/wp-fetchers.ts → Next.js pages
 User form → /api/lead → HubSpot Forms API
-User chat → /api/chat → Groq/Gemini → Response (grounded)
+User chat → /api/chat → Groq or Gemini (per AI_PROVIDER) → Response (grounded)
 User quiz → /api/recommend → src/lib/recommender.ts → Top matches
 ```
 
-### Key Directories
+Key directories
 
 ```
 src/
-├── app/                    # Next.js App Router pages & API routes
+├── app/                    Next.js App Router pages & API routes
 │   ├── api/
-│   │   ├── chat/          # AI chatbot endpoint
-│   │   ├── lead/          # HubSpot form submission
-│   │   └── recommend/     # Villa/retreat recommender
+│   │   ├── chat/          AI chatbot endpoint
+│   │   ├── lead/          HubSpot form submission
+│   │   └── recommend/     Villa/retreat recommender
 │   ├── villas/
 │   ├── retiros/
 │   └── solicitud/
 ├── components/
-│   ├── ui/                # Reusable UI primitives (button, card, input, etc.)
-│   └── chat/              # ChatWidget component
+│   ├── ui/                Reusable UI primitives (button, card, input, etc.)
+│   └── chat/              ChatWidget component
 ├── lib/
-│   ├── wp-client.ts       # WordPress fetch wrapper
-│   ├── wp-fetchers.ts     # Typed CMS data fetchers
-│   ├── server-env.ts      # Server environment validation
-│   ├── recommender.ts     # Deterministic matching logic
-│   └── design-contract.ts # Figma token system
+│   ├── wp-client.ts       WordPress fetch wrapper
+│   ├── wp-fetchers.ts     Typed CMS data fetchers
+│   ├── server-env.ts      Server environment validation
+│   ├── recommender.ts     Deterministic matching logic
+│   └── design-contract.ts Figma token system
 └── types/
-    └── cms.ts             # TypeScript types for WordPress CPTs
+    └── cms.ts             TypeScript types for WordPress CPTs
 
 wordpress/
 └── plugins/
-    └── cocob-core/        # Custom plugin (CPT registration)
+    └── cocob-core/        Custom plugin (CPT registration)
 ```
 
-## Design Contract
+Design contract
 
 Maintains 1:1 fidelity between Figma and code.
 
-- **Source**: [src/lib/design-contract.ts](src/lib/design-contract.ts)
-- **Global CSS**: [src/app/globals.css](src/app/globals.css)
-- **Reference**: [/styleguide](http://localhost:3000/styleguide)
+- Source: [src/lib/design-contract.ts](src/lib/design-contract.ts)
+- Global CSS: [src/app/globals.css](src/app/globals.css)
+- Reference: [/styleguide](http://localhost:3000/styleguide)
 
-**Rules**:
+Rules:
 - All tokens prefixed with `cb-` (Coco B)
 - Semantic classes: `bg-primary`, `text-muted`, `border-border`
 - No arbitrary values without contract registration
-- Figma node IDs tracked in code comments for traceability
 
-## AI Configuration
+AI configuration
 
-### Groq (Primary)
-- **Model**: `llama-3.1-8b-instant`
-- **Rate Limits (free tier)**: 30 RPM, 14,400 RPD, 20k TPM
-- **Endpoint**: `https://api.groq.com/openai/v1/chat/completions`
-- **Grounding**: Server-side villa list injection (no hallucination)
+Groq (default)
+- Model: `llama-3.1-8b-instant`
+- Rate limits (free tier): 30 RPM, 14,400 RPD, 20k TPM
+- Endpoint: `https://api.groq.com/openai/v1/chat/completions`
+- Grounding: server-side villa list injection (no hallucination)
 
-### Gemini (Fallback)
-- **Model**: `gemini-1.5-flash`
-- **Endpoint**: Google AI Studio API
-- **Trigger**: Groq failure or `AI_PROVIDER=gemini` override
+Gemini (alternate)
+- Model: `gemini-1.5-flash`
+- Endpoint: Google AI Studio API
+- Selected by setting `AI_PROVIDER=gemini` — not an automatic fallback if Groq fails
 
-### Chat Behavior
+Chat behavior
 - Max 20 messages in history (memory limit)
 - Max 4000 chars per message (truncation)
-- System grounding injected server-side (villas from WP or fallback list)
+- System grounding injected server-side (villas from WP or the static rate-card fallback)
 - Welcome message client-side
 
-## Anti-spam
+Anti-spam
 
 Cloudflare Turnstile integration (opt-in via env vars):
 
-1. **Server-side**: `TURNSTILE_SECRET_KEY` in `.env.local`
-2. **Client-side**: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in `.env.local`
-3. **Behavior**: If keys missing, Turnstile disabled (graceful degradation)
+1. Server-side: `TURNSTILE_SECRET_KEY` in `.env.local`
+2. Client-side: `NEXT_PUBLIC_TURNSTILE_SITE_KEY` in `.env.local`
+3. Behavior: if keys missing, Turnstile disabled (graceful degradation)
 
 Verified on `/api/lead` before HubSpot submission.
 
-## Recommender Logic
+Recommender logic
 
 Deterministic matching (no AI cost, no hallucination):
 
-**Inputs**: `group_size`, `purpose` (wellness, celebration, retreat, romantic, family)  
-**Outputs**: Top 3 villas + top 2 retreats with match reasons
+Inputs: `group_size`, `purpose` (wellness, celebration, retreat, romantic, family)
+Outputs: top 3 villas + top 2 retreats with match reasons
 
-**Scoring**:
+Scoring:
 - Villa capacity fit via `suites * GUESTS_PER_SUITE` (2 guests/suite assumed)
 - Purpose-to-retreat-type mapping
 - Stable sort by score
 
-**Endpoint**: `GET /api/recommend?group_size=8&purpose=wellness`
+Endpoint: `GET /api/recommend?group_size=8&purpose=wellness`
 
-## Development Workflow
+Development workflow
 
-### Branch Strategy
-- `main` — Production (protected)
-- `develop` — Integration branch (protected, planned)
-- `wip/*` — Feature branches
-- PR required for merges
+Branches
+- `main` — production, direct pushes blocked once branch protection is applied (tracked in issue #1, not yet configured)
+- `develop` — integration branch, PRs merge here
+- `feature/<task>`, `fix/<task>` — one branch per task, per [GIT-WORKFLOW.md](GIT-WORKFLOW.md)
 
-### Active PR
-[#16 Home: rebuild mobile + desktop from real Figma specs](https://github.com/Tiggreee/Triple_Island/pull/16)
+Open work: [GitHub Issues](https://github.com/Tiggreee/Triple_Island/issues)
 
-### GitHub Issues
-Track progress: [Project Board](https://github.com/Tiggreee/Triple_Island/issues)
-
-## Documentation
+Documentation
 
 - [Git Workflow](GIT-WORKFLOW.md)
 - [WordPress Local Setup](INFRA-02-WORDPRESS-LOCAL.md)
-- [.env.example](.env.example) — Environment variable template
+- [.env.example](.env.example) — environment variable template
+- [AUDIT.md](AUDIT.md) — current project status, open issues, blockers
 
-## Commands Reference
+Commands reference
 
 ```bash
 # Development
@@ -260,6 +254,6 @@ curl -X POST http://localhost:3000/api/chat \
 curl "http://localhost:3000/api/recommend?group_size=8&purpose=wellness"
 ```
 
-## License
+License
 
 Private project. All rights reserved.
