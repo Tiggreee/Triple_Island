@@ -12,10 +12,6 @@ type DemoDay = {
   price?: number;
 };
 
-// August 2026 occupancy — this is the real reference prototype's data, sourced from an
-// actual PMS snapshot at build time (per the handoff docs: "Los datos de agosto 2026 son
-// ocupación real del PMS, no un mock"). It's frozen, not live — see the Sirvoy integration
-// note in memory for why this can't sync automatically yet.
 const AUGUST_2026: DemoDay[] = [
   { day: 1, status: "open" },
   { day: 2, status: "busy" },
@@ -50,7 +46,6 @@ const AUGUST_2026: DemoDay[] = [
   { day: 31, status: "open" },
 ];
 
-// Monday-first weekday index for August 1, 2026 (a Saturday) — 5 blank leading cells.
 const LEADING_BLANKS = 5;
 
 type BookingModalProps = {
@@ -93,7 +88,6 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
       setRange({ start: day, end: null });
       return;
     }
-    // no busy day may fall inside the range
     const hasBusyBetween = AUGUST_2026.some((d) => d.day > range.start! && d.day < day && d.status === "busy");
     if (hasBusyBetween) {
       setRange({ start: day, end: null });

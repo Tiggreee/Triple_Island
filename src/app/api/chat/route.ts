@@ -28,11 +28,6 @@ function normalizeMessages(payload: ChatRequestPayload): ChatMessage[] {
     }));
 }
 
-// Grounds the model on real villa data — from WordPress once #5/INFRA-07 connects it, and the
-// real static rate-card data (src/lib/villas-data.ts) as the fallback in the meantime, not just
-// bare names. The model was previously grounded on names alone and hallucinated everything else
-// (bedroom counts, amenities) despite the "never invent" instruction only covering names/prices/
-// availability — this closes that gap without waiting on the WordPress connection.
 async function withVillaGrounding(messages: ChatMessage[]): Promise<ChatMessage[]> {
   const wpVillas = await getVillas();
   const facts = wpVillas.length

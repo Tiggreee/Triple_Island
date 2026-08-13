@@ -24,9 +24,6 @@ export default async function VillasPage() {
 
   return (
     <div className="w-full">
-      {/* Hero — was missing entirely before (Change found via pixel-diff against the live
-          reference, 2026-08-10): this page used to jump straight into the card grid with no
-          hero at all. Same transparent-nav-over-hero treatment as Home; see SiteHeader. */}
       <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
         <Image
           src="/media/coco/villas-hero-night.jpg"
@@ -114,9 +111,6 @@ export default async function VillasPage() {
         quote. <Link href="/solicitud" className="text-primary underline underline-offset-2">Ask about combined stays</Link>.
       </p>
 
-      {/* Concierge services — real copy from the reference build. Doubles as the Change-2 proof
-          point from Caro's feedback (2026-08-10): concierge is included in the rental, never
-          billed as an extra. Don't reword this — it's already client-approved language. */}
       <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Included</p>

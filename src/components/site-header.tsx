@@ -13,10 +13,6 @@ const navItems = [
   { href: "/solicitud", label: "Solicitud" },
 ];
 
-// Matches the reference site's actual behavior: transparent, white logo/text
-// over a full-bleed dark hero photo until you scroll past it, then solid.
-// Home and Villas both open on this kind of hero; every other page just gets
-// the solid state permanently.
 const HERO_PAGES = ["/", "/villas"];
 
 export function SiteHeader() {

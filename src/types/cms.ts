@@ -6,10 +6,6 @@ export type WordPressFeaturedMedia = {
   source_url?: string;
 };
 
-// Field names below match wordpress/plugins/cocob-core/cocob-core.php's
-// register_post_meta calls exactly — these are native post_meta, exposed
-// under `meta`, not ACF. Keep the two in sync; a mismatch here is silent
-// (fields just come back undefined, nothing throws).
 export type Villa = {
   id: number;
   slug: string;
