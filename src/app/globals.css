@@ -41,3 +41,38 @@ body {
   color: var(--foreground);
   font-family: var(--font-raleway), sans-serif;
 }
+
+/* Chat concierge widget — animation keyframes from the handoff package's
+   13-01/13-03 chat components (figma-parts.zip). Kept in globals.css since
+   Tailwind's arbitrary `animate-[...]` utility still needs a real @keyframes
+   rule to point at; everything else about the widget is plain Tailwind. */
+@keyframes cw-ring-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes cw-msg-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes cw-typing-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-5px) rotate(45deg);
+    opacity: 1;
+  }
+}
