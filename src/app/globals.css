@@ -1,13 +1,23 @@
 @import "tailwindcss";
 
+/* Real Coco B Isla palette — read directly from the live reference build's
+   own :root custom properties (cocobislanewsite.netlify.app/villas), not
+   frequency-guessed from compiled CSS. That guess was close but wrong on
+   foreground/muted/border/accent — this is the authoritative source.
+   Previously this file was never updated when design-contract.ts changed,
+   so the site was quietly rendering on placeholder colors. Keep the two
+   files in sync. */
 :root {
-  --cb-color-background: #f6f5f2;
-  --cb-color-foreground: #1f2a30;
-  --cb-color-primary: #0d9488;
+  --cb-color-background: #fbf8f3; /* --sand */
+  --cb-color-foreground: #1c1c1c; /* --ink */
+  --cb-color-primary: #246a94; /* --action */
+  --cb-color-primary-dark: #1b5273; /* --action-dark, button hover */
+  --cb-color-brand: #107480; /* --teal */
   --cb-color-surface: #ffffff;
-  --cb-color-muted: #6b7280;
-  --cb-color-accent: #e2725b;
-  --cb-color-border: #d7dbdd;
+  --cb-color-muted: #4a4a4a; /* --body */
+  --cb-color-accent: #8a5a12; /* --high */
+  --cb-color-border: #e3dbce; /* --line */
+  --cb-color-danger: #a32b1c;
   --background: var(--cb-color-background);
   --foreground: var(--cb-color-foreground);
 }
@@ -16,15 +26,53 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--cb-color-primary);
+  --color-primary-dark: var(--cb-color-primary-dark);
+  --color-brand: var(--cb-color-brand);
   --color-surface: var(--cb-color-surface);
   --color-muted: var(--cb-color-muted);
   --color-accent: var(--cb-color-accent);
   --color-border: var(--cb-color-border);
-  --font-sans: var(--font-inter);
+  --color-danger: var(--cb-color-danger);
+  --font-sans: var(--font-raleway);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-raleway), sans-serif;
+}
+
+/* Chat concierge widget — animation keyframes from the handoff package's
+   13-01/13-03 chat components (figma-parts.zip). Kept in globals.css since
+   Tailwind's arbitrary `animate-[...]` utility still needs a real @keyframes
+   rule to point at; everything else about the widget is plain Tailwind. */
+@keyframes cw-ring-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes cw-msg-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes cw-typing-dot {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-5px) rotate(45deg);
+    opacity: 1;
+  }
 }

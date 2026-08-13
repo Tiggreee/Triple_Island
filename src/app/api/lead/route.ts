@@ -157,7 +157,7 @@ export async function POST(request: Request) {
   return NextResponse.json(
     {
       ok: true,
-      message: "Solicitud enviada correctamente.",
+      message: "Request sent — we'll reply within 24 hours.",
     },
     { status: 200 },
   );
