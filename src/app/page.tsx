@@ -2,11 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-// Content and copy below is pulled directly from the live reference build
-// (cocobislanewsite.netlify.app) — curled HTML, not paraphrased. Photos are
-// the same file bytes the live site serves (extracted from its inlined
-// base64 assets / downloaded from its /img/villas/ gallery), not stand-ins.
-
 const gatherings = [
   {
     title: "Friends & family",
@@ -61,11 +56,6 @@ const reviews = [
 export default function Home() {
   return (
     <div className="w-full">
-      {/* Hero — sits flush at the very top so SiteHeader's transparent state (on "/" only,
-          before scroll) overlaps it, matching the reference. No CTA button in here: the real
-          design's only hero-area action is the nav's "Explore the Villas" pill; the element at
-          the bottom is a scroll cue, not a link. Villa list uses white/accent-dot styling, not
-          text-accent — that color reads as illegible on a dark photo. */}
       <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
         <Image
           src="/media/coco/portfolio-pool.jpg"
@@ -104,7 +94,6 @@ export default function Home() {
       </div>
 
       <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
-        {/* A collection, not a hotel */}
         <div className="mx-auto max-w-2xl space-y-3 text-center">
           <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">
             Luxury villas · Boutique hotels · Destination retreats
@@ -117,7 +106,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Three kinds of gathering */}
         <div className="space-y-8">
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">We live for</p>
@@ -138,7 +126,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* The collection */}
         <div className="space-y-8">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The collection</p>
@@ -182,7 +169,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Sac Bajo, from the water */}
         <div className="space-y-8">
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The island</p>
@@ -198,7 +184,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Full-service planning + testimonials */}
         <div className="grid grid-cols-1 gap-10 rounded-2xl border border-border bg-surface p-6 lg:grid-cols-2 lg:p-10">
           <div className="space-y-6">
             <div>
@@ -229,7 +214,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Reviews */}
         <div className="space-y-6">
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">What people say</p>
@@ -249,7 +233,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Pop-up hotel */}
         <div className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-border bg-surface p-8 text-center lg:grid-cols-[2fr_1fr] lg:text-left">
           <div>
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Oceanfront boutique · pop-up hotel</p>
@@ -265,7 +248,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Location */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
           <div className="space-y-4 text-center lg:text-left">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">A privileged location</p>
@@ -288,7 +270,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="rounded-2xl border border-border bg-[color:var(--cb-color-foreground,#0e2530)] px-8 py-12 text-white">
         <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 text-sm sm:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-2">

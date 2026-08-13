@@ -16,47 +16,44 @@ jobs:
 
       - name: Check for exposed secrets
         run: |
-          echo "🔍 Scanning for potential secrets in tracked files..."
-          
-          # Check for common secret patterns in tracked files
+          echo "Scanning for potential secrets in tracked files..."
+
           if git grep -E "(api[_-]?key|secret[_-]?key|password|token)\s*=\s*['\"][^'\"]{10,}" -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.json'; then
-            echo "❌ Potential hardcoded secret found!"
+            echo "Potential hardcoded secret found"
             exit 1
           fi
-          
-          echo "✅ No exposed secrets detected"
+
+          echo "No exposed secrets detected"
 
       - name: Check .env files not committed
         run: |
-          echo "🔍 Ensuring .env.local is not tracked..."
-          
+          echo "Ensuring .env.local is not tracked..."
+
           if git ls-files | grep -q "\.env\.local"; then
-            echo "❌ .env.local is tracked in git! This file should be in .gitignore"
+            echo ".env.local is tracked in git, should be in .gitignore"
             exit 1
           fi
-          
-          echo "✅ No .env.local in repository"
+
+          echo "No .env.local in repository"
 
       - name: Validate .gitignore
         run: |
-          echo "🔍 Validating .gitignore includes sensitive files..."
+          echo "Validating .gitignore includes sensitive files..."
 
-          # Check actual git behavior, not just literal text in .gitignore —
-          # a glob like ".env*" ignores .env.local without ever spelling it out.
           if ! git check-ignore -q .env.local; then
-            echo "❌ .env.local is not actually ignored by git!"
+            echo ".env.local is not actually ignored by git"
             exit 1
           fi
 
           if ! git check-ignore -q node_modules/placeholder; then
-            echo "❌ node_modules is not actually ignored by git!"
+            echo "node_modules is not actually ignored by git"
             exit 1
           fi
 
-          echo "✅ .gitignore properly configured"
+          echo ".gitignore properly configured"
 
       - name: Security summary
         run: |
-          echo "✅ No hardcoded secrets detected"
-          echo "✅ .env.local not committed"
-          echo "✅ .gitignore validated"
+          echo "No hardcoded secrets detected"
+          echo ".env.local not committed"
+          echo ".gitignore validated"

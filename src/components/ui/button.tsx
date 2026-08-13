@@ -9,10 +9,6 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
 };
 
-// Matches the real reference build (cocobislanewsite.netlify.app) and the Figma
-// villa card (node 6781:265584): pill-shaped, Raleway SemiBold, uppercase with
-// wide tracking. primary = filled "Check availability" style, secondary =
-// outline "Details" style, ghost = text-only for low-emphasis actions.
 const variantClasses: Record<ButtonVariant, string> = {
   primary: "border border-primary bg-primary text-white hover:opacity-90",
   secondary: "border border-primary bg-transparent text-primary hover:bg-primary/5",
