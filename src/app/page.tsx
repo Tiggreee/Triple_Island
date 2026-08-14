@@ -265,7 +265,14 @@ export default function Home() {
             </Link>
           </div>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-            <Image src="/media/coco/isla-aerial.jpg" alt="Aerial view of the Isla Mujeres peninsula" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+            <iframe
+              src="https://www.google.com/maps?q=Isla%20Mujeres%2C%20Quintana%20Roo%2C%20Mexico&z=12&output=embed"
+              title="Map showing Isla Mujeres, Quintana Roo, Mexico"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-full w-full border-0"
+              allowFullScreen
+            />
           </div>
         </div>
       </div>
