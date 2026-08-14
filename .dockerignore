@@ -3,3 +3,10 @@
 .next
 node_modules
 npm-debug.log
+.env.local
+.env*.local
+.deploy_mysql_pw.tmp
+.wp_salts.tmp
+*.tmp
+.next_dev.log
+infra
