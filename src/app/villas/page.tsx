@@ -64,7 +64,7 @@ export default async function VillasPage() {
       <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-16 sm:px-6 lg:px-8">
       <hr className="border-t border-primary" />
 
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         {items.map((villa) => (
           <article key={villa.slug} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
             <div className="relative aspect-[4/3] w-full">
@@ -72,7 +72,7 @@ export default async function VillasPage() {
                 src={villa.photo}
                 alt={`${villa.name} exterior`}
                 fill
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                sizes="(min-width: 640px) 50vw, 100vw"
                 className="object-cover"
               />
             </div>
