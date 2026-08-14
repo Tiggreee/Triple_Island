@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SectionRule } from "@/components/ui/section-rule";
 
 const gatherings = [
   {
@@ -21,10 +22,10 @@ const gatherings = [
 ];
 
 const villas = [
-  { slug: "lola", name: "Casa Lola", tag: "The newest gem", note: "Rooftop terrace, 360° views of the Caribbean", photo: "/media/coco/villas/lola-01.webp" },
-  { slug: "encantada", name: "Villa Encantada", tag: "The inaugural villa", note: "", photo: "/media/coco/villas/encantada-01.webp" },
-  { slug: "coco", name: "Casa Coco", tag: "Bohemian elegance", note: "", photo: "/media/coco/villas/coco-01.webp" },
-  { slug: "cielo", name: "Casa Cielo", tag: "The sunset bungalow", note: "Private oceanfront saltwater infinity pool", photo: "/media/coco/villas/cielo-01.webp" },
+  { slug: "lola", name: "Casa Lola", tag: "The newest gem", note: "Rooftop terrace, 360° views of the Caribbean", photo: "/media/coco/teaser-casa-lola.png" },
+  { slug: "encantada", name: "Villa Encantada", tag: "The inaugural villa", note: "", photo: "/media/coco/teaser-villa-encantada.png" },
+  { slug: "coco", name: "Casa Coco", tag: "Bohemian elegance", note: "", photo: "/media/coco/teaser-casa-coco.png" },
+  { slug: "cielo", name: "Casa Cielo", tag: "The sunset bungalow", note: "Private oceanfront saltwater infinity pool", photo: "/media/coco/teaser-casa-cielo.png" },
 ];
 
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
@@ -48,9 +49,16 @@ const testimonials = [
 ];
 
 const reviews = [
-  { score: "4.8", count: "142 reviews" },
-  { score: "9.5", count: "69 reviews" },
-  { score: "4.9", count: "159 reviews" },
+  { score: "4.8", count: "142 reviews", source: "Google Reviews", logo: "/media/coco/logo-google-reviews.png", logoWidth: 85 },
+  { score: "9.5", count: "69 reviews", source: "Booking.com", logo: "/media/coco/logo-booking-com.png", logoWidth: 96 },
+  { score: "4.9", count: "159 reviews", source: "Tripadvisor", logo: "/media/coco/logo-tripadvisor-icon.svg", logoWidth: 96 },
+];
+
+const press = [
+  { alt: "Tripadvisor five stars", src: "/media/coco/press-tripadvisor-stars.png", width: 80 },
+  { alt: "Condé Nast Traveler", src: "/media/coco/press-conde-nast-traveler.png", width: 141 },
+  { alt: "Travelmyth Honeymoon Hotels Collection", src: "/media/coco/press-travelmyth-honeymoon.png", width: 58 },
+  { alt: "Boutique Hotel Awards winner", src: "/media/coco/press-boutique-hotel-awards.png", width: 51 },
 ];
 
 export default function Home() {
@@ -87,8 +95,8 @@ export default function Home() {
           className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
         >
           Explore
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/40 text-xs">
-            &darr;
+          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/40">
+            <Image src="/media/coco/az-icon.svg" alt="" width={14} height={14} className="brightness-0 invert" />
           </span>
         </a>
       </div>
@@ -99,6 +107,7 @@ export default function Home() {
             Luxury villas · Boutique hotels · Destination retreats
           </p>
           <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">A collection, not a hotel</h2>
+          <SectionRule />
           <p className="text-sm leading-7 text-muted">
             Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct
             access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for
@@ -110,6 +119,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">We live for</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Three kinds of gathering</h2>
+            <SectionRule />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {gatherings.map((item) => (
@@ -132,31 +142,35 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
               Coco · Lola · Encantada · Cielo
             </h2>
+            <SectionRule />
             <p className="mt-3 text-sm leading-7 text-muted">
               Each villa blends indoor and outdoor living, perfect for families, friends, corporate retreats or
               wellness getaways.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {villas.map((villa) => (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:auto-rows-[300px]">
+            {villas.map((villa, i) => (
               <Link
                 key={villa.slug}
                 href={`/villas/${villa.slug}`}
-                className="group overflow-hidden rounded-2xl border border-border bg-surface"
+                className={[
+                  "group relative overflow-hidden rounded-2xl border border-border bg-surface",
+                  "aspect-[4/3] sm:aspect-auto",
+                  i === 0 ? "sm:row-span-2" : i === 3 ? "sm:col-span-2" : "",
+                ].join(" ")}
               >
-                <div className="relative aspect-[4/3] w-full">
-                  <Image
-                    src={villa.photo}
-                    alt={`${villa.name} exterior`}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4">
-                  <p className="text-[11px] uppercase tracking-[1.5px] text-accent">{villa.tag}</p>
-                  <h3 className="mt-1 text-base font-light uppercase tracking-[1px] text-foreground">{villa.name}</h3>
-                  {villa.note ? <p className="mt-1 text-xs leading-5 text-muted">{villa.note}</p> : null}
+                <Image
+                  src={villa.photo}
+                  alt={`${villa.name} exterior`}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-foreground/5 from-40% to-foreground/70" />
+                <div className="absolute inset-x-6 bottom-6 space-y-2">
+                  <p className="text-[10.5px] uppercase tracking-[2.4px] text-white/85">{villa.tag}</p>
+                  <h3 className="text-2xl font-light uppercase tracking-[2.4px] text-white">{villa.name}</h3>
+                  {villa.note ? <p className="text-[13.5px] leading-5 text-white/85">{villa.note}</p> : null}
                 </div>
               </Link>
             ))}
@@ -173,44 +187,64 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The island</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
+            <SectionRule />
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:aspect-[16/9]">
-              <Image src="/media/coco/beach-kayak.jpg" alt="Beach access with kayak, Sac Bajo peninsula" fill sizes="(min-width: 640px) 66vw, 100vw" className="object-cover" />
+          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-[2fr_1fr_1fr] sm:auto-rows-[210px]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface sm:aspect-auto sm:row-span-2">
+              <Image src="/media/coco/island-villa-from-water.png" alt="Villa seen from the water at Sac Bajo, steps down to the beach with a kayak" fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
             </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-              <Image src="/media/coco/paddleboards.jpg" alt="Paddleboards among the palms" fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface sm:aspect-auto">
+              <Image src="/media/coco/island-aerial-isla-mujeres.png" alt="Aerial view of Isla Mujeres" fill sizes="(min-width: 640px) 25vw, 100vw" className="object-cover" />
+            </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface sm:aspect-auto">
+              <Image src="/media/coco/island-paddleboards-under-palms.png" alt="Paddleboards resting among the palms at Sac Bajo" fill sizes="(min-width: 640px) 25vw, 100vw" className="object-cover" />
+            </div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-surface sm:col-span-2 sm:aspect-auto">
+              <Image src="/media/coco/island-snorkelling-golden-hour.png" alt="Snorkelling off the Sac Bajo coastline at golden hour" fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-10 rounded-2xl border border-border bg-surface p-6 lg:grid-cols-2 lg:p-10">
-          <div className="space-y-6">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
-              <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
-            </div>
-            <div className="flex flex-wrap gap-2">
+        <div className="space-y-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
+              Full-service planning
+              <br />
+              for your retreat
+            </h2>
+            <SectionRule />
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
               {retreatTags.map((tag) => (
-                <span key={tag} className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[1px] text-muted">
+                <span key={tag} className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold uppercase tracking-[1.5px] text-accent">
                   {tag}
                 </span>
               ))}
             </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-              <Image src="/media/coco/dining.jpg" alt="Outdoor dining set up for a Coco B retreat" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+              <Image src="/media/coco/retreat-pool-sunset.png" alt="Guest by the infinity pool at sunset" fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
             </div>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
+              <Image src="/media/coco/retreat-ceremony-palapa.png" alt="Ceremony under the palapa" fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {testimonials.map((t) => (
+              <figure key={t.author} className="space-y-3 rounded-2xl border border-border bg-surface p-6">
+                <blockquote className="text-sm leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
+                <figcaption className="text-[10.5px] font-semibold uppercase tracking-[1.8px] text-brand">{t.author}</figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div className="flex justify-center">
             <Link href="/retiros">
               <Button variant="secondary">Inquire about a retreat</Button>
             </Link>
-          </div>
-          <div className="space-y-6">
-            {testimonials.map((t) => (
-              <figure key={t.author} className="space-y-2 border-b border-border pb-6 last:border-0 last:pb-0">
-                <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
-                <figcaption className="text-xs uppercase tracking-[1px] text-foreground">{t.author}</figcaption>
-              </figure>
-            ))}
           </div>
         </div>
 
@@ -218,16 +252,37 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">What people say</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
+            <SectionRule />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {reviews.map((r) => (
-              <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
-                <p className="text-2xl font-semibold text-primary">{r.score}</p>
-                <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
+              <div key={r.count} className="flex items-center gap-4 rounded-2xl border border-border bg-surface px-5 py-5">
+                <Image src={r.logo} alt={r.source} width={r.logoWidth} height={34} className="h-[34px] w-auto shrink-0 object-contain" />
+                <div>
+                  <span className="text-3xl font-light tracking-[0.5px] text-brand">{r.score}</span>
+                  <span className="ml-2 text-xs text-muted">{r.count}</span>
+                </div>
               </div>
             ))}
           </div>
-          <p className="mx-auto max-w-2xl text-center text-xs italic leading-6 text-muted">
+
+          <div className="space-y-5 border-t border-border pt-8">
+            <p className="text-center text-[10.5px] font-semibold uppercase tracking-[2.4px] text-muted">Press &amp; awards</p>
+            <div className="flex flex-wrap items-center justify-center gap-10">
+              {press.map((p) => (
+                <Image
+                  key={p.alt}
+                  src={p.src}
+                  alt={p.alt}
+                  width={p.width}
+                  height={52}
+                  className="h-[52px] w-auto object-contain opacity-40 grayscale transition hover:opacity-80 hover:grayscale-[35%]"
+                />
+              ))}
+            </div>
+          </div>
+
+          <p className="mx-auto max-w-2xl text-center text-xs leading-6 text-muted">
             &ldquo;Best Luxury Villa Collection&rdquo; Q. Roo 2023 · &ldquo;Best Island Retreat Center in the Caribbean&rdquo; 2022,
             LUXlife Magazine · &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
           </p>
@@ -277,32 +332,43 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="rounded-2xl border border-border bg-[color:var(--cb-color-foreground,#0e2530)] px-8 py-12 text-white">
-        <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 text-sm sm:grid-cols-2 lg:grid-cols-4">
+      <footer className="rounded-2xl border border-border bg-[color:var(--cb-color-foreground,#1c1c1c)] px-8 py-12 text-[#C9C3B9]">
+        <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 text-sm sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div className="space-y-2">
-            <p className="text-base font-medium uppercase tracking-[1.5px]">Sac Bajo, Isla Mujeres</p>
-            <p className="text-white/70">Isla Mujeres, Quintana Roo, Mexico.</p>
-            <p className="text-white/70">Luxury villas on the Sac Bajo peninsula.</p>
+            <p className="font-extralight uppercase tracking-[5px] text-white">Coco B Isla</p>
+            <p>Isla Mujeres, Quintana Roo, Mexico.</p>
+            <p>Luxury villas on the Sac Bajo peninsula.</p>
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Villa groups</p>
-            <p className="text-white/80">3 – 27 suites</p>
-            <p className="text-white/80">+1 206 579 0798</p>
-            <p className="text-white/80">jeffrey@cocobisla.com</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Villa groups</p>
+            <p>3 – 27 suites</p>
+            <a href="tel:+12065790798" className="block text-[#9FD4EC] no-underline hover:underline">
+              +1 206 579 0798
+            </a>
+            <a href="mailto:jeffrey@cocobisla.com" className="block text-[#9FD4EC] no-underline hover:underline">
+              jeffrey@cocobisla.com
+            </a>
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Reservations</p>
-            <p className="text-white/80">US toll-free 833 439 2626</p>
-            <p className="text-white/80">9 a.m. – 5 p.m. Central</p>
-            <p className="text-white/80">reservations@cocobisla.com</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Reservations</p>
+            <p>US toll-free 833 439 2626</p>
+            <p>9 a.m. – 5 p.m. Central</p>
+            <a href="mailto:reservations@cocobisla.com" className="block text-[#9FD4EC] no-underline hover:underline">
+              reservations@cocobisla.com
+            </a>
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Concierge</p>
-            <p className="text-white/80">7 a.m. – 11 p.m. Central</p>
-            <p className="text-white/80">WhatsApp +52 998 315 4343</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Concierge</p>
+            <p>7 a.m. – 11 p.m. Central</p>
+            <p>
+              WhatsApp{" "}
+              <a href="https://wa.me/529983154343" className="text-[#9FD4EC] no-underline hover:underline">
+                +52 998 315 4343
+              </a>
+            </p>
           </div>
         </div>
-        <p className="mx-auto mt-8 max-w-[1180px] border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
+        <p className="mx-auto mt-8 max-w-[1180px] border-t border-[#333] pt-6 text-xs leading-6 text-[#8E887E]">
           All rates are per night in US dollars and subject to 21% Mexican tax. Minimum stay requirements apply to
           each season: 5 nights at Thanksgiving and Spring Break, 7 nights at Christmas and New Year. Rates shown
           are the published 2026–2028 peak-season starting rates.
