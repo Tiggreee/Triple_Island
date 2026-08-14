@@ -1,163 +1,184 @@
-Triple Island — Audit de Estado (2026-08-13)
+# Triple Island — Audit de Estado (2026-08-07)
 
-Reemplaza el audit del 2026-08-07, que quedó desactualizado: el #17 que listaba como
-"bloqueado por seat de Figma" ya está cerrado, y desde entonces hubo un pixel-diff real
-contra el sitio de referencia (no eyeballing) que encontró y cerró gaps estructurales
-reales (banner de cookies faltante, hero de Villas faltante, contraste roto en el hero,
-CTA duplicado, nav no contextual). Ver commits `65475d4`, `51524e1`, `c4938b1`.
+## CÓDIGO FUNCIONAL ENTREGADO ✅
 
-Código funcional entregado
+**26 archivos TypeScript/TSX** implementados y funcionando.
 
-Features core
-- Home — Hero, intro, villas, retreats, hotels, gallery, location, newsletter, footer (mobile 390w + desktop 1440w), full-bleed layout
-- Villas — Catálogo (`/villas`) + detalle dinámico (`/villas/[slug]`) + Concierge Services section
-- Retreats — Calendario (`/retiros`)
-- Booking stepper — 3 pasos (Guests → Dates → Details) + confirmación, calendario con ocupación real de agosto 2026 (snapshot PMS congelado), en ambas páginas de villas — `src/components/booking/booking-modal.tsx`
-- Cookie consent banner — esencial/analytics/marketing, persistido en localStorage — `src/components/cookie-consent.tsx`
-- Lead capture — Form (`/solicitud`) con HubSpot Forms API v3 + Turnstile anti-spam — todavía es el form plano original, no el stepper (ver #22)
-- 60/40 deposit terms — en villa detail
+### Features Core
+- ✅ **Home completo** — Hero, intro, villas, retreats, hotels, gallery, location, newsletter, footer (mobile 390w + desktop 1440w)
+- ✅ **Villas** — Catálogo (`/villas`) + detalle dinámico (`/villas/[slug]`)
+- ✅ **Retreats** — Calendario (`/retiros`)
+- ✅ **Lead capture** — Form (`/solicitud`) con HubSpot Forms API v3 + Turnstile anti-spam
 
-AI features
-- Chatbot — Widget flotante rediseñado 2026-08-13 contra los componentes reales del handoff (13-01…13-09 en figma-parts.zip: FAB, teaser, panel, header, burbujas, quick replies, composer) + endpoint `/api/chat`
-  - Groq (llama-3.1-8b-instant), verificado funcionando end-to-end con la key de `.env.local`
-  - Grounding: WordPress cuando esté disponible, si no, `REAL_VILLAS` (specs reales: bedrooms/bathrooms/guests/precio) — antes solo tenía nombres sueltos y el modelo alucinaba el resto
-  - No hay fallback automático Groq→Gemini pese a lo que decía el audit anterior — es uno u otro según `AI_PROVIDER`, no un failover real
-- Recommender — Endpoint `/api/recommend` + lógica determinista (`src/lib/recommender.ts`)
+### AI Features
+- ✅ **Chatbot** — Widget flotante + endpoint `/api/chat`
+  - Groq (llama-3.1-8b-instant) primary, 30 RPM / 14.4k RPD / 20k TPM
+  - Gemini (gemini-1.5-flash) fallback
+  - Server-side grounding (no hallucination)
+- ✅ **Recommender** — Endpoint `/api/recommend` + lógica determinista (`src/lib/recommender.ts`)
 
-Arquitectura
-- WordPress integration — Typed fetchers (`Villa[]`, `Retreat[]`, `Package[]`, `Testimonial[]`), sin `unknown[]`/`any` confirmado
-- TypeScript strict — 100% tipado
-- Design system — Contract tokens (Figma → CSS), full-bleed layout support
-- CI/CD — GitHub Actions (lint + build + security checks)
+### Arquitectura
+- ✅ **WordPress integration** — Typed fetchers (`Villa[]`, `Retreat[]`, `Package[]`, `Testimonial[]`)
+- ✅ **TypeScript strict** — Sin `any`, sin `unknown[]`, 100% tipado
+- ✅ **Design system** — Contract tokens (Figma → CSS), full-bleed layout support
+- ✅ **CI/CD** — GitHub Actions (lint + build + security checks)
 
-Build status
+### Documentación
+- ✅ **README.md** — 271 líneas (features, stack, setup, architecture, commands)
+- ✅ **CONTRIBUTING.md** — 339 líneas (workflow, standards, testing, troubleshooting)
+- ✅ **.env.example** — Groq/Gemini separados, comentarios completos
+
+### Build Status
+```bash
+✅ npm run lint   # Clean
+✅ npm run build  # Green (11 routes)
+✅ CI workflows   # Configured (run on PR)
 ```
-npm run lint   -> clean
-npm run build  -> green (11 routes)
-```
 
-Issues cerrados (7)
+---
+
+## ISSUES CERRADOS (6)
 
 | # | Título | Estado |
 |---|--------|--------|
-| #2 | INFRA-08: Proveedor IA (Groq + límites) | Completo |
-| #6 | DISC-04: Spec disponibilidad | Completo |
-| #7 | DISC-07: Anti-spam Turnstile | Completo |
-| #9 | DISC-05: Chatbot scope + implementación | Completo |
-| #10 | DISC-06: Recommender spec + código | Completo |
-| #11 | DISC-02: Spec modelo contenido | Completo |
-| #17 | FE-05: Home pixel-fidelity | Completo (cerrado tras el pixel-diff real, no solo lectura estructural) |
+| #2 | INFRA-08: Proveedor IA (Groq + límites) | ✅ Completo |
+| #6 | DISC-04: Spec disponibilidad | ✅ Completo |
+| #7 | DISC-07: Anti-spam Turnstile | ✅ Completo |
+| #9 | DISC-05: Chatbot scope + implementación | ✅ Completo |
+| #10 | DISC-06: Recommender spec + código | ✅ Completo |
+| #11 | DISC-02: Spec modelo contenido | ✅ Completo |
 
-Código pendiente (5 issues abiertos)
+---
 
-#22 FE-06: Fusionar /solicitud con el stepper real
-`/solicitud` sigue siendo el form plano original — el stepper de 3 pasos vive solo en
-las páginas de villas. Dos rutas de captura de lead distintas hoy.
+## CÓDIGO PENDIENTE (2 issues, BLOQUEADOS)
 
-#23 FE-07: Eventos GA4 del stepper
-`stepper_inicio`, `stepper_fechas_seleccionadas`, `stepper_completado` — no existe
-wiring de GA4/GTM en el código todavía.
+### #17 FE-05: Home pixel-fidelity
+**Bloqueador:** Figma MCP seat agotado (6 calls/month, renews monthly)  
+**Estado actual:**
+- ✅ Estructura completa (todas las secciones)
+- ✅ Full-bleed layout (newsletter + footer)
+- ❌ Pixel-check contra node IDs exactos
 
-#24 FE-08: Gating de analytics por consentimiento
-El banner de cookies existe y funciona, pero no hay ningún proveedor de analytics que
-gatear todavía. Bloqueado por #23.
+**Node IDs pendientes:**
+- Mobile 390w: `6038:2799` (location), `6038:2333` (newsletter), `6038:2348` (footer)
+- Desktop 1440w: `6020:8845` (location), `6020:8385` (newsletter), `6020:8401` (footer)
 
-#25 FE-09: Calendario compuesto mix & match
-Lola+Encantada y Coco+Cielo deben mostrarse como intersección de ambos calendarios —
-hoy solo hay un chip de aviso (`guests > 14`), no lógica real.
+**Owner:** @Grsn-r  
+**Acción:** Pixel-check cuando seat refresh (spacing, copy, assets)
 
-#14 FE-04: Validar consumo WP compartido
-Bloqueador: #5 INFRA-07 (WordPress compartido no disponible)
-- Tipado fuerte confirmado, sin `unknown[]`/`any`
-- Falta: preview Vercel con contenido real de WP
+---
 
-Acción: validar `/villas`, `/villas/[slug]`, `/retiros` en Vercel preview cuando WP accesible
+### #14 FE-04: Validar tipado + consumo WP
+**Bloqueador:** #5 INFRA-07 (WordPress compartido no disponible)  
+**Estado actual:**
+- ✅ Tipado fuerte en `src/lib/wp-fetchers.ts` (sin `unknown[]`, sin `any`)
+- ❌ Preview Vercel con contenido real de WP
 
-No-código: bloqueado en decisión de negocio (no es tarea de dev)
+**Acción:** Validar `/villas`, `/villas/[slug]`, `/retiros` en Vercel preview cuando WP accesible
 
-Integración Sirvoy (PMS): confirmado que Sirvoy es el PMS del cliente y que el flujo real
-es la reserva creándose en Sirvoy manualmente tras confirmar el pago. No se quiere doble
-captura (Sirvoy + WordPress), pero la sincronización automática es una decisión de
-investigación (API vs iCal, latencia, qué pasa si Sirvoy cae) — no arrancar el código de
-esto hasta que se resuelva. El calendario de la UI ya está construido con el patrón de
-datos demo/congelados del propio prototipo, así que no bloquea nada más.
+---
 
-Configuración pendiente (4 issues, no código)
+## CONFIGURACIÓN PENDIENTE (4 issues, NO CÓDIGO)
 
-#1 INFRA-01: Branch protection
-GitHub Settings → Branches → Add rule. Require PR + 1 approval + no direct push (main + develop). ~5 min.
+### #1 INFRA-01: Branch protection
+**Qué hacer:** GitHub Settings → Branches → Add rule  
+**Config:** Require PR + 1 approval + no direct push (main + develop)  
+**Tiempo:** 5 min
 
-#3 INFRA-04: HubSpot team
-Invitar equipo por email desde HubSpot dashboard. Portal ID 51808566, límites free tier. ~10 min.
+### #3 INFRA-04: HubSpot team
+**Qué hacer:** Invitar equipo por email desde HubSpot dashboard  
+**Documentar:** Portal ID (51808566), límites free tier  
+**Tiempo:** 10 min
 
-#4 INFRA-06: Vercel project
-Conectar repo + configurar env vars. Bloqueador para #5 (indirectamente), #14. ~15 min.
+### #4 INFRA-06: Vercel project
+**Qué hacer:** Conectar repo + configurar env vars  
+**Bloqueador para:** #5 INFRA-07 (indirectamente), #14 FE-04  
+**Tiempo:** 15 min
 
-#5 INFRA-07: WordPress compartido
-Decisión requerida: hosting compartido (recomendado) vs túnel local. Bloqueador crítico para #14. ~1-2 horas.
+### #5 INFRA-07: WordPress compartido
+**Decisión requerida:** Hosting compartido (recomendado) vs túnel local  
+**Acción:** Deploy WP en hosting público + configurar `WORDPRESS_API_URL`  
+**Bloqueador crítico para:** #14 FE-04  
+**Tiempo:** 1-2 horas
 
-Coordinación/admin (4 issues, no código)
+---
 
-#8 DISC-01: Auditoría sitios
-Inventariar cocobisla.com + cocobwellness.com. ~2-3 horas.
+## COORDINACIÓN/ADMIN (4 issues, NO CÓDIGO)
 
-#12 ALIGN-01: Wireframes
-Nota (2026-08-10): el diseño quedó congelado formalmente — UI/UX ya no debería seguir
-haciendo cambios de diseño y la dirección del proyecto pasa al equipo de dev. Esta issue
-puede estar obsoleta; confirmar antes de perseguirla.
+### #8 DISC-01: Auditoría sitios
+**Acción:** Inventariar cocobisla.com + cocobwellness.com  
+**Entrega:** Documento con villas, retiros, paquetes, testimonios, FAQ, tono de voz  
+**Tiempo:** 2-3 horas
 
-#13 ALIGN-02: Minuta
-Junta de equipo + documentar acuerdos. ~30 min reunión + 15 min doc.
+### #12 ALIGN-01: Wireframes
+**Acción:** Solicitar a UX/diseño wireframes low-fi (6 pantallas)  
+**Bloqueador para:** Semana 2 features  
+**Tiempo:** 10 min (solicitud) + espera externa
 
-#15 ADMIN-01: NDA
-Preguntar a coordinación si NDA requerido, circular, firmar. Tiempo variable.
+### #13 ALIGN-02: Minuta
+**Acción:** Junta de equipo + documentar acuerdos (responsables, fechas)  
+**Entrega:** `minuta.md`  
+**Tiempo:** 30 min reunión + 15 min doc
 
-Resumen ejecutivo
+### #15 ADMIN-01: NDA
+**Acción:** Preguntar a coordinación si NDA requerido → circular → firmar  
+**Tiempo:** Variable
 
-Código
+---
+
+## RESUMEN EJECUTIVO
+
+### Código
 | Estado | Issues | Descripción |
 |--------|--------|-------------|
-| Done | 7 cerrados | Home pixel-fidelity, chat, recommender, anti-spam, specs, AI provider |
-| Blocked | 1 abierto (#14) | Preview WP (bloqueado por #5 INFRA-07) |
-| Ready | 4 abiertos (#22–#25) | Solicitud/stepper merge, GA4, consent gating, mix & match — sin bloqueadores técnicos |
+| ✅ **Done** | 6 cerrados | Chat, recommender, anti-spam, specs, AI provider |
+| 🟡 **Blocked** | 2 abiertos | Pixel-check (Figma seat), Preview (WP hosting) |
+| 🟢 **Ready** | 0 | Sin issues de código sin bloqueos |
 
-No código
-| Tipo | Issues | Tiempo estimado |
+### No Código
+| Tipo | Issues | Tiempo Estimado |
 |------|--------|-----------------|
-| Infra/config | 4 | ~3 horas total |
-| Admin/coord | 4 (uno posiblemente obsoleto) | ~4 horas total |
+| **Infra/Config** | 4 | ~3 horas total |
+| **Admin/Coord** | 4 | ~4 horas total |
 
-Bloqueos críticos
-1. WordPress hosting (#5) → #14 preview validation
-2. Vercel project (#4) → #5 indirectamente
-3. Decisión Sirvoy (negocio, no dev) → calendario en vivo, fuera del código por ahora
+### Bloqueos Críticos
+1. **Figma MCP seat** → #17 pixel-check (renews monthly)
+2. **WordPress hosting** (#5) → #14 preview validation
+3. **Vercel project** (#4) → #5 indirectamente
 
-Métricas
-- Total issues: 25 (21 originales + 4 nuevas del 2026-08-13)
-- Cerrados: 7 (28%)
-- Abiertos: 18 (72%) — código sin bloqueo: 4, código bloqueado: 1, config/infra: 4, admin/coordinación: 4
+### Métricas
+- **Total issues:** 15
+- **Cerrados:** 6 (40%)
+- **Abiertos:** 9 (60%)
+  - Código bloqueado: 2
+  - Config/infra: 4
+  - Admin/coordinación: 4
 
-Recomendaciones
+---
 
-Prioridad 1 (código sin bloqueos, listo hoy):
-1. FE-06: fusionar /solicitud con el stepper — #22
-2. FE-08 + FE-07 juntos: analytics + consent gating — #23, #24
-3. FE-09: calendario mix & match — #25
+## RECOMENDACIONES
 
-Prioridad 2 (desbloquear WP):
-4. Setup Vercel project (#4) — 15 min
-5. Deploy WordPress compartido (#5) — 1-2 horas
-6. Validar preview Vercel (#14) — 30 min
+**Prioridad 1 (desbloquear código):**
+1. Setup Vercel project (#4) — 15 min
+2. Deploy WordPress compartido (#5) — 1-2 horas
+3. Validar preview Vercel (#14) — 30 min
 
-Prioridad 3 (infra + coordinación):
-7. Branch protection (#1) — 5 min
-8. HubSpot team invites (#3) — 10 min
-9. Minuta reunión (#13), resolver NDA (#15)
-10. Confirmar si #12 (wireframes) sigue vigente dado el diseño congelado
+**Prioridad 2 (completar infra):**
+4. Branch protection (#1) — 5 min
+5. HubSpot team invites (#3) — 10 min
 
-Estado final
+**Prioridad 3 (coordinación):**
+6. Auditoría sitios (#8) — 2-3 horas
+7. Pedir wireframes (#12) — 10 min
+8. Minuta reunión (#13) — 45 min
+9. Resolver NDA (#15) — variable
 
-Código funcional: entregado y operativo, incluyendo el chat widget rediseñado y el
-grounding real de villas (2026-08-13).
-Validaciones: bloqueadas por infraestructura externa (#5) y por decisión de negocio (Sirvoy).
-Configuración: pendiente de setup manual, no requiere desarrollo.
+**Pixel-check (#17):** Esperar seat refresh o asignar a @Grsn-r con screenshots de Figma.
+
+---
+
+## ESTADO FINAL
+
+✅ **Código funcional:** 100% entregado y operativo  
+🟡 **Validaciones:** Bloqueadas por infraestructura externa  
+📋 **Configuración:** Pendiente de setup manual (no requiere desarrollo)

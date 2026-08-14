@@ -49,3 +49,8 @@ next-env.d.ts
 
 .claude/
 reference/
+
+# Local deploy secrets (never commit)
+.deploy_mysql_pw.tmp
+.wp_salts.tmp
+*.tmp
