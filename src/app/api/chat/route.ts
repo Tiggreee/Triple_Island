@@ -30,20 +30,20 @@ function normalizeMessages(payload: ChatRequestPayload): ChatMessage[] {
 
 async function withVillaGrounding(messages: ChatMessage[]): Promise<ChatMessage[]> {
   const wpVillas = await getVillas();
-  const facts = wpVillas.length
-    ? wpVillas
-        .map((v) => {
-          const name = v.title.rendered.replace(/<[^>]*>/g, "").trim();
-          const suites = v.meta?.suite_capacity ? `, ${v.meta.suite_capacity} suites` : "";
-          return `${name}${suites}`;
-        })
-        .join("; ")
-    : REAL_VILLAS.map(
-        (v) =>
-          `${v.name} (slug: ${v.slug}): ${v.bedrooms} bedrooms, ${v.bathrooms} bathrooms, sleeps up to ` +
-          `${v.guests} guests across ${v.suites} suites, from $${v.priceFrom}/night` +
-          (v.extra ? `. ${v.extra}` : "."),
-      ).join(" ");
+  const facts = REAL_VILLAS.map((real) => {
+    const wp = wpVillas.find((v) => v.slug === real.slug);
+    const name = wp ? wp.title.rendered.replace(/<[^>]*>/g, "").trim() : real.name;
+    const bedrooms = wp?.meta?.bedrooms ?? real.bedrooms;
+    const bathrooms = wp?.meta?.bathrooms ?? real.bathrooms;
+    const guests = wp?.meta?.guest_capacity ?? real.guests;
+    const suites = wp?.meta?.suite_capacity ?? real.suites;
+    const priceFrom = wp?.meta?.price_from ?? real.priceFrom;
+    return (
+      `${name} (slug: ${real.slug}): ${bedrooms} bedrooms, ${bathrooms} bathrooms, sleeps up to ` +
+      `${guests} guests across ${suites} suites, from $${priceFrom}/night` +
+      (real.extra ? `. ${real.extra}` : ".")
+    );
+  }).join(" ");
 
   const base =
     "You are the Coco B Isla concierge for luxury villas, wellness retreats and a pop-up " +
