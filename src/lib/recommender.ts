@@ -17,6 +17,7 @@ export type VillaMatch = { slug: string; name: string; reason: string; score: nu
 export type RetreatMatch = { slug: string; name: string; reason: string };
 export type RecommendResult = { villas: VillaMatch[]; retreats: RetreatMatch[]; cta: string };
 
+// Modeling assumption until acf.max_guests exists in WP (see DISC-02): a suite hosts ~2 guests.
 const GUESTS_PER_SUITE = 2;
 
 const PURPOSE_RETREAT_TYPES: Record<RecommendPurpose, string[]> = {
