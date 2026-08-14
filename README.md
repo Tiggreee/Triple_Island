@@ -2,6 +2,12 @@ Triple Island
 
 Unified platform for Coco B Isla luxury villas, boutique hotels, and wellness retreats in Isla Mujeres, Mexico.
 
+Estado de entrega (2026-08-14)
+
+Conexión WordPress → Vercel verificada en vivo: se publicó un post real en el WordPress local (expuesto por túnel ngrok, ver INFRA-02-WORDPRESS-LOCAL.md) y se confirmó que `/api/recommend` en producción (triple-island.vercel.app) lo refleja de inmediato — prueba de que la cadena completa WordPress → REST API → túnel → Vercel está conectada de punta a punta, no solo el hosting estático. `/villas` no muestra contenido nuevo por diseño: esa página solo sobreescribe datos de las 4 villas reales existentes por slug, no lista contenido WP arbitrario.
+
+Nota: evaluando desplegar también en Azure, pendiente de confirmar con el equipo.
+
 Features
 
 Content Management
@@ -175,16 +181,12 @@ Rules:
 
 AI configuration
 
-Groq (default)
+Groq
 - Model: `llama-3.1-8b-instant`
 - Rate limits (free tier): 30 RPM, 14,400 RPD, 20k TPM
 - Endpoint: `https://api.groq.com/openai/v1/chat/completions`
 - Grounding: server-side villa list injection (no hallucination)
 
-Gemini (alternate)
-- Model: `gemini-1.5-flash`
-- Endpoint: Google AI Studio API
-- Selected by setting `AI_PROVIDER=gemini` — not an automatic fallback if Groq fails
 
 Chat behavior
 - Max 20 messages in history (memory limit)
