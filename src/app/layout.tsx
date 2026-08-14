@@ -6,6 +6,8 @@ import { ChatWidget } from "@/components/chat/chat-widget";
 import { CookieConsent } from "@/components/cookie-consent";
 import { SiteHeader } from "@/components/site-header";
 
+// The real reference build (cocobislanewsite.netlify.app) loads Raleway
+// 200–700 — confirmed from its stylesheet, not Inter as previously assumed.
 const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
