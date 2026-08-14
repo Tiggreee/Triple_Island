@@ -4,18 +4,23 @@ import { getRetreats, getVillas } from "@/lib/wp-fetchers";
 import { recommend, type RecommendInput, type RecommendPurpose } from "@/lib/recommender";
 import type { Villa } from "@/types/cms";
 
-const FALLBACK_VILLAS: Villa[] = REAL_VILLAS.map((v, i) => ({
-  id: -(i + 1),
-  slug: v.slug,
-  title: { rendered: v.name },
-  meta: {
-    suite_capacity: v.suites,
-    guest_capacity: v.guests,
-    bedrooms: v.bedrooms,
-    bathrooms: v.bathrooms,
-    price_from: v.priceFrom,
-  },
-}));
+function withRealVillaOverlay(wpVillas: Villa[]): Villa[] {
+  return REAL_VILLAS.map((real, i) => {
+    const wp = wpVillas.find((v) => v.slug === real.slug);
+    return {
+      id: wp?.id ?? -(i + 1),
+      slug: real.slug,
+      title: wp?.title ?? { rendered: real.name },
+      meta: {
+        suite_capacity: wp?.meta?.suite_capacity ?? real.suites,
+        guest_capacity: wp?.meta?.guest_capacity ?? real.guests,
+        bedrooms: wp?.meta?.bedrooms ?? real.bedrooms,
+        bathrooms: wp?.meta?.bathrooms ?? real.bathrooms,
+        price_from: wp?.meta?.price_from ?? real.priceFrom,
+      },
+    };
+  });
+}
 
 const PURPOSES: RecommendPurpose[] = [
   "family",
@@ -41,7 +46,7 @@ export async function GET(request: Request) {
   };
 
   const [wpVillas, retreats] = await Promise.all([getVillas(), getRetreats()]);
-  const villas = wpVillas.length ? wpVillas : FALLBACK_VILLAS;
+  const villas = withRealVillaOverlay(wpVillas);
   const result = recommend(villas, retreats, input);
 
   return NextResponse.json({ ok: true, ...result });
