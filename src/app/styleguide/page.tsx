@@ -1,3 +1,5 @@
+import Image from "next/image";
+import { AnnouncementBanner } from "@/components/announcement-banner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -122,6 +124,60 @@ export default function StyleguidePage() {
           <Drawer open title="Drawer primitive">
             Base drawer panel for mobile actions or contextual details.
           </Drawer>
+        </div>
+      </SectionContainer>
+
+      <SectionContainer title="Announcement Banner">
+        <div className="overflow-hidden rounded-lg border border-border">
+          <AnnouncementBanner />
+        </div>
+      </SectionContainer>
+
+      <SectionContainer title="Villa Card Pattern">
+        <p className="text-xs text-muted">
+          No hay un componente VillaCard compartido todavía — este mismo bloque de clases está duplicado en
+          src/app/page.tsx y src/app/villas/page.tsx. Referencia visual, no un import.
+        </p>
+        <div className="max-w-xs overflow-hidden rounded-2xl border border-border bg-surface">
+          <div className="relative aspect-[4/3] w-full">
+            <Image
+              src="/media/coco/villas/cielo-01.webp"
+              alt="Casa Cielo exterior"
+              fill
+              sizes="320px"
+              className="object-cover"
+            />
+          </div>
+          <div className="p-4">
+            <p className="text-[11px] uppercase tracking-[1.5px] text-accent">The sunset bungalow</p>
+            <h3 className="mt-1 text-base font-light uppercase tracking-[1px] text-foreground">Casa Cielo</h3>
+            <p className="mt-1 text-xs leading-5 text-muted">Private oceanfront saltwater infinity pool</p>
+          </div>
+        </div>
+      </SectionContainer>
+
+      <SectionContainer title="Site-wide Overlays">
+        <p className="text-xs text-muted">
+          No se embeben aquí — son position:fixed y dependen de estado propio (localStorage, timers, fetch).
+          Un preview embebido se vería roto (flotando fuera de su caja) o vacío (ya descartado en este navegador).
+          Se documentan, se ven en vivo en las rutas indicadas.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <article className="rounded-lg border border-border bg-surface p-3 text-xs">
+            <p className="font-medium text-foreground">Cookie Consent</p>
+            <p className="mt-1 text-muted">src/components/cookie-consent.tsx</p>
+            <p className="mt-1 text-muted">Se ve en cualquier ruta, primera visita (borra `cocob_consent` de localStorage para verlo de nuevo)</p>
+          </article>
+          <article className="rounded-lg border border-border bg-surface p-3 text-xs">
+            <p className="font-medium text-foreground">Chat Widget</p>
+            <p className="mt-1 text-muted">src/components/chat/chat-widget.tsx</p>
+            <p className="mt-1 text-muted">FAB abajo a la derecha, cualquier ruta</p>
+          </article>
+          <article className="rounded-lg border border-border bg-surface p-3 text-xs">
+            <p className="font-medium text-foreground">Booking Modal</p>
+            <p className="mt-1 text-muted">src/components/booking/booking-modal.tsx</p>
+            <p className="mt-1 text-muted">Botón &quot;Check Availability&quot; en /villas o /villas/[slug]</p>
+          </article>
         </div>
       </SectionContainer>
       </section>
