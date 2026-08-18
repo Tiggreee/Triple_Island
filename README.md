@@ -1,4 +1,4 @@
-# Triple Island
+Triple Island
 
 Sitio de Coco B Isla (villas de lujo, hoteles boutique y retiros en Isla Mujeres). Next.js con App Router, WordPress headless como CMS, formularios a HubSpot y un chatbot con grounding sobre las villas reales.
 
