@@ -8,7 +8,9 @@ type ChatMessage = { role: ChatRole; content: string };
 type ChatRequestPayload = { messages?: ChatMessage[]; message?: string };
 
 const DEFAULT_GEMINI_MODEL = "gemini-1.5-flash";
-const DEFAULT_GROQ_MODEL = "llama-3.1-8b-instant";
+// Groq retired the llama-3.1/3.3 instant models; gpt-oss-20b is the current
+// general chat model available on the account.
+const DEFAULT_GROQ_MODEL = "openai/gpt-oss-20b";
 const MAX_MESSAGES = 20;
 const MAX_CONTENT_LENGTH = 4000;
 
