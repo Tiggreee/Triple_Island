@@ -1,49 +1,27 @@
-Triple Island
+# Triple Island
 
-Unified platform for Coco B Isla luxury villas, boutique hotels, and wellness retreats in Isla Mujeres, Mexico.
-
-Estado de entrega (2026-08-14)
-
-Conexión WordPress → Vercel verificada en vivo: se publicó un post real en el WordPress local (expuesto por túnel ngrok, ver INFRA-02-WORDPRESS-LOCAL.md) y se confirmó que `/api/recommend` en producción (triple-island.vercel.app) lo refleja de inmediato — prueba de que la cadena completa WordPress → REST API → túnel → Vercel está conectada de punta a punta, no solo el hosting estático. `/villas` no muestra contenido nuevo por diseño: esa página solo sobreescribe datos de las 4 villas reales existentes por slug, no lista contenido WP arbitrario.
-
-Nota: evaluando desplegar también en Azure, pendiente de confirmar con el equipo.
-
-Features
-
-Content Management
-- Headless WordPress CMS integration
-- Custom Post Types: Villas, Retreats, Packages, Testimonials
-- Dynamic routing for villas and retreats
-- Full TypeScript type safety for CMS data
-
-Lead Capture & CRM
-- HubSpot Forms API integration
-- Multi-form support (villa inquiry, retreat booking, waitlist)
-- Anti-spam protection via Cloudflare Turnstile (optional)
-- Server-side form validation
-
-AI-Powered Features
-- Chatbot widget, single AI provider selected via AI_PROVIDER (Groq or Gemini — no automatic failover between them)
-- Server-side villa grounding (prevents hallucination)
-- Deterministic villa/retreat recommender system
-- `/api/chat` and `/api/recommend` endpoints
-
-Design System
-- Figma-to-code fidelity (390w mobile, 1440w desktop)
-- Central design contract with semantic tokens
-- Full-bleed layout support for marketing sections
-- Responsive breakpoints matching real Figma specs
+Sitio de Coco B Isla (villas de lujo, hoteles boutique y retiros en Isla Mujeres). Next.js con App Router, WordPress headless como CMS, formularios a HubSpot y un chatbot con grounding sobre las villas reales.
 
 Stack
 
-- Framework: Next.js 16 (App Router, Turbopack)
-- Language: TypeScript
-- Styling: Tailwind CSS v4
-- CMS: WordPress REST API (headless)
-- CRM: HubSpot Forms API v3
-- AI: Groq (llama-3.1-8b-instant) or Gemini (gemini-1.5-flash), one at a time
-- Anti-spam: Cloudflare Turnstile
-- Deployment: Vercel (planned)
+- Next.js 16 (App Router, Turbopack) + TypeScript
+- Tailwind CSS v4
+- WordPress headless (REST API) + MySQL
+- HubSpot Forms v3 para leads
+- Chatbot: Groq (`gpt-oss-20b`) con grounding server-side. Gemini queda como alternativa, se elige con `AI_PROVIDER` — no hay failover automático entre ambos
+- Cloudflare Turnstile para anti-spam (opcional, se activa si están las llaves)
+
+Despliegue
+
+Todo corre en Azure Container Apps, resource group `cocob-isla-rg`. No usamos Vercel.
+
+- Frontend (Next.js) y WordPress como contenedores separados
+- MySQL Flexible Server (westus2), Key Vault, Storage y Application Insights
+- Azure Front Door delante del frontend (caché de borde + compresión)
+- Imágenes en ACR, pull vía managed identity
+- Infra como código en [infra/azure/](infra/azure) (Bicep)
+
+La imagen del frontend se construye en la nube con `az acr build` (no requiere Docker local) y se despliega con `az containerapp update --image`.
 
 Getting Started
 
@@ -69,7 +47,7 @@ HUBSPOT_FORM_ID_WAITLIST=your-form-id
 # AI provider — one key for whichever provider AI_PROVIDER points at
 AI_PROVIDER=groq                    # or "gemini"
 AI_API_KEY=your-api-key
-AI_MODEL=llama-3.1-8b-instant       # or "gemini-1.5-flash"
+AI_MODEL=openai/gpt-oss-20b          # Groq actual; para Gemini usa "gemini-1.5-flash"
 
 # Anti-spam (optional, gated by presence of secret)
 TURNSTILE_SECRET_KEY=your-turnstile-secret
@@ -182,7 +160,7 @@ Rules:
 AI configuration
 
 Groq
-- Model: `llama-3.1-8b-instant`
+- Model: `openai/gpt-oss-20b` (Groq retiró los `llama-3.1/3.3` instant; ese fue el fix del bot)
 - Rate limits (free tier): 30 RPM, 14,400 RPD, 20k TPM
 - Endpoint: `https://api.groq.com/openai/v1/chat/completions`
 - Grounding: server-side villa list injection (no hallucination)
