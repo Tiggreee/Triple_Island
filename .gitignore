@@ -54,3 +54,5 @@ reference/
 .deploy_mysql_pw.tmp
 .wp_salts.tmp
 *.tmp
+.figma_token
+.fig-video.png
