@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { DESIGN_COMPONENT_NAMES } from "@/lib/design-contract";
+import { Azulejo } from "@/components/ui/azulejo";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 
@@ -7,6 +8,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
   isLoading?: boolean;
   variant?: ButtonVariant;
+  icon?: boolean;
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -20,9 +22,11 @@ export function Button({
   className = "",
   isLoading = false,
   variant = "primary",
+  icon = false,
   disabled,
   ...props
 }: ButtonProps) {
+  const iconTone = variant === "primary" ? "white" : "action";
   return (
     <button
       {...props}
@@ -37,6 +41,7 @@ export function Button({
         isLoading ? DESIGN_COMPONENT_NAMES.button.loading : "",
         disabled || isLoading ? DESIGN_COMPONENT_NAMES.button.disabled : "",
         "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[13px] font-semibold uppercase tracking-[1.6px] transition-colors",
+        icon ? "group gap-2.5" : "",
         "focus:outline-none focus:ring-2 focus:ring-primary/30",
         variantClasses[variant],
         disabled || isLoading ? "cursor-not-allowed opacity-60" : "",
@@ -44,6 +49,13 @@ export function Button({
       ].join(" ")}
     >
       {isLoading ? "Loading..." : children}
+      {icon && !isLoading ? (
+        <Azulejo
+          tone={iconTone}
+          size={13}
+          className="transition-transform duration-[450ms] ease-[cubic-bezier(.7,0,.2,1)] group-hover:rotate-90"
+        />
+      ) : null}
     </button>
   );
 }

@@ -63,3 +63,8 @@ Notas
 - Recomendador: determinista (sin costo IA); entra `group_size` + `purpose`, salen top 3 villas + top 2 retiros.
 - Datos: las páginas leen WordPress vía [src/lib/wp-fetchers.ts](src/lib/wp-fetchers.ts) con fallback a datos reales si un campo meta viene vacío.
 - Tokens de diseño: [src/lib/design-contract.ts](src/lib/design-contract.ts) (prefijo `cb-`), reflejados en `globals.css`, referencia en `/styleguide`.
+
+Contribuir
+
+- Trabaja en una rama desde `develop` y abre tu Pull Request.
+- `main` está protegida: entra solo por PR con CI en verde y una aprobación; al mergear, el CD despliega. `develop` integra sin desplegar.
