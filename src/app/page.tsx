@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
+import { FilmCarousel } from "@/components/film-carousel";
 
 const gatherings = [
   {
@@ -264,24 +265,7 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">See the island move</h2>
             <AzulejoRule className="mt-4" />
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {films.map((film) => (
-              <div
-                key={film.caption}
-                className="relative flex aspect-[16/9] flex-col items-center justify-center rounded-2xl bg-[color:var(--cb-color-foreground,#0e2530)] text-white"
-              >
-                <button
-                  type="button"
-                  aria-label={`Play video: ${film.caption}`}
-                  className="flex h-14 w-14 items-center justify-center rounded-full border border-white/40 bg-white/10 transition hover:bg-white/20"
-                >
-                  <span className="ml-1 block h-0 w-0 border-y-8 border-l-[13px] border-y-transparent border-l-white" />
-                </button>
-                <p className="mt-4 text-[11px] font-medium uppercase tracking-[2px] text-white/80">Video</p>
-                <p className="mt-1 px-4 text-center text-xs leading-5 text-white/70">{film.caption}</p>
-              </div>
-            ))}
-          </div>
+          <FilmCarousel films={films} />
         </div>
 
         {/* Reviews */}
