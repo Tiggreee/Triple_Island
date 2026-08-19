@@ -94,8 +94,8 @@ export function nights(ci: string | null, co: string | null): number {
 
 export function minNights(ci: string | null): number {
   const se = ci ? seasonOf(ci) : undefined;
-  // Low season = 3 nights (Equipo 1 handoff doc; overrides netlify's 4).
-  return se ? se.min : 3;
+  // Low season = 4 nights (dato de Caro, prototipo netlify).
+  return se ? se.min : 4;
 }
 
 export function nextBusyAfter(unit: number, after: string, year: number, month: number): string | null {
