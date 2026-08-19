@@ -30,6 +30,13 @@ const villas = [
   { slug: "cielo", name: "Casa Cielo", tag: "The sunset bungalow", note: "Private oceanfront saltwater infinity pool", photo: "/media/coco/villas/cielo-01.webp" },
 ];
 
+const sacBajo = [
+  { src: "/media/coco/island-villa-from-water.png", alt: "Villa seen from the water at Sac Bajo" },
+  { src: "/media/coco/island-aerial-isla-mujeres.png", alt: "Aerial view of Isla Mujeres" },
+  { src: "/media/coco/island-snorkelling-golden-hour.png", alt: "Snorkelling off the coastline at golden hour" },
+  { src: "/media/coco/island-paddleboards-under-palms.png", alt: "Paddleboards by the shore under the palms" },
+];
+
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
 
 const films = [
@@ -225,13 +232,23 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
             <AzulejoRule className="mt-4" />
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:aspect-[16/9]">
-              <Image src="/media/coco/beach-kayak.jpg" alt="Beach access with kayak, Sac Bajo peninsula" fill sizes="(min-width: 640px) 66vw, 100vw" className="object-cover" />
-            </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-              <Image src="/media/coco/paddleboards.jpg" alt="Paddleboards among the palms" fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1fr_1fr] min-[901px]:auto-rows-[210px]">
+            {sacBajo.map((shot, i) => (
+              <div
+                key={shot.src}
+                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl min-[901px]:aspect-auto ${
+                  i === 0 ? "min-[901px]:row-span-2" : ""
+                } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
+              >
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -313,19 +330,26 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Pop-up hotel */}
-        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-border bg-surface p-8 text-center lg:grid-cols-[2fr_1fr] lg:text-left">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Oceanfront boutique · pop-up hotel</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Coco &amp; Lola, by the room</h2>
-            <AzulejoRule className="mt-4" />
-            <p className="mt-3 text-sm leading-7 text-muted">
+        {/* Pop-up hotel — editorial band over photo */}
+        <div className="relative min-h-[360px] overflow-hidden rounded-2xl">
+          <Image
+            src="/media/coco/sunset-pool.jpg"
+            alt="Oceanfront pool at sunset"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/45 to-foreground/10 sm:bg-gradient-to-r sm:from-foreground/85 sm:via-foreground/40 sm:to-transparent" />
+          <Azulejo tone="white" size={180} className="pointer-events-none absolute -right-8 -top-8 opacity-[0.08]" />
+          <Azulejo tone="white" size={120} className="pointer-events-none absolute -bottom-6 right-28 opacity-[0.06]" />
+          <div className="relative max-w-md space-y-4 p-8 text-white sm:p-12">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-white/80">Oceanfront boutique · pop-up hotel</p>
+            <h2 className="text-2xl font-light uppercase tracking-[2px] lg:text-3xl">Coco &amp; Lola, by the room</h2>
+            <p className="text-sm leading-7 text-white/85">
               When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
             </p>
-          </div>
-          <div className="flex justify-center lg:justify-end">
             <Link href="/solicitud">
-              <Button variant="primary" icon>Ask about last-minute stays</Button>
+              <Button variant="light" icon>Ask about last-minute stays</Button>
             </Link>
           </div>
         </div>
