@@ -301,7 +301,7 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
             <AzulejoRule className="mt-4" />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
               <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
                 <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="mx-auto mb-3 h-[34px] w-[96px] object-contain" />
