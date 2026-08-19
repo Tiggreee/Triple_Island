@@ -67,14 +67,29 @@ export default function Home() {
           the bottom is a scroll cue, not a link. Villa list uses white/accent-dot styling, not
           text-accent — that color reads as illegible on a dark photo. */}
       <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
+        {/* Poster queda debajo como fallback: se ve mientras el video carga, si el
+            navegador bloquea autoplay, o con prefers-reduced-motion (video oculto). */}
         <Image
-          src="/media/coco/portfolio-pool.jpg"
+          src="/media/coco/video/hero-poster.jpg"
           alt="Coco B Isla poolside, palm trees and the Caribbean Sea"
           fill
           priority
           sizes="100vw"
           className="object-cover"
         />
+        <video
+          className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/media/coco/video/hero-poster.jpg"
+          aria-hidden="true"
+        >
+          <source src="/media/coco/video/hero-1920.mp4" media="(min-width: 1024px)" type="video/mp4" />
+          <source src="/media/coco/video/hero-1280.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-foreground/55 via-foreground/25 to-foreground/60" />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Quintana Roo · Mexico</p>
