@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { CONSENT_CHANGED_EVENT } from "@/lib/analytics";
 
 type Consent = { analytics: boolean; marketing: boolean };
 
@@ -27,6 +28,9 @@ export function CookieConsent() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
     } catch {}
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event(CONSENT_CHANGED_EVENT));
+    }
     setVisible(false);
   }
 
