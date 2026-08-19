@@ -83,22 +83,25 @@ export function ChatWidget() {
   return (
     <>
       {teaserVisible && (
-        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-[620px]:hidden items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-foreground shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
+        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-[620px]:hidden max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
           <button
             type="button"
             onClick={() => {
               setOpen(true);
               setTeaserGone(true);
             }}
-            className="font-medium hover:text-primary"
+            className="text-left"
           >
-            Questions? Chat with our concierge
+            <span className="block text-sm font-semibold text-foreground">Planning a stay?</span>
+            <span className="mt-0.5 block text-xs leading-5 text-muted">
+              Ask me about dates, rates or which villa fits your group.
+            </span>
           </button>
           <button
             type="button"
             aria-label="Dismiss"
             onClick={() => setTeaserGone(true)}
-            className="flex h-5 w-5 items-center justify-center rounded-full text-muted transition hover:bg-background hover:text-foreground"
+            className="-mr-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-muted transition hover:bg-background hover:text-foreground"
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
               <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
@@ -131,7 +134,7 @@ export function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-[120] flex h-[520px] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+        <div className="fixed bottom-24 right-5 z-[121] flex h-[520px] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
           <header className="flex items-center gap-3 border-b border-border bg-primary px-4 py-3 text-white">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-semibold">CB</span>
             <div className="leading-tight">
