@@ -25,6 +25,14 @@ export function FloatingBar() {
     };
   }, []);
 
+  // El FAB del chat lee este flag para subir 100px y no encimarse.
+  useEffect(() => {
+    document.body.dataset.floatbar = visible ? "1" : "0";
+    return () => {
+      delete document.body.dataset.floatbar;
+    };
+  }, [visible]);
+
   return (
     <div
       aria-hidden={!visible}
