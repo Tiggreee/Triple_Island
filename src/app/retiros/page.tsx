@@ -64,7 +64,7 @@ export default async function RetirosPage() {
           <p className="text-[13.5px] leading-7 text-muted">
             No retreats are open for booking right now. Reach out and we&rsquo;ll let you know what&rsquo;s next.
           </p>
-          <Link href="/solicitud">
+          <Link href="/solicitud?type=retiro">
             <Button variant="secondary">Ask about upcoming retreats</Button>
           </Link>
         </div>
@@ -110,8 +110,8 @@ export default async function RetirosPage() {
                         Details
                       </Button>
                     </Link>
-                    <Link href="/solicitud">
-                      <Button variant="primary" className="w-full" disabled={isFull}>
+                    <Link href={`/solicitud?type=${isFull ? "waitlist" : "retiro"}&ref=${encodeURIComponent(retreat.name)}`}>
+                      <Button variant="primary" className="w-full">
                         {isFull ? "Join Waitlist" : "Inquire"}
                       </Button>
                     </Link>
