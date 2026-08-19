@@ -12,7 +12,7 @@
 
 ### AI Features
 - ✅ **Chatbot** — Widget flotante + endpoint `/api/chat`
-  - Groq (llama-3.1-8b-instant) primary, 30 RPM / 14.4k RPD / 20k TPM
+  - Groq (openai/gpt-oss-20b) primary, 30 RPM / 14.4k RPD / 20k TPM
   - Gemini (gemini-1.5-flash) fallback
   - Server-side grounding (no hallucination)
 - ✅ **Recommender** — Endpoint `/api/recommend` + lógica determinista (`src/lib/recommender.ts`)
