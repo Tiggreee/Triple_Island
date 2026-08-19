@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { Azulejo } from "@/components/ui/azulejo";
 
 type ChatRole = "user" | "assistant";
 type ChatMessage = { role: ChatRole; content: string };
@@ -13,12 +14,24 @@ const SYSTEM_PROMPT =
   "culinary, fitness and corporate. Only use these facts; never invent villa names, prices or " +
   "availability. If you do not know something, say so and point the guest to the inquiry form " +
   "at /solicitud. Keep replies short and helpful. To book or check availability, guide the " +
-  "guest to /solicitud.";
+  "guest to /solicitud. Never use markdown tables, pipes (|) or headings — present options as " +
+  "short plain lines or simple bullets, one per line.";
 
 const WELCOME: ChatMessage = {
   role: "assistant",
   content: "Hi! I'm the Coco B Isla concierge. Ask me about our villas, retreats or planning a stay.",
 };
+
+// UX-023: limpia artefactos de markdown para no imprimir sintaxis cruda al usuario.
+function formatReply(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/^\s*[-*]\s+/gm, "\u2022 ")
+    .replace(/^\s*[-:|\s]{3,}\s*$/gm, "")
+    .replace(/^\s*\|(.*)\|\s*$/gm, (_, row: string) => row.split("|").map((c) => c.trim()).filter(Boolean).join(" · "))
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -28,6 +41,7 @@ export function ChatWidget() {
   const [error, setError] = useState<string | null>(null);
   const [showTeaser, setShowTeaser] = useState(false);
   const [teaserGone, setTeaserGone] = useState(false);
+  const [online, setOnline] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,6 +53,14 @@ export function ChatWidget() {
     if (window.innerWidth <= 620) return;
     const t = window.setTimeout(() => setShowTeaser(true), 2600);
     return () => window.clearTimeout(t);
+  }, []);
+
+  // UX-022: punto de estado verde en horario (7-23 Central), ambar fuera.
+  useEffect(() => {
+    const h = Number(
+      new Intl.DateTimeFormat("en-US", { timeZone: "America/Mexico_City", hour: "numeric", hour12: false }).format(new Date()),
+    );
+    setOnline(h >= 7 && h < 23);
   }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -135,11 +157,14 @@ export function ChatWidget() {
 
       {open && (
         <div className="fixed bottom-24 right-5 z-[121] flex h-[520px] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
-          <header className="flex items-center gap-3 border-b border-border bg-primary px-4 py-3 text-white">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-semibold">CB</span>
+          <header className="flex items-center gap-3 border-b border-border bg-[linear-gradient(140deg,#0e5f6b,#107480,#17879a)] px-4 py-3 text-white">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+              <Azulejo tone="white" size={20} />
+              <span className={`absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0e5f6b] ${online ? "bg-green-400" : "bg-amber-400"}`} />
+            </span>
             <div className="leading-tight">
               <p className="text-sm font-semibold">Coco B Concierge</p>
-              <p className="text-[11px] text-white/75">Usually replies instantly</p>
+              <p className="text-[11px] text-white/75">{online ? "Typically replies in a few minutes" : "Back at 7:00 a.m. Central"}</p>
             </div>
           </header>
 
@@ -152,17 +177,23 @@ export function ChatWidget() {
                 <p
                   className={
                     m.role === "user"
-                      ? "max-w-[80%] rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
-                      : "max-w-[80%] rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
+                      ? "max-w-[84%] whitespace-pre-line rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
+                      : "max-w-[84%] whitespace-pre-line rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
                   }
                 >
-                  {m.content}
+                  {m.role === "assistant" ? formatReply(m.content) : m.content}
                 </p>
               </div>
             ))}
             {loading && (
               <div className="flex justify-start">
-                <p className="rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-muted">Typing…</p>
+                <span className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-background px-3.5 py-2.5" aria-label="Concierge is typing">
+                  {[0, 160, 320].map((delay) => (
+                    <span key={delay} className="cw-typing inline-flex" style={{ animationDelay: `${delay}ms` }}>
+                      <Azulejo tone="brand" size={10} />
+                    </span>
+                  ))}
+                </span>
               </div>
             )}
             {error && <p className="text-center text-xs text-accent">{error}</p>}
