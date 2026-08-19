@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 import { FilmCarousel } from "@/components/film-carousel";
+import { FloatingBar } from "@/components/floating-bar";
 
 const gatherings = [
   {
@@ -27,6 +28,13 @@ const villas = [
   { slug: "encantada", name: "Villa Encantada", tag: "The inaugural villa", note: "", photo: "/media/coco/villas/encantada-01.webp" },
   { slug: "coco", name: "Casa Coco", tag: "Bohemian elegance", note: "", photo: "/media/coco/villas/coco-01.webp" },
   { slug: "cielo", name: "Casa Cielo", tag: "The sunset bungalow", note: "Private oceanfront saltwater infinity pool", photo: "/media/coco/villas/cielo-01.webp" },
+];
+
+const sacBajo = [
+  { src: "/media/coco/island-villa-from-water.png", alt: "Villa seen from the water at Sac Bajo" },
+  { src: "/media/coco/island-aerial-isla-mujeres.png", alt: "Aerial view of Isla Mujeres" },
+  { src: "/media/coco/island-snorkelling-golden-hour.png", alt: "Snorkelling off the coastline at golden hour" },
+  { src: "/media/coco/island-paddleboards-under-palms.png", alt: "Paddleboards by the shore under the palms" },
 ];
 
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
@@ -184,26 +192,27 @@ export default function Home() {
               wellness getaways.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {villas.map((villa) => (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 min-[901px]:auto-rows-[300px]">
+            {villas.map((villa, i) => (
               <Link
                 key={villa.slug}
                 href={`/villas/${villa.slug}`}
-                className="group overflow-hidden rounded-2xl border border-border bg-surface"
+                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl min-[901px]:aspect-auto ${
+                  i === 0 ? "min-[901px]:row-span-2" : ""
+                } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
               >
-                <div className="relative aspect-[4/3] w-full">
-                  <Image
-                    src={villa.photo}
-                    alt={`${villa.name} exterior`}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4">
-                  <p className="text-[11px] uppercase tracking-[1.5px] text-accent">{villa.tag}</p>
-                  <h3 className="mt-1 text-base font-light uppercase tracking-[1px] text-foreground">{villa.name}</h3>
-                  {villa.note ? <p className="mt-1 text-xs leading-5 text-muted">{villa.note}</p> : null}
+                <Image
+                  src={villa.photo}
+                  alt={villa.name}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/15 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                  <p className="text-[11px] font-medium uppercase tracking-[2px] text-white/80">{villa.tag}</p>
+                  <h3 className="mt-1 text-lg font-light uppercase tracking-[1.5px]">{villa.name}</h3>
+                  {villa.note ? <p className="mt-1 text-xs leading-5 text-white/75">{villa.note}</p> : null}
                 </div>
               </Link>
             ))}
@@ -223,13 +232,23 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
             <AzulejoRule className="mt-4" />
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:aspect-[16/9]">
-              <Image src="/media/coco/beach-kayak.jpg" alt="Beach access with kayak, Sac Bajo peninsula" fill sizes="(min-width: 640px) 66vw, 100vw" className="object-cover" />
-            </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-              <Image src="/media/coco/paddleboards.jpg" alt="Paddleboards among the palms" fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1fr_1fr] min-[901px]:auto-rows-[210px]">
+            {sacBajo.map((shot, i) => (
+              <div
+                key={shot.src}
+                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl min-[901px]:aspect-auto ${
+                  i === 0 ? "min-[901px]:row-span-2" : ""
+                } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
+              >
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
@@ -311,19 +330,26 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Pop-up hotel */}
-        <div className="grid grid-cols-1 items-center gap-6 rounded-2xl border border-border bg-surface p-8 text-center lg:grid-cols-[2fr_1fr] lg:text-left">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Oceanfront boutique · pop-up hotel</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Coco &amp; Lola, by the room</h2>
-            <AzulejoRule className="mt-4" />
-            <p className="mt-3 text-sm leading-7 text-muted">
+        {/* Pop-up hotel — editorial band over photo */}
+        <div className="relative min-h-[360px] overflow-hidden rounded-2xl">
+          <Image
+            src="/media/coco/sunset-pool.jpg"
+            alt="Oceanfront pool at sunset"
+            fill
+            sizes="(min-width: 1180px) 1180px, 100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/45 to-foreground/10 sm:bg-gradient-to-r sm:from-foreground/85 sm:via-foreground/40 sm:to-transparent" />
+          <Azulejo tone="white" size={180} className="pointer-events-none absolute -right-8 -top-8 opacity-[0.08]" />
+          <Azulejo tone="white" size={120} className="pointer-events-none absolute -bottom-6 right-28 opacity-[0.06]" />
+          <div className="relative max-w-md space-y-4 p-8 text-white sm:p-12">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-white/80">Oceanfront boutique · pop-up hotel</p>
+            <h2 className="text-2xl font-light uppercase tracking-[2px] lg:text-3xl">Coco &amp; Lola, by the room</h2>
+            <p className="text-sm leading-7 text-white/85">
               When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
             </p>
-          </div>
-          <div className="flex justify-center lg:justify-end">
             <Link href="/solicitud">
-              <Button variant="primary" icon>Ask about last-minute stays</Button>
+              <Button variant="light" icon>Ask about last-minute stays</Button>
             </Link>
           </div>
         </div>
@@ -346,8 +372,18 @@ export default function Home() {
               <Button variant="secondary" icon>Explore the villas</Button>
             </Link>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-            <Image src="/media/coco/isla-aerial.jpg" alt="Aerial view of the Isla Mujeres peninsula" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border">
+            <iframe
+              title="Map of Sac Bajo, Isla Mujeres"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-86.78%2C21.20%2C-86.70%2C21.27&layer=mapnik&marker=21.238%2C-86.744"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-full w-full border-0 [filter:saturate(.86)]"
+            />
+            <span className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-medium uppercase tracking-[1.5px] text-foreground shadow-lg [backdrop-filter:blur(6px)]">
+              <span className="h-2 w-2 rounded-full bg-primary" />
+              Sac Bajo, Isla Mujeres
+            </span>
           </div>
         </div>
       </div>
@@ -384,6 +420,7 @@ export default function Home() {
           are the published 2026–2028 peak-season starting rates.
         </p>
       </footer>
+      <FloatingBar />
     </div>
   );
 }
