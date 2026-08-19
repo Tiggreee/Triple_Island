@@ -73,6 +73,8 @@ export function ChatWidget() {
     const h = Number(
       new Intl.DateTimeFormat("en-US", { timeZone: "America/Mexico_City", hour: "numeric", hour12: false }).format(new Date()),
     );
+    // Se deriva tras montar (client-only) para no romper la hidratacion SSR.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOnline(h >= 7 && h < 23);
   }, []);
 
