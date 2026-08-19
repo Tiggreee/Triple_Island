@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import "./globals.css";
+import { AnalyticsLoader } from "@/components/analytics-loader";
 import { AnnouncementBanner } from "@/components/announcement-banner";
 import { ChatWidget } from "@/components/chat/chat-widget";
 import { CookieConsent } from "@/components/cookie-consent";
@@ -53,6 +54,7 @@ export default function RootLayout({
         </div>
         <ChatWidget />
         <CookieConsent />
+        <AnalyticsLoader />
       </body>
     </html>
   );
