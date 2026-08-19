@@ -20,8 +20,10 @@ Despliegue
 
 Corre en Azure Container Apps (resource group `cocob-isla-rg`): frontend y WordPress como contenedores separados, MySQL Flexible Server, Key Vault, Storage y Application Insights, con Azure Front Door al frente (caché de borde + compresión). Infra como código en [infra/azure/](infra/azure) (Bicep).
 
+Flujo de ramas: `develop` valida, `main` despliega. Un push o merge a `main` construye la imagen y actualiza producción solo; un push a `develop` solo corre los checks, no despliega.
+
 - CI (lint + build + checks de seguridad) en cada push/PR a `develop` y `main`.
-- CD a Azure en push a `main` vía OIDC: construye la imagen con `az acr build` y actualiza el Container App. Sin secretos de larga vida.
+- CD a Azure en push a `main` vía OIDC (`az acr build` + `az containerapp update`). Sin secretos de larga vida.
 - La imagen del frontend se construye en la nube; no requiere Docker local.
 
 Getting Started
