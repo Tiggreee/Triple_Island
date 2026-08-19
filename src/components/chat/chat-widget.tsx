@@ -1,7 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Azulejo } from "@/components/ui/azulejo";
+import { REAL_VILLAS, type VillaData } from "@/lib/villas-data";
 
 type ChatRole = "user" | "assistant";
 type ChatMessage = { role: ChatRole; content: string };
@@ -31,6 +34,14 @@ function formatReply(text: string): string {
     .replace(/^\s*\|(.*)\|\s*$/gm, (_, row: string) => row.split("|").map((c) => c.trim()).filter(Boolean).join(" · "))
     .replace(/\n{3,}/g, "\n\n")
     .trim();
+}
+
+// UX-023/026: detecta villas mencionadas para mostrar card + salto al stepper.
+function villasInText(text: string): VillaData[] {
+  const lower = text.toLowerCase();
+  return REAL_VILLAS.filter((v) =>
+    v.slug === "coco" ? lower.includes("casa coco") : new RegExp(`\\b${v.slug}\\b`).test(lower),
+  );
 }
 
 const QUICK_REPLIES = ["Check availability", "What's included?", "Where are you?", "Plan a stay"];
@@ -175,22 +186,42 @@ export function ChatWidget() {
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
-              >
-                <p
-                  className={
-                    m.role === "user"
-                      ? "max-w-[84%] whitespace-pre-line rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
-                      : "max-w-[84%] whitespace-pre-line rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
-                  }
-                >
-                  {m.role === "assistant" ? formatReply(m.content) : m.content}
-                </p>
-              </div>
-            ))}
+            {messages.map((m, i) => {
+              const villas = m.role === "assistant" ? villasInText(m.content) : [];
+              return (
+                <div key={i} className={m.role === "user" ? "flex justify-end" : "flex flex-col items-start gap-1.5"}>
+                  <p
+                    className={
+                      m.role === "user"
+                        ? "max-w-[84%] whitespace-pre-line rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
+                        : "max-w-[84%] whitespace-pre-line rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
+                    }
+                  >
+                    {m.role === "assistant" ? formatReply(m.content) : m.content}
+                  </p>
+                  {villas.map((v) => (
+                    <div key={v.slug} className="w-[84%] overflow-hidden rounded-xl border border-border bg-surface">
+                      <div className="flex gap-3 p-2.5">
+                        <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg">
+                          <Image src={v.photo} alt={v.name} fill sizes="80px" className="object-cover" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold text-foreground">{v.name}</p>
+                          <p className="mt-0.5 text-xs text-muted">From ${v.priceFrom.toLocaleString()} · {v.suites} suites</p>
+                          <Link
+                            href={`/solicitud?villa=${v.slug}`}
+                            onClick={() => setOpen(false)}
+                            className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[1px] text-primary hover:underline"
+                          >
+                            See dates &amp; inquire <span aria-hidden>→</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
             {loading && (
               <div className="flex justify-start">
                 <span className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-background px-3.5 py-2.5" aria-label="Concierge is typing">
