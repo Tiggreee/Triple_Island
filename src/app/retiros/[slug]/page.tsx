@@ -76,8 +76,8 @@ export default async function RetiroDetailPage({ params }: RetiroDetailPageProps
           ) : (
             <p className="text-[13px] text-muted">Contact us for pricing and availability.</p>
           )}
-          <Link href="/solicitud">
-            <Button variant="primary" className="w-full" disabled={isFull}>
+          <Link href={`/solicitud?type=${isFull ? "waitlist" : "retiro"}&ref=${encodeURIComponent(retreat.title.rendered)}`}>
+            <Button variant="primary" className="w-full">
               {isFull ? "Join Waitlist" : "Inquire"}
             </Button>
           </Link>
