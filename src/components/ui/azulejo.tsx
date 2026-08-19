@@ -54,3 +54,14 @@ export function Azulejo({ tone = "brand", variant = "solid", size = 22, classNam
     </svg>
   );
 }
+
+// Divisor de seccion (guia): linea + azulejo 14px + linea, centrado. Abre cada seccion.
+export function AzulejoRule({ className }: { className?: string }) {
+  return (
+    <span className={`flex items-center justify-center gap-3 ${className ?? ""}`} aria-hidden="true">
+      <span className="h-px w-[52px] bg-primary/35" />
+      <Azulejo tone="action" size={14} />
+      <span className="h-px w-[52px] bg-primary/35" />
+    </span>
+  );
+}

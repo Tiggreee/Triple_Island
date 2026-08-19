@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Azulejo } from "@/components/ui/azulejo";
+import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 
 const gatherings = [
@@ -133,6 +133,7 @@ export default function Home() {
             Luxury villas · Boutique hotels · Destination retreats
           </p>
           <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">A collection, not a hotel</h2>
+          <AzulejoRule className="mt-4" />
           <p className="text-sm leading-7 text-muted">
             Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct
             access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for
@@ -145,6 +146,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">We live for</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Three kinds of gathering</h2>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {gatherings.map((item) => (
@@ -168,6 +170,7 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
               Coco · Lola · Encantada · Cielo
             </h2>
+            <AzulejoRule className="mt-4" />
             <p className="mt-3 text-sm leading-7 text-muted">
               Each villa blends indoor and outdoor living, perfect for families, friends, corporate retreats or
               wellness getaways.
@@ -199,7 +202,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col items-center gap-2">
             <Link href="/villas">
-              <Button variant="primary">Explore the villas</Button>
+              <Button variant="primary" icon>Explore the villas</Button>
             </Link>
             <p className="text-xs text-muted">Rates, real availability and combined stays for larger groups.</p>
           </div>
@@ -210,6 +213,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The island</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:aspect-[16/9]">
@@ -227,6 +231,7 @@ export default function Home() {
             <div>
               <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
               <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
+              <AzulejoRule className="mt-4" />
             </div>
             <div className="flex flex-wrap gap-2">
               {retreatTags.map((tag) => (
@@ -239,7 +244,7 @@ export default function Home() {
               <Image src="/media/coco/dining.jpg" alt="Outdoor dining set up for a Coco B retreat" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
             </div>
             <Link href="/retiros">
-              <Button variant="secondary">Inquire about a retreat</Button>
+              <Button variant="secondary" icon>Inquire about a retreat</Button>
             </Link>
           </div>
           <div className="space-y-6">
@@ -257,11 +262,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Film</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">See the island move</h2>
-            <div className="mx-auto mt-4 flex items-center justify-center gap-3">
-              <span className="h-px w-14 bg-border" />
-              <span className="h-2.5 w-2.5 rotate-45 border border-brand" />
-              <span className="h-px w-14 bg-border" />
-            </div>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {films.map((film) => (
@@ -288,6 +289,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">What people say</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-3 gap-4">
             {reviews.map((r) => (
@@ -308,13 +310,14 @@ export default function Home() {
           <div>
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Oceanfront boutique · pop-up hotel</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Coco &amp; Lola, by the room</h2>
+            <AzulejoRule className="mt-4" />
             <p className="mt-3 text-sm leading-7 text-muted">
               When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">
             <Link href="/solicitud">
-              <Button variant="primary">Ask about last-minute stays</Button>
+              <Button variant="primary" icon>Ask about last-minute stays</Button>
             </Link>
           </div>
         </div>
@@ -324,6 +327,7 @@ export default function Home() {
           <div className="space-y-4 text-center lg:text-left">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">A privileged location</p>
             <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Isla Mujeres</h2>
+            <AzulejoRule className="mt-4" />
             <p className="text-sm leading-7 text-muted">
               Just a 25 minute boat ride off the coast of Cancún, you&rsquo;ll find Isla Mujeres — a small and
               alluring island with some of the most beautiful beaches and coastlines in all the Caribbean.
@@ -333,7 +337,7 @@ export default function Home() {
               four villas are within walking distance of one another.
             </p>
             <Link href="/villas">
-              <Button variant="secondary">Explore the villas</Button>
+              <Button variant="secondary" icon>Explore the villas</Button>
             </Link>
           </div>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
