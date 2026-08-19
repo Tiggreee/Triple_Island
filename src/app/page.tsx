@@ -56,9 +56,16 @@ const testimonials = [
 ];
 
 const reviews = [
-  { score: "4.8", count: "142 reviews" },
-  { score: "9.5", count: "69 reviews" },
-  { score: "4.9", count: "159 reviews" },
+  { platform: "Google", score: "4.8", count: "142 reviews", logo: "/media/coco/logo-google-reviews.png" },
+  { platform: "Booking", score: "9.5", count: "69 reviews", logo: "/media/coco/logo-booking-com.png" },
+  { platform: "Tripadvisor", score: "4.9", count: "159 reviews", logo: "/media/coco/logo-tripadvisor-icon.svg" },
+];
+
+const press = [
+  { name: "Tripadvisor", logo: "/media/coco/press-tripadvisor-stars.png" },
+  { name: "Condé Nast Traveler", logo: "/media/coco/press-conde-nast-traveler.png" },
+  { name: "Travelmyth", logo: "/media/coco/press-travelmyth-honeymoon.png" },
+  { name: "Boutique Hotel Awards", logo: "/media/coco/press-boutique-hotel-awards.png" },
 ];
 
 export default function Home() {
@@ -278,15 +285,30 @@ export default function Home() {
           <div className="grid grid-cols-3 gap-4">
             {reviews.map((r) => (
               <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
+                <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="mx-auto mb-3 h-[34px] w-[96px] object-contain" />
                 <p className="text-2xl font-semibold text-primary">{r.score}</p>
                 <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
               </div>
             ))}
           </div>
-          <p className="mx-auto max-w-2xl text-center text-xs italic leading-6 text-muted">
-            &ldquo;Best Luxury Villa Collection&rdquo; Q. Roo 2023 · &ldquo;Best Island Retreat Center in the Caribbean&rdquo; 2022,
-            LUXlife Magazine · &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
-          </p>
+          <div className="border-t border-border pt-8">
+            <p className="text-center text-[11px] font-medium uppercase tracking-[2.5px] text-muted">Press &amp; Awards</p>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+              {press.map((p) => (
+                <img
+                  key={p.name}
+                  src={p.logo}
+                  alt={p.name}
+                  loading="lazy"
+                  className="h-9 w-auto object-contain opacity-40 grayscale transition hover:opacity-100 hover:grayscale-0"
+                />
+              ))}
+            </div>
+            <p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-6 text-muted">
+              &ldquo;Best Luxury Villa Collection&rdquo; Q. Roo 2023 · &ldquo;Best Island Retreat Center in the Caribbean&rdquo; 2022,
+              LUXlife Magazine · &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
+            </p>
+          </div>
         </div>
 
         {/* Pop-up hotel */}
