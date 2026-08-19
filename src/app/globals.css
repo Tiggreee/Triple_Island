@@ -153,3 +153,14 @@ body[data-floatbar="1"] .cb-chat-teaser {
     animation: none;
   }
 }
+
+/* UX-025: indicador de escritura del chat — tres azulejos con retardo escalonado. */
+.cw-typing {
+  animation: cw-typing-dot 1.25s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-typing {
+    animation: none;
+  }
+}
