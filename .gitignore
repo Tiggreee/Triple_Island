@@ -44,10 +44,9 @@ next-env.d.ts
 # MCP local config (contains tokens)
 .mcp.json
 
-# scratch captures from manual Figma exploration — not source of truth
+# Scratch image captures
 .tmp-*.png
 
-.claude/
 reference/
 
 # Local deploy secrets (never commit)

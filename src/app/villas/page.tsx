@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
-// FAQ "Frequent questions" (contenido de Caro, tomado del prototipo de referencia)
 const faqs = [
   { q: "Is the rate per night for the whole villa, or per person?", a: "Per night, for the entire house — every suite included, however many of you travel, up to the villa's capacity. Rates are in US dollars and shown before the 21% Mexican tax." },
   { q: "What does the 21% tax add to the price I see?", a: "The 21% is 16% VAT (IVA) plus 5% lodging tax (ISH), as Mexican law requires. Casa Cielo at $1,665 comes to $2,015 per night; Casa Coco at $4,840 comes to $5,856. Each villa card shows the total, so there is no surprise at the end." },
@@ -171,7 +170,7 @@ export default async function VillasPage() {
         </div>
       </div>
 
-      {/* FAQ — "Frequent questions" (igual al prototipo de referencia) */}
+      {/* FAQ — "Frequent questions" */}
       <div className="space-y-6">
         <div className="text-center">
           <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Before you write to us</p>

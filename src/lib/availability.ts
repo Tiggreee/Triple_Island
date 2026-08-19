@@ -1,8 +1,7 @@
-// Availability, seasons and rates ported from the reference build
-// (cocobislanewsite.netlify.app) — the source of truth. Occupancy is the real
-// PMS export for August 2026 with guest names removed; season rates are Caro's.
-// Unit indices: 0 Casa Coco · 1 Villa Encantada · 2 Casa Lola · 3 Casa Cielo ·
-// 4 Lola & Encantada (pair) · 5 Coco & Cielo (pair). Same order as REAL_VILLAS.
+// Availability, seasons and rates for the booking calendar (illustrative
+// August 2026 occupancy). Unit indices: 0 Casa Coco · 1 Villa Encantada ·
+// 2 Casa Lola · 3 Casa Cielo · 4 Lola & Encantada (pair) · 5 Coco & Cielo (pair).
+// Same order as REAL_VILLAS.
 
 export type Unit = {
   name: string;
@@ -33,7 +32,7 @@ export const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December",
 ];
 
-// Real PMS occupancy · August 2026. Ranges are [checkIn, checkOut) ISO dates.
+// Occupancy · August 2026. Ranges are [checkIn, checkOut) ISO dates.
 const BOOKED: Record<number, [string, string][]> = {
   0: [["2026-08-02", "2026-08-04"], ["2026-08-05", "2026-08-10"], ["2026-08-27", "2026-08-30"]],
   1: [["2026-08-02", "2026-08-06"], ["2026-08-13", "2026-08-16"], ["2026-08-27", "2026-08-31"]],
@@ -94,7 +93,7 @@ export function nights(ci: string | null, co: string | null): number {
 
 export function minNights(ci: string | null): number {
   const se = ci ? seasonOf(ci) : undefined;
-  // Low season = 4 nights (dato de Caro, prototipo netlify).
+  // Low-season minimum: 4 nights.
   return se ? se.min : 4;
 }
 
