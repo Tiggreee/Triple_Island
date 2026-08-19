@@ -42,6 +42,5 @@ jobs:
 
       - name: Build summary
         run: |
-          echo "✅ Lint passed"
-          echo "✅ Production build succeeded"
-          echo "📦 Build artifacts ready for deployment"
+          echo "Lint passed"
+          echo "Production build succeeded"

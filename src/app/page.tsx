@@ -2,11 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-// Content and copy below is pulled directly from the live reference build
-// (cocobislanewsite.netlify.app) — curled HTML, not paraphrased. Photos are
-// the same file bytes the live site serves (extracted from its inlined
-// base64 assets / downloaded from its /img/villas/ gallery), not stand-ins.
-
 const gatherings = [
   {
     title: "Friends & family",
@@ -34,7 +29,6 @@ const villas = [
 
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
 
-// Seccion "See the island move" (igual al prototipo de referencia): 3 fachadas de video
 const films = [
   { caption: "Coco B Yoga & Wellness · Punta Sur · 16:9" },
   { caption: "Coco B Wellness & Casa Coco · 16:9" },
@@ -251,7 +245,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Film — "See the island move" (igual al prototipo de referencia) */}
+        {/* Film — "See the island move" */}
         <div className="space-y-8">
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Film</p>
