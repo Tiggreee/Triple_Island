@@ -54,17 +54,11 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
 
   const active = UNITS[unit];
   const cameFrom = UNITS[initialUnit];
-  const showCompounds = guests > 14;
   const [year, month] = CALENDAR_MONTHS[mi];
 
   useEffect(() => {
     trackEvent("stepper_inicio", { unit: UNITS[initialUnit].name });
   }, [initialUnit]);
-
-  // Compounds only fit large groups; drop back to a member villa otherwise.
-  useEffect(() => {
-    if (guests <= 14 && active.pair) setUnit(active.pair[0]);
-  }, [guests, active.pair]);
 
   const nightCount = nightsBetween(ci, co);
   const min = minNights(ci);
@@ -248,35 +242,6 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
               </div>
               <p className="text-center text-xs text-muted">guests</p>
 
-              {showCompounds ? (
-                <div className="space-y-2">
-                  <p className="rounded-xl bg-accent/10 p-3 text-xs leading-5 text-foreground">
-                    <b>Groups of 15+</b> — we combine two side-by-side villas under a single contract, on one calendar.
-                  </p>
-                  {UNITS.map((v, i) =>
-                    v.pair ? (
-                      <button
-                        key={v.name}
-                        type="button"
-                        onClick={() => setUnit(i)}
-                        className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
-                      >
-                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                          <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
-                        </div>
-                        <span>
-                          <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
-                          <span className="block text-[11px] text-muted">
-                            {v.suites} suites · up to {v.guests} · from {money(v.from)}
-                            {v.quote ? " · combined rate on request" : ""}
-                          </span>
-                        </span>
-                      </button>
-                    ) : null,
-                  )}
-                </div>
-              ) : null}
-
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {UNITS.map((v, i) =>
                   v.pair ? null : (
@@ -297,6 +262,31 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                       </span>
                     </button>
                   ),
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <p className="text-[11px] uppercase tracking-[1px] text-muted">Combined villas · two houses, one contract</p>
+                {UNITS.map((v, i) =>
+                  v.pair ? (
+                    <button
+                      key={v.name}
+                      type="button"
+                      onClick={() => setUnit(i)}
+                      className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
+                    >
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                        <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
+                      </div>
+                      <span>
+                        <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
+                        <span className="block text-[11px] text-muted">
+                          {v.suites} suites · up to {v.guests} · from {money(v.from)}
+                          {v.quote ? " · combined rate on request" : ""}
+                        </span>
+                      </span>
+                    </button>
+                  ) : null,
                 )}
               </div>
             </div>
