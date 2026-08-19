@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CheckAvailabilityButton } from "@/components/booking/check-availability-button";
 import { Button } from "@/components/ui/button";
+import { HeroScrim } from "@/components/hero-scrim";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
@@ -47,7 +48,7 @@ export default async function VillasPage() {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/30 to-foreground/65" />
+        <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Mexico</p>
           <h1 className="mt-4 font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Villas</h1>

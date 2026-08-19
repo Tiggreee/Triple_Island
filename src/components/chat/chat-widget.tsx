@@ -1,6 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { Azulejo } from "@/components/ui/azulejo";
+import { REAL_VILLAS, type VillaData } from "@/lib/villas-data";
 
 type ChatRole = "user" | "assistant";
 type ChatMessage = { role: ChatRole; content: string };
@@ -13,12 +17,34 @@ const SYSTEM_PROMPT =
   "culinary, fitness and corporate. Only use these facts; never invent villa names, prices or " +
   "availability. If you do not know something, say so and point the guest to the inquiry form " +
   "at /solicitud. Keep replies short and helpful. To book or check availability, guide the " +
-  "guest to /solicitud.";
+  "guest to /solicitud. Never use markdown tables, pipes (|) or headings — present options as " +
+  "short plain lines or simple bullets, one per line.";
 
 const WELCOME: ChatMessage = {
   role: "assistant",
   content: "Hi! I'm the Coco B Isla concierge. Ask me about our villas, retreats or planning a stay.",
 };
+
+// UX-023: limpia artefactos de markdown para no imprimir sintaxis cruda al usuario.
+function formatReply(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/^\s*[-*]\s+/gm, "\u2022 ")
+    .replace(/^\s*[-:|\s]{3,}\s*$/gm, "")
+    .replace(/^\s*\|(.*)\|\s*$/gm, (_, row: string) => row.split("|").map((c) => c.trim()).filter(Boolean).join(" · "))
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+// UX-023/026: detecta villas mencionadas para mostrar card + salto al stepper.
+function villasInText(text: string): VillaData[] {
+  const lower = text.toLowerCase();
+  return REAL_VILLAS.filter((v) =>
+    v.slug === "coco" ? lower.includes("casa coco") : new RegExp(`\\b${v.slug}\\b`).test(lower),
+  );
+}
+
+const QUICK_REPLIES = ["Check availability", "What's included?", "Where are you?", "Plan a stay"];
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -28,6 +54,7 @@ export function ChatWidget() {
   const [error, setError] = useState<string | null>(null);
   const [showTeaser, setShowTeaser] = useState(false);
   const [teaserGone, setTeaserGone] = useState(false);
+  const [online, setOnline] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,9 +68,18 @@ export function ChatWidget() {
     return () => window.clearTimeout(t);
   }, []);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const text = input.trim();
+  // UX-022: punto de estado verde en horario (7-23 Central), ambar fuera.
+  useEffect(() => {
+    const h = Number(
+      new Intl.DateTimeFormat("en-US", { timeZone: "America/Mexico_City", hour: "numeric", hour12: false }).format(new Date()),
+    );
+    // Se deriva tras montar (client-only) para no romper la hidratacion SSR.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setOnline(h >= 7 && h < 23);
+  }, []);
+
+  async function send(raw: string) {
+    const text = raw.trim();
     if (!text || loading) return;
 
     const nextMessages: ChatMessage[] = [...messages, { role: "user", content: text }];
@@ -76,6 +112,11 @@ export function ChatWidget() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    void send(input);
   }
 
   const teaserVisible = showTeaser && !teaserGone && !open;
@@ -135,38 +176,82 @@ export function ChatWidget() {
 
       {open && (
         <div className="fixed bottom-24 right-5 z-[121] flex h-[520px] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
-          <header className="flex items-center gap-3 border-b border-border bg-primary px-4 py-3 text-white">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-sm font-semibold">CB</span>
+          <header className="flex items-center gap-3 border-b border-border bg-[linear-gradient(140deg,#0e5f6b,#107480,#17879a)] px-4 py-3 text-white">
+            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+              <Azulejo tone="white" size={20} />
+              <span className={`absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0e5f6b] ${online ? "bg-green-400" : "bg-amber-400"}`} />
+            </span>
             <div className="leading-tight">
               <p className="text-sm font-semibold">Coco B Concierge</p>
-              <p className="text-[11px] text-white/75">Usually replies instantly</p>
+              <p className="text-[11px] text-white/75">{online ? "Typically replies in a few minutes" : "Back at 7:00 a.m. Central"}</p>
             </div>
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={m.role === "user" ? "flex justify-end" : "flex justify-start"}
-              >
-                <p
-                  className={
-                    m.role === "user"
-                      ? "max-w-[80%] rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
-                      : "max-w-[80%] rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
-                  }
-                >
-                  {m.content}
-                </p>
-              </div>
-            ))}
+            {messages.map((m, i) => {
+              const villas = m.role === "assistant" ? villasInText(m.content) : [];
+              return (
+                <div key={i} className={m.role === "user" ? "flex justify-end" : "flex flex-col items-start gap-1.5"}>
+                  <p
+                    className={
+                      m.role === "user"
+                        ? "max-w-[84%] whitespace-pre-line rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
+                        : "max-w-[84%] whitespace-pre-line rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-foreground"
+                    }
+                  >
+                    {m.role === "assistant" ? formatReply(m.content) : m.content}
+                  </p>
+                  {villas.map((v) => (
+                    <div key={v.slug} className="w-[84%] overflow-hidden rounded-xl border border-border bg-surface">
+                      <div className="flex gap-3 p-2.5">
+                        <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg">
+                          <Image src={v.photo} alt={v.name} fill sizes="80px" className="object-cover" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-sm font-semibold text-foreground">{v.name}</p>
+                          <p className="mt-0.5 text-xs text-muted">From ${v.priceFrom.toLocaleString()} · {v.suites} suites</p>
+                          <Link
+                            href={`/solicitud?villa=${v.slug}`}
+                            onClick={() => setOpen(false)}
+                            className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[1px] text-primary hover:underline"
+                          >
+                            See dates &amp; inquire <span aria-hidden>→</span>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
             {loading && (
               <div className="flex justify-start">
-                <p className="rounded-2xl rounded-bl-sm bg-background px-3.5 py-2 text-sm text-muted">Typing…</p>
+                <span className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-background px-3.5 py-2.5" aria-label="Concierge is typing">
+                  {[0, 160, 320].map((delay) => (
+                    <span key={delay} className="cw-typing inline-flex" style={{ animationDelay: `${delay}ms` }}>
+                      <Azulejo tone="brand" size={10} />
+                    </span>
+                  ))}
+                </span>
               </div>
             )}
             {error && <p className="text-center text-xs text-accent">{error}</p>}
           </div>
+
+          {!loading && (
+            <div className="flex flex-wrap gap-1.5 px-3 pt-2">
+              {QUICK_REPLIES.map((qr) => (
+                <button
+                  key={qr}
+                  type="button"
+                  onClick={() => void send(qr)}
+                  className="rounded-full border border-primary/40 px-3 py-1 text-[11px] font-medium text-primary transition hover:bg-primary/5"
+                >
+                  {qr}
+                </button>
+              ))}
+            </div>
+          )}
 
           <form onSubmit={onSubmit} className="flex items-center gap-2 border-t border-border px-3 py-3">
             <input

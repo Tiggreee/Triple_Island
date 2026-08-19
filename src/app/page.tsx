@@ -4,6 +4,7 @@ import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 import { FilmCarousel } from "@/components/film-carousel";
 import { FloatingBar } from "@/components/floating-bar";
+import { HeroScrim } from "@/components/hero-scrim";
 
 const gatherings = [
   {
@@ -40,7 +41,7 @@ const sacBajo = [
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
 
 const films = [
-  { caption: "Coco B Yoga & Wellness · Punta Sur · 16:9" },
+  { caption: "Coco by Coco B Isla · 16:9", vimeoId: "418219424", poster: "/media/coco/portfolio-pool.jpg" },
   { caption: "Coco B Wellness & Casa Coco · 16:9" },
   { caption: "Isla Mujeres, from the water · 16:9" },
 ];
@@ -105,10 +106,11 @@ export default function Home() {
           poster="/media/coco/video/hero-poster.jpg"
           aria-hidden="true"
         >
+          <source src="/media/coco/video/hero-vertical.mp4" media="(orientation: portrait)" type="video/mp4" />
           <source src="/media/coco/video/hero-1920.mp4" media="(min-width: 1024px)" type="video/mp4" />
           <source src="/media/coco/video/hero-1280.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/55 via-foreground/25 to-foreground/60" />
+        <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Quintana Roo · Mexico</p>
           <h1 className="mt-4 font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Coco B Isla</h1>
@@ -166,9 +168,9 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {gatherings.map((item) => (
-              <article key={item.title} className="overflow-hidden rounded-2xl border border-border bg-surface">
-                <div className="relative aspect-[4/3] w-full">
-                  <Image src={item.photo} alt={item.title} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />
+              <article key={item.title} className="group overflow-hidden rounded-2xl border border-border bg-surface">
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image src={item.photo} alt={item.title} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105" />
                 </div>
                 <div className="p-5">
                   <h3 className="text-sm font-semibold uppercase tracking-[1px] text-foreground">{item.title}</h3>
@@ -301,7 +303,7 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
             <AzulejoRule className="mt-4" />
           </div>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
               <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
                 <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="mx-auto mb-3 h-[34px] w-[96px] object-contain" />
@@ -391,27 +393,31 @@ export default function Home() {
       {/* Footer */}
       <footer className="rounded-2xl border border-border bg-[color:var(--cb-color-foreground,#0e2530)] px-8 py-12 text-white">
         <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 text-sm sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-2">
-            <p className="text-base font-medium uppercase tracking-[1.5px]">Sac Bajo, Isla Mujeres</p>
+          <div className="space-y-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/media/coco/logo-white.png" alt="Coco B Isla" className="h-9 w-auto" />
             <p className="text-white/70">Isla Mujeres, Quintana Roo, Mexico.</p>
-            <p className="text-white/70">Luxury villas on the Sac Bajo peninsula.</p>
+            <p className="text-white/70">Luxury villas on the Sac Bajo peninsula · 3–27 suites.</p>
           </div>
-          <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Villa groups</p>
-            <p className="text-white/80">3 – 27 suites</p>
-            <p className="text-white/80">+1 206 579 0798</p>
-            <p className="text-white/80">jeffrey@cocobisla.com</p>
-          </div>
+          <nav className="space-y-2" aria-label="Footer">
+            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Explore</p>
+            <Link href="/villas" className="block text-white/80 hover:text-white">Villas</Link>
+            <Link href="/retiros" className="block text-white/80 hover:text-white">Retreats</Link>
+            <Link href="/solicitud" className="block text-white/80 hover:text-white">Plan a stay</Link>
+            <Link href="/villas/lola" className="block text-white/80 hover:text-white">Casa Lola</Link>
+            <Link href="/villas/coco" className="block text-white/80 hover:text-white">Casa Coco</Link>
+          </nav>
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Reservations</p>
-            <p className="text-white/80">US toll-free 833 439 2626</p>
-            <p className="text-white/80">9 a.m. – 5 p.m. Central</p>
-            <p className="text-white/80">reservations@cocobisla.com</p>
+            <a href="tel:+18334392626" className="block text-white/80 hover:text-white">US toll-free 833 439 2626</a>
+            <p className="text-white/60">9 a.m. – 5 p.m. Central</p>
+            <a href="mailto:reservations@cocobisla.com" className="block text-white/80 hover:text-white">reservations@cocobisla.com</a>
           </div>
           <div className="space-y-2">
             <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Concierge</p>
-            <p className="text-white/80">7 a.m. – 11 p.m. Central</p>
-            <p className="text-white/80">WhatsApp +52 998 315 4343</p>
+            <p className="text-white/60">7 a.m. – 11 p.m. Central</p>
+            <p className="text-white/80">WhatsApp <a href="https://wa.me/529983154343" className="underline decoration-white/40 underline-offset-2 hover:decoration-white">+52 998 315 4343</a></p>
+            <a href="mailto:jeffrey@cocobisla.com" className="block text-white/80 hover:text-white">jeffrey@cocobisla.com</a>
           </div>
         </div>
         <p className="mx-auto mt-8 max-w-[1180px] border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
