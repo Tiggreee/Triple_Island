@@ -1,0 +1,50 @@
+name: Deploy to Azure
+
+# CD estandar: develop valida (CI), main despliega. Merge/push a main = deploy.
+# Auth por OIDC (federated credentials) — sin secretos de larga vida en GitHub.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-cocob-web
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build image in ACR
+        run: |
+          az acr build \
+            --registry cocobwphbuiwr5u36oek \
+            --image cocob-web:${{ github.sha }} \
+            --image cocob-web:latest \
+            --file infra/azure/Dockerfile.web .
+
+      - name: Update Container App revision
+        run: |
+          az containerapp update \
+            --resource-group cocob-isla-rg \
+            --name cocob-web \
+            --image cocobwphbuiwr5u36oek.azurecr.io/cocob-web:${{ github.sha }} \
+            --revision-suffix "gh${GITHUB_SHA::7}"
+
+      - name: Deployed
+        run: echo "cocob-web updated to ${GITHUB_SHA::7}"
