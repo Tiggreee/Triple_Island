@@ -34,6 +34,7 @@ export const DESIGN_COMPONENT_NAMES = {
     primary: "cb-btn-primary",
     secondary: "cb-btn-secondary",
     ghost: "cb-btn-ghost",
+    light: "cb-btn-light",
     loading: "cb-btn-loading",
     disabled: "cb-btn-disabled",
   },
