@@ -185,26 +185,27 @@ export default function Home() {
               wellness getaways.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {villas.map((villa) => (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 min-[901px]:auto-rows-[300px]">
+            {villas.map((villa, i) => (
               <Link
                 key={villa.slug}
                 href={`/villas/${villa.slug}`}
-                className="group overflow-hidden rounded-2xl border border-border bg-surface"
+                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl min-[901px]:aspect-auto ${
+                  i === 0 ? "min-[901px]:row-span-2" : ""
+                } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
               >
-                <div className="relative aspect-[4/3] w-full">
-                  <Image
-                    src={villa.photo}
-                    alt={`${villa.name} exterior`}
-                    fill
-                    sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                </div>
-                <div className="p-4">
-                  <p className="text-[11px] uppercase tracking-[1.5px] text-accent">{villa.tag}</p>
-                  <h3 className="mt-1 text-base font-light uppercase tracking-[1px] text-foreground">{villa.name}</h3>
-                  {villa.note ? <p className="mt-1 text-xs leading-5 text-muted">{villa.note}</p> : null}
+                <Image
+                  src={villa.photo}
+                  alt={villa.name}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/15 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                  <p className="text-[11px] font-medium uppercase tracking-[2px] text-white/80">{villa.tag}</p>
+                  <h3 className="mt-1 text-lg font-light uppercase tracking-[1.5px]">{villa.name}</h3>
+                  {villa.note ? <p className="mt-1 text-xs leading-5 text-white/75">{villa.note}</p> : null}
                 </div>
               </Link>
             ))}
