@@ -41,7 +41,7 @@ const sacBajo = [
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
 
 const films = [
-  { caption: "Coco B Yoga & Wellness · Punta Sur · 16:9" },
+  { caption: "Coco by Coco B Isla · 16:9", vimeoId: "418219424", poster: "/media/coco/portfolio-pool.jpg" },
   { caption: "Coco B Wellness & Casa Coco · 16:9" },
   { caption: "Isla Mujeres, from the water · 16:9" },
 ];
