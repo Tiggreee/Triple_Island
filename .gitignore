@@ -56,3 +56,4 @@ reference/
 *.tmp
 .figma_token
 .fig-video.png
+.next_dev.log
