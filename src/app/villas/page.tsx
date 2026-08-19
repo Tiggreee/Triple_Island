@@ -5,6 +5,21 @@ import { Button } from "@/components/ui/button";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
+// FAQ "Frequent questions" (contenido de Caro, tomado del prototipo de referencia)
+const faqs = [
+  { q: "Is the rate per night for the whole villa, or per person?", a: "Per night, for the entire house — every suite included, however many of you travel, up to the villa's capacity. Rates are in US dollars and shown before the 21% Mexican tax." },
+  { q: "What does the 21% tax add to the price I see?", a: "The 21% is 16% VAT (IVA) plus 5% lodging tax (ISH), as Mexican law requires. Casa Cielo at $1,665 comes to $2,015 per night; Casa Coco at $4,840 comes to $5,856. Each villa card shows the total, so there is no surprise at the end." },
+  { q: "Is there a minimum stay?", a: "Four nights in low season. In high season it rises to five, six or seven depending on the dates — the calendar shows the minimum for the nights you pick, before you fill anything in." },
+  { q: "My group is larger than one villa. What then?", a: "Each pair of houses sits side by side and is sold as one compound under a single contract: Casa Lola & Villa Encantada (13 suites, up to 26 guests) and Casa Coco & Casa Cielo (14 suites, up to 28). For larger groups still, all four villas can be taken together." },
+  { q: "What is already included, and what costs extra?", a: "Included: daily housekeeping, concierge service, the breakfast chef's service and use of the paddle boards and kayaks. Billed separately: food and groceries, private chef service, transport and any other arrangements the concierge makes for you." },
+  { q: "Can we eat at the villa instead of going out?", a: "Yes. Our in-house chefs cook at the villa subject to availability, and we can bring in trusted outside chefs when they are booked. There is also a pre-stock service so the kitchen is ready with your groceries and drinks when you arrive." },
+  { q: "How do the chef services work?", a: "Breakfast is coffee, tea, fresh juice, fruit, homemade granola and an egg dish of your choice. Lunch is a starter, a main and sides; dinner is a starter, a main with two sides and dessert. Everything is served family-style — breakfast 7–11 AM, lunch 12–4 PM, dinner 5–9 PM." },
+  { q: "How do I know if my dates are free?", a: "Availability is on this page. Pick your dates and group size and the calendar shows which houses are open — no email needed to find out." },
+  { q: "What happens after I send an inquiry?", a: "No payment and no card at this stage. A person replies within 24 hours with a formal quote for your dates. To hold them, a 60% deposit is due at booking and the remaining 40% ninety days before check-in — a hundred and twenty days for holiday periods." },
+  { q: "How do we get there from Cancun airport?", a: "We arrange private transport from the airport to the ferry terminal, or straight to a private boat, and the drivers track your flight. The public ferry runs about MX$620 round trip per person; private boat transfers are available too. Send us your flight numbers and the concierge takes it from there." },
+  { q: "Will there be sargassum on the beach?", a: "The houses face west, towards Cancun, on the sheltered side of the island. That shore has historically stayed essentially free of sargassum — trace amounts on a handful of days a year, no more. It is why the collection is on this side." },
+];
+
 export default async function VillasPage() {
   const villas = await getVillas();
   const items = REAL_VILLAS.map((real) => {
@@ -152,6 +167,25 @@ export default async function VillasPage() {
               </span>
             ))}
           </div>
+        </div>
+      </div>
+
+      {/* FAQ — "Frequent questions" (igual al prototipo de referencia) */}
+      <div className="space-y-6">
+        <div className="text-center">
+          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Before you write to us</p>
+          <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Frequent questions</h2>
+        </div>
+        <div className="mx-auto max-w-3xl divide-y divide-border">
+          {faqs.map((item) => (
+            <details key={item.q} className="group py-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-foreground">
+                {item.q}
+                <span className="shrink-0 text-lg leading-none text-brand transition-transform group-open:rotate-45">+</span>
+              </summary>
+              <p className="mt-3 text-sm leading-7 text-muted">{item.a}</p>
+            </details>
+          ))}
         </div>
       </div>
       </div>
