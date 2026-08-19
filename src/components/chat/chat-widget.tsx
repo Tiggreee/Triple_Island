@@ -33,6 +33,8 @@ function formatReply(text: string): string {
     .trim();
 }
 
+const QUICK_REPLIES = ["Check availability", "What's included?", "Where are you?", "Plan a stay"];
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([WELCOME]);
@@ -63,9 +65,8 @@ export function ChatWidget() {
     setOnline(h >= 7 && h < 23);
   }, []);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const text = input.trim();
+  async function send(raw: string) {
+    const text = raw.trim();
     if (!text || loading) return;
 
     const nextMessages: ChatMessage[] = [...messages, { role: "user", content: text }];
@@ -98,6 +99,11 @@ export function ChatWidget() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    void send(input);
   }
 
   const teaserVisible = showTeaser && !teaserGone && !open;
@@ -198,6 +204,21 @@ export function ChatWidget() {
             )}
             {error && <p className="text-center text-xs text-accent">{error}</p>}
           </div>
+
+          {!loading && (
+            <div className="flex flex-wrap gap-1.5 px-3 pt-2">
+              {QUICK_REPLIES.map((qr) => (
+                <button
+                  key={qr}
+                  type="button"
+                  onClick={() => void send(qr)}
+                  className="rounded-full border border-primary/40 px-3 py-1 text-[11px] font-medium text-primary transition hover:bg-primary/5"
+                >
+                  {qr}
+                </button>
+              ))}
+            </div>
+          )}
 
           <form onSubmit={onSubmit} className="flex items-center gap-2 border-t border-border px-3 py-3">
             <input
