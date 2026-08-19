@@ -114,3 +114,42 @@ body {
     animation: none;
   }
 }
+
+/* Chat FAB (UX-002): rebote de atencion cada 5s. Cuando la barra flotante esta
+   visible (data-floatbar en body) el FAB y su teaser suben para no encimarse. */
+@keyframes cb-fab-bounce {
+  0%,
+  78%,
+  100% {
+    transform: translateY(0);
+  }
+  85% {
+    transform: translateY(-9px);
+  }
+  92% {
+    transform: translateY(-3px);
+  }
+}
+
+.cb-fab-bounce {
+  animation: cb-fab-bounce 5s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+}
+
+.cb-chat-fab,
+.cb-chat-teaser {
+  transition: bottom 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+body[data-floatbar="1"] .cb-chat-fab {
+  bottom: 7rem;
+}
+
+body[data-floatbar="1"] .cb-chat-teaser {
+  bottom: 11rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-fab-bounce {
+    animation: none;
+  }
+}
