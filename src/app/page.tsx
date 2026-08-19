@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 import { FilmCarousel } from "@/components/film-carousel";
+import { FloatingBar } from "@/components/floating-bar";
 
 const gatherings = [
   {
@@ -384,6 +385,7 @@ export default function Home() {
           are the published 2026–2028 peak-season starting rates.
         </p>
       </footer>
+      <FloatingBar />
     </div>
   );
 }
