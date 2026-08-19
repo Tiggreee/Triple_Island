@@ -347,8 +347,18 @@ export default function Home() {
               <Button variant="secondary" icon>Explore the villas</Button>
             </Link>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-            <Image src="/media/coco/isla-aerial.jpg" alt="Aerial view of the Isla Mujeres peninsula" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border">
+            <iframe
+              title="Map of Sac Bajo, Isla Mujeres"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=-86.78%2C21.20%2C-86.70%2C21.27&layer=mapnik&marker=21.238%2C-86.744"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="h-full w-full border-0 [filter:saturate(.86)]"
+            />
+            <span className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-medium uppercase tracking-[1.5px] text-foreground shadow-lg [backdrop-filter:blur(6px)]">
+              <span className="h-2 w-2 rounded-full bg-primary" />
+              Sac Bajo, Isla Mujeres
+            </span>
           </div>
         </div>
       </div>
