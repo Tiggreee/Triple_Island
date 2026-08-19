@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
+import { FilmCarousel } from "@/components/film-carousel";
 
 const gatherings = [
   {
@@ -54,9 +56,16 @@ const testimonials = [
 ];
 
 const reviews = [
-  { score: "4.8", count: "142 reviews" },
-  { score: "9.5", count: "69 reviews" },
-  { score: "4.9", count: "159 reviews" },
+  { platform: "Google", score: "4.8", count: "142 reviews", logo: "/media/coco/logo-google-reviews.png" },
+  { platform: "Booking", score: "9.5", count: "69 reviews", logo: "/media/coco/logo-booking-com.png" },
+  { platform: "Tripadvisor", score: "4.9", count: "159 reviews", logo: "/media/coco/logo-tripadvisor-icon.svg" },
+];
+
+const press = [
+  { name: "Tripadvisor", logo: "/media/coco/press-tripadvisor-stars.png" },
+  { name: "Condé Nast Traveler", logo: "/media/coco/press-conde-nast-traveler.png" },
+  { name: "Travelmyth", logo: "/media/coco/press-travelmyth-honeymoon.png" },
+  { name: "Boutique Hotel Awards", logo: "/media/coco/press-boutique-hotel-awards.png" },
 ];
 
 export default function Home() {
@@ -110,11 +119,17 @@ export default function Home() {
         </div>
         <a
           href="#collection"
-          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
+          aria-label="Explore the collection"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
         >
-          Explore
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/40 text-xs">
-            &darr;
+          <span className="scroll-cue-bob flex flex-col items-center gap-2">
+            Explore
+            <span className="relative flex h-11 w-11 items-center justify-center">
+              <Azulejo tone="white" variant="ring" size={44} className="scroll-cue-ring" />
+              <svg viewBox="0 0 24 24" className="absolute h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </span>
         </a>
       </div>
@@ -126,6 +141,7 @@ export default function Home() {
             Luxury villas · Boutique hotels · Destination retreats
           </p>
           <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">A collection, not a hotel</h2>
+          <AzulejoRule className="mt-4" />
           <p className="text-sm leading-7 text-muted">
             Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct
             access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for
@@ -138,6 +154,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">We live for</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Three kinds of gathering</h2>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {gatherings.map((item) => (
@@ -161,6 +178,7 @@ export default function Home() {
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
               Coco · Lola · Encantada · Cielo
             </h2>
+            <AzulejoRule className="mt-4" />
             <p className="mt-3 text-sm leading-7 text-muted">
               Each villa blends indoor and outdoor living, perfect for families, friends, corporate retreats or
               wellness getaways.
@@ -192,7 +210,7 @@ export default function Home() {
           </div>
           <div className="flex flex-col items-center gap-2">
             <Link href="/villas">
-              <Button variant="primary">Explore the villas</Button>
+              <Button variant="primary" icon>Explore the villas</Button>
             </Link>
             <p className="text-xs text-muted">Rates, real availability and combined stays for larger groups.</p>
           </div>
@@ -203,6 +221,7 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The island</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:aspect-[16/9]">
@@ -220,6 +239,7 @@ export default function Home() {
             <div>
               <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
               <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
+              <AzulejoRule className="mt-4" />
             </div>
             <div className="flex flex-wrap gap-2">
               {retreatTags.map((tag) => (
@@ -232,7 +252,7 @@ export default function Home() {
               <Image src="/media/coco/dining.jpg" alt="Outdoor dining set up for a Coco B retreat" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
             </div>
             <Link href="/retiros">
-              <Button variant="secondary">Inquire about a retreat</Button>
+              <Button variant="secondary" icon>Inquire about a retreat</Button>
             </Link>
           </div>
           <div className="space-y-6">
@@ -250,30 +270,9 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Film</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">See the island move</h2>
-            <div className="mx-auto mt-4 flex items-center justify-center gap-3">
-              <span className="h-px w-14 bg-border" />
-              <span className="h-2.5 w-2.5 rotate-45 border border-brand" />
-              <span className="h-px w-14 bg-border" />
-            </div>
+            <AzulejoRule className="mt-4" />
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {films.map((film) => (
-              <div
-                key={film.caption}
-                className="relative flex aspect-[16/9] flex-col items-center justify-center rounded-2xl bg-[color:var(--cb-color-foreground,#0e2530)] text-white"
-              >
-                <button
-                  type="button"
-                  aria-label={`Play video: ${film.caption}`}
-                  className="flex h-14 w-14 items-center justify-center rounded-full border border-white/40 bg-white/10 transition hover:bg-white/20"
-                >
-                  <span className="ml-1 block h-0 w-0 border-y-8 border-l-[13px] border-y-transparent border-l-white" />
-                </button>
-                <p className="mt-4 text-[11px] font-medium uppercase tracking-[2px] text-white/80">Video</p>
-                <p className="mt-1 px-4 text-center text-xs leading-5 text-white/70">{film.caption}</p>
-              </div>
-            ))}
-          </div>
+          <FilmCarousel films={films} />
         </div>
 
         {/* Reviews */}
@@ -281,19 +280,35 @@ export default function Home() {
           <div className="text-center">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">What people say</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
+            <AzulejoRule className="mt-4" />
           </div>
           <div className="grid grid-cols-3 gap-4">
             {reviews.map((r) => (
               <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
+                <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="mx-auto mb-3 h-[34px] w-[96px] object-contain" />
                 <p className="text-2xl font-semibold text-primary">{r.score}</p>
                 <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
               </div>
             ))}
           </div>
-          <p className="mx-auto max-w-2xl text-center text-xs italic leading-6 text-muted">
-            &ldquo;Best Luxury Villa Collection&rdquo; Q. Roo 2023 · &ldquo;Best Island Retreat Center in the Caribbean&rdquo; 2022,
-            LUXlife Magazine · &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
-          </p>
+          <div className="border-t border-border pt-8">
+            <p className="text-center text-[11px] font-medium uppercase tracking-[2.5px] text-muted">Press &amp; Awards</p>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
+              {press.map((p) => (
+                <img
+                  key={p.name}
+                  src={p.logo}
+                  alt={p.name}
+                  loading="lazy"
+                  className="h-9 w-auto object-contain opacity-40 grayscale transition hover:opacity-100 hover:grayscale-0"
+                />
+              ))}
+            </div>
+            <p className="mx-auto mt-6 max-w-2xl text-center text-xs leading-6 text-muted">
+              &ldquo;Best Luxury Villa Collection&rdquo; Q. Roo 2023 · &ldquo;Best Island Retreat Center in the Caribbean&rdquo; 2022,
+              LUXlife Magazine · &ldquo;Best Newcomer Boutique Hotel in the Americas&rdquo;
+            </p>
+          </div>
         </div>
 
         {/* Pop-up hotel */}
@@ -301,13 +316,14 @@ export default function Home() {
           <div>
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Oceanfront boutique · pop-up hotel</p>
             <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Coco &amp; Lola, by the room</h2>
+            <AzulejoRule className="mt-4" />
             <p className="mt-3 text-sm leading-7 text-muted">
               When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
             </p>
           </div>
           <div className="flex justify-center lg:justify-end">
             <Link href="/solicitud">
-              <Button variant="primary">Ask about last-minute stays</Button>
+              <Button variant="primary" icon>Ask about last-minute stays</Button>
             </Link>
           </div>
         </div>
@@ -317,6 +333,7 @@ export default function Home() {
           <div className="space-y-4 text-center lg:text-left">
             <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">A privileged location</p>
             <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Isla Mujeres</h2>
+            <AzulejoRule className="mt-4" />
             <p className="text-sm leading-7 text-muted">
               Just a 25 minute boat ride off the coast of Cancún, you&rsquo;ll find Isla Mujeres — a small and
               alluring island with some of the most beautiful beaches and coastlines in all the Caribbean.
@@ -326,7 +343,7 @@ export default function Home() {
               four villas are within walking distance of one another.
             </p>
             <Link href="/villas">
-              <Button variant="secondary">Explore the villas</Button>
+              <Button variant="secondary" icon>Explore the villas</Button>
             </Link>
           </div>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">

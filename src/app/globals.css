@@ -65,3 +65,52 @@ body {
     opacity: 1;
   }
 }
+
+/* Scroll cue (azulejo ring): el conjunto bota 8px cada 2.8s, el anillo gira 90° cada 9s. */
+@keyframes cb-cue-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+@keyframes cb-cue-ring {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+  25%,
+  45% {
+    transform: rotate(90deg);
+  }
+  50%,
+  70% {
+    transform: rotate(180deg);
+  }
+  75%,
+  95% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.scroll-cue-bob {
+  animation: cb-cue-bob 2.8s ease-in-out infinite;
+}
+
+.scroll-cue-ring {
+  transform-origin: center;
+  animation: cb-cue-ring 36s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-bob,
+  .scroll-cue-ring {
+    animation: none;
+  }
+}
