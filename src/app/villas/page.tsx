@@ -106,6 +106,7 @@ export default async function VillasPage() {
 
               <p className="text-[13px] text-foreground">
                 From <span className="font-medium">${villa.priceFrom.toLocaleString("en-US")}</span> / night
+                <span className="block text-[11px] text-muted">+ 21% tax</span>
               </p>
 
               <div className="mt-auto flex flex-col gap-2 pt-2">

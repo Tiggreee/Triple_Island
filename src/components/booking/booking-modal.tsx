@@ -1,63 +1,45 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { REAL_VILLAS } from "@/lib/villas-data";
+import { trackEvent } from "@/lib/analytics";
+import {
+  UNITS,
+  CALENDAR_MONTHS,
+  MONTH_NAMES,
+  iso,
+  fmtDate,
+  seasonOf,
+  bookedFor,
+  partialFor,
+  rateFor,
+  nights as nightsBetween,
+  minNights,
+  nextBusyAfter,
+  rangeHasBusy,
+} from "@/lib/availability";
 
 type Step = 1 | 2 | 3 | 4;
-
-type DemoDay = {
-  day: number;
-  status: "busy" | "half" | "far" | "peak" | "open";
-  price?: number;
-};
-
-const AUGUST_2026: DemoDay[] = [
-  { day: 1, status: "open" },
-  { day: 2, status: "busy" },
-  { day: 3, status: "busy" },
-  { day: 4, status: "busy" },
-  { day: 5, status: "busy" },
-  { day: 6, status: "busy" },
-  { day: 7, status: "open" },
-  { day: 8, status: "open" },
-  { day: 9, status: "open" },
-  { day: 10, status: "open" },
-  { day: 11, status: "open" },
-  { day: 12, status: "open" },
-  { day: 13, status: "open" },
-  { day: 14, status: "open" },
-  { day: 15, status: "open" },
-  { day: 16, status: "open" },
-  { day: 17, status: "open" },
-  { day: 18, status: "open" },
-  { day: 19, status: "open" },
-  { day: 20, status: "half" },
-  { day: 21, status: "half" },
-  { day: 22, status: "half" },
-  { day: 23, status: "far" },
-  { day: 24, status: "far" },
-  { day: 25, status: "peak", price: 3700 },
-  { day: 26, status: "peak", price: 3700 },
-  { day: 27, status: "open" },
-  { day: 28, status: "open" },
-  { day: 29, status: "open" },
-  { day: 30, status: "open" },
-  { day: 31, status: "open" },
-];
-
-const LEADING_BLANKS = 5;
 
 type BookingModalProps = {
   initialVillaSlug: string;
   onClose: () => void;
 };
 
+function money(n: number): string {
+  return `$${n.toLocaleString("en-US")}`;
+}
+
 export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
+  const initialUnit = Math.max(0, REAL_VILLAS.findIndex((v) => v.slug === initialVillaSlug));
   const [step, setStep] = useState<Step>(1);
   const [guests, setGuests] = useState(2);
-  const [villaSlug, setVillaSlug] = useState(initialVillaSlug);
-  const [range, setRange] = useState<{ start: number | null; end: number | null }>({ start: null, end: null });
+  const [unit, setUnit] = useState(initialUnit);
+  const [mi, setMi] = useState(0);
+  const [ci, setCi] = useState<string | null>(null);
+  const [co, setCo] = useState<string | null>(null);
+  const [warn, setWarn] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [touched, setTouched] = useState<Record<string, boolean>>({});
@@ -70,42 +52,68 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
     consent: false,
   });
 
-  const villa = REAL_VILLAS.find((v) => v.slug === villaSlug) ?? REAL_VILLAS[0];
-  const showMixChip = guests > 14;
+  const active = UNITS[unit];
+  const cameFrom = UNITS[initialUnit];
+  const showCompounds = guests > 14;
+  const [year, month] = CALENDAR_MONTHS[mi];
 
-  const nights = range.start && range.end ? range.end - range.start : 0;
-  const estimatedTotal = nights > 0 ? nights * villa.priceFrom : 0;
+  useEffect(() => {
+    trackEvent("stepper_inicio", { unit: UNITS[initialUnit].name });
+  }, [initialUnit]);
 
-  function pickDay(day: number) {
-    const info = AUGUST_2026.find((d) => d.day === day);
-    if (!info || info.status === "busy") return;
+  // Compounds only fit large groups; drop back to a member villa otherwise.
+  useEffect(() => {
+    if (guests <= 14 && active.pair) setUnit(active.pair[0]);
+  }, [guests, active.pair]);
 
-    if (!range.start || (range.start && range.end)) {
-      setRange({ start: day, end: null });
+  const nightCount = nightsBetween(ci, co);
+  const min = minNights(ci);
+  const nightlyRate = (ci && rateFor(unit, ci)) || active.from;
+  const estimatedTotal = nightCount > 0 ? nightlyRate * nightCount : 0;
+  const datesValid = Boolean(ci && co && nightCount >= min);
+  const limit = ci && !co ? nextBusyAfter(unit, ci, year, month) : null;
+
+  function tap(s: string) {
+    setWarn(null);
+    if (!ci || co) {
+      setCi(s);
+      setCo(null);
       return;
     }
-    if (day <= range.start) {
-      setRange({ start: day, end: null });
+    if (s > ci) {
+      const clash = rangeHasBusy(unit, ci, s, year, month);
+      if (clash) {
+        setCi(s);
+        setCo(null);
+        setWarn(
+          `${active.name} is booked on ${fmtDate(clash)}. A stay can't run across a booked night — we moved your check-in to ${fmtDate(s)}. Pick a check-out before the next booked night, or ask us about combining two villas.`,
+        );
+        return;
+      }
+      setCo(s);
       return;
     }
-    const hasBusyBetween = AUGUST_2026.some((d) => d.day > range.start! && d.day < day && d.status === "busy");
-    if (hasBusyBetween) {
-      setRange({ start: day, end: null });
-      return;
-    }
-    setRange({ start: range.start, end: day });
+    setCi(s);
   }
 
-  function cellClass(d: DemoDay) {
-    const isSel = d.day === range.start || d.day === range.end;
-    const isInRange = range.start && range.end && d.day > range.start && d.day < range.end;
-    if (isSel) return "bg-primary text-white";
-    if (isInRange) return "bg-primary/15 text-foreground";
-    if (d.status === "busy") return "cursor-not-allowed text-muted/40 line-through";
-    if (d.status === "half") return "cursor-not-allowed text-muted/50 bg-accent/10";
-    if (d.status === "peak") return "bg-accent/10 text-foreground hover:bg-accent/20";
+  function dayClass(o: { sel: boolean; inRange: boolean; booked: boolean; part: boolean; far: boolean; peak: boolean }): string {
+    if (o.sel) return "bg-primary text-white";
+    if (o.inRange) return "bg-primary/15 text-foreground";
+    if (o.booked && !o.part) return "cursor-not-allowed text-muted/40 line-through";
+    if (o.part) return "cursor-not-allowed text-muted/60 [background:repeating-linear-gradient(45deg,transparent,transparent_3px,#78787830_3px,#78787830_6px)]";
+    if (o.far) return "cursor-not-allowed text-muted/30";
+    if (o.peak) return "bg-accent/10 text-foreground hover:bg-accent/20";
     return "text-foreground hover:bg-primary/10";
   }
+
+  const cells = useMemo(() => {
+    const offset = (new Date(year, month, 1).getDay() + 6) % 7;
+    const days = new Date(year, month + 1, 0).getDate();
+    const out: { key: string; day: number | null; s: string | null }[] = [];
+    for (let k = 0; k < offset; k++) out.push({ key: `blank-${k}`, day: null, s: null });
+    for (let d = 1; d <= days; d++) out.push({ key: iso(year, month, d), day: d, s: iso(year, month, d) });
+    return out;
+  }, [year, month]);
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
   const phoneValid = form.phone.replace(/\D/g, "").length >= 10;
@@ -121,21 +129,18 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
     event.preventDefault();
     setTouched({ firstName: true, lastName: true, email: true, phone: true });
     if (!formValid) return;
-
     setSubmitting(true);
     setSubmitError(null);
     try {
       const dateSummary =
-        range.start && range.end
-          ? `Aug ${range.start}–${range.end}, 2026 (${nights} nights)`
-          : "Dates flexible / to confirm";
+        ci && co ? `${fmtDate(ci)} → ${fmtDate(co)}, ${ci.slice(0, 4)} (${nightCount} nights)` : "Dates flexible / to confirm";
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
-          message: `Villa: ${villa.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}\n\n${form.trip}`,
+          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}\n\n${form.trip}`,
           leadType: "solicitud",
           website: "",
           startedAt: Date.now(),
@@ -148,11 +153,17 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
         return;
       }
       setStep(4);
+      trackEvent("stepper_completado", { unit: active.name, guests, nights: nightCount });
     } catch {
       setSubmitError("Something went wrong sending your request. Please try again.");
     } finally {
       setSubmitting(false);
     }
+  }
+
+  function advance() {
+    if (step === 2) trackEvent("stepper_fechas_seleccionadas", { unit: active.name, nights: nightCount });
+    setStep((s) => (s + 1) as Step);
   }
 
   const steps: { n: Step; label: string }[] = [
@@ -169,7 +180,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
       >
         <div className="flex items-center gap-3 border-b border-border p-5">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-            <Image src={villa.photo} alt={villa.name} fill sizes="48px" className="object-cover" />
+            <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-semibold text-foreground">Your stay</p>
@@ -209,8 +220,8 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
           {step === 1 ? (
             <div className="space-y-5">
               <p className="text-xs text-muted">
-                You were looking at <b className="text-foreground">{villa.name}</b> — {villa.suites} suites, up to{" "}
-                {villa.guests} guests.
+                You were looking at <b className="text-foreground">{cameFrom.name}</b> — {cameFrom.suites} suites, up to{" "}
+                {cameFrom.guests} guests.
               </p>
               <h3 className="text-lg font-light uppercase tracking-[1.5px] text-foreground">How many of you?</h3>
               <p className="text-sm text-muted">
@@ -237,31 +248,56 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
               </div>
               <p className="text-center text-xs text-muted">guests</p>
 
-              {showMixChip ? (
-                <p className="rounded-xl bg-accent/10 p-3 text-xs leading-5 text-foreground">
-                  <b>Groups of 15+</b> — we combine two side-by-side villas under a single contract.
-                </p>
+              {showCompounds ? (
+                <div className="space-y-2">
+                  <p className="rounded-xl bg-accent/10 p-3 text-xs leading-5 text-foreground">
+                    <b>Groups of 15+</b> — we combine two side-by-side villas under a single contract, on one calendar.
+                  </p>
+                  {UNITS.map((v, i) =>
+                    v.pair ? (
+                      <button
+                        key={v.name}
+                        type="button"
+                        onClick={() => setUnit(i)}
+                        className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
+                      >
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                          <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
+                        </div>
+                        <span>
+                          <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
+                          <span className="block text-[11px] text-muted">
+                            {v.suites} suites · up to {v.guests} · from {money(v.from)}
+                            {v.quote ? " · combined rate on request" : ""}
+                          </span>
+                        </span>
+                      </button>
+                    ) : null,
+                  )}
+                </div>
               ) : null}
 
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {REAL_VILLAS.map((v) => (
-                  <button
-                    key={v.slug}
-                    type="button"
-                    onClick={() => setVillaSlug(v.slug)}
-                    className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${v.slug === villaSlug ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
-                  >
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                      <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
-                    </div>
-                    <span>
-                      <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
-                      <span className="block text-[11px] text-muted">
-                        {v.suites} suites · up to {v.guests} · from ${v.priceFrom.toLocaleString("en-US")}
+                {UNITS.map((v, i) =>
+                  v.pair ? null : (
+                    <button
+                      key={v.name}
+                      type="button"
+                      onClick={() => setUnit(i)}
+                      className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
+                    >
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
+                        <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
+                      </div>
+                      <span>
+                        <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
+                        <span className="block text-[11px] text-muted">
+                          {v.suites} suites · up to {v.guests} · from {money(v.from)}
+                        </span>
                       </span>
-                    </span>
-                  </button>
-                ))}
+                    </button>
+                  ),
+                )}
               </div>
             </div>
           ) : null}
@@ -269,12 +305,26 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
           {step === 2 ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <strong className="text-sm text-foreground">August 2026</strong>
+                <strong className="text-sm text-foreground">
+                  {MONTH_NAMES[month]} {year}
+                </strong>
                 <div className="flex gap-1">
-                  <button type="button" disabled aria-label="Previous month" className="rounded-full border border-border px-2 py-1 text-xs text-muted/40">
+                  <button
+                    type="button"
+                    onClick={() => setMi((v) => Math.max(0, v - 1))}
+                    disabled={mi <= 0}
+                    aria-label="Previous month"
+                    className="rounded-full border border-border px-2 py-1 text-xs text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
+                  >
                     &lsaquo;
                   </button>
-                  <button type="button" disabled aria-label="Next month" className="rounded-full border border-border px-2 py-1 text-xs text-muted/40">
+                  <button
+                    type="button"
+                    onClick={() => setMi((v) => Math.min(CALENDAR_MONTHS.length - 1, v + 1))}
+                    disabled={mi >= CALENDAR_MONTHS.length - 1}
+                    aria-label="Next month"
+                    className="rounded-full border border-border px-2 py-1 text-xs text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
+                  >
                     &rsaquo;
                   </button>
                 </div>
@@ -285,32 +335,54 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                 ))}
               </div>
               <div className="grid grid-cols-7 gap-1">
-                {Array.from({ length: LEADING_BLANKS }, (_, i) => (
-                  <span key={`blank-${i}`} />
-                ))}
-                {AUGUST_2026.map((d) => (
-                  <button
-                    key={d.day}
-                    type="button"
-                    disabled={d.status === "busy" || d.status === "half"}
-                    onClick={() => pickDay(d.day)}
-                    className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${cellClass(d)}`}
-                  >
-                    <span>{d.day}</span>
-                    {d.status === "peak" && d.price ? <span className="text-[9px]">{(d.price / 1000).toFixed(1)}k</span> : null}
-                  </button>
-                ))}
+                {cells.map((c) => {
+                  if (c.s === null) return <span key={c.key} />;
+                  const s = c.s;
+                  const booked = bookedFor(unit, s);
+                  const part = partialFor(unit, s);
+                  const peak = Boolean(seasonOf(s));
+                  const r = rateFor(unit, s);
+                  const sel = s === ci || s === co;
+                  const inRange = Boolean(ci && co && s > ci && s < co);
+                  const far = Boolean(ci && !co && limit && s > limit);
+                  const disabled = booked || far;
+                  const label = booked
+                    ? part
+                      ? `${c.day} ${MONTH_NAMES[month]}, booked at ${part}`
+                      : `${c.day} ${MONTH_NAMES[month]}, booked`
+                    : far
+                      ? `${c.day} ${MONTH_NAMES[month]}, beyond the next booked night`
+                      : undefined;
+                  return (
+                    <button
+                      key={c.key}
+                      type="button"
+                      disabled={disabled}
+                      aria-label={label}
+                      title={label}
+                      onClick={() => tap(s)}
+                      className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${dayClass({ sel, inRange, booked, part: Boolean(part), far, peak })}`}
+                    >
+                      <span>{c.day}</span>
+                      {r ? <span className="text-[9px]">{(r / 1000).toFixed(1)}k</span> : null}
+                    </button>
+                  );
+                })}
               </div>
-              <p className="text-[11px] text-muted">
-                Struck-through dates are already booked. Amber dates carry a peak-season rate.
+              <p className={`text-[11px] ${warn ? "text-danger" : "text-muted"}`}>
+                {warn ? (
+                  warn
+                ) : active.pair ? (
+                  <>
+                    A night is open only when <b>{UNITS[active.pair[0]].name}</b> and <b>{UNITS[active.pair[1]].name}</b> are
+                    both free. Striped nights are booked at one of the two.
+                  </>
+                ) : ci && !co && limit ? (
+                  `Check-in ${fmtDate(ci)}. ${active.name} is booked from ${fmtDate(limit)}, so your check-out must be before then.`
+                ) : (
+                  "Struck-through dates are already booked. Amber dates carry a peak-season rate."
+                )}
               </p>
-              {range.start ? (
-                <p className="text-sm text-foreground">
-                  {range.end
-                    ? `Aug ${range.start} → Aug ${range.end} · ${nights} nights · ~$${estimatedTotal.toLocaleString("en-US")} estimated`
-                    : `Aug ${range.start} selected — pick your check-out`}
-                </p>
-              ) : null}
             </div>
           ) : null}
 
@@ -400,18 +472,20 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
               </p>
               <div className="mx-auto flex max-w-sm items-center gap-3 rounded-xl border border-border p-4 text-left">
                 <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                  <Image src={villa.photo} alt={villa.name} fill sizes="48px" className="object-cover" />
+                  <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
                 </div>
                 <div className="text-xs">
                   <p className="font-semibold text-foreground">
-                    {villa.name} <span className="font-normal text-muted">· {guests} guests</span>
+                    {active.name} <span className="font-normal text-muted">· {guests} guests</span>
                   </p>
-                  {range.start && range.end ? (
+                  {ci && co ? (
                     <p className="text-muted">
-                      Aug {range.start} &rarr; Aug {range.end} · {nights} nights · 2026
+                      {fmtDate(ci)} &rarr; {fmtDate(co)} · {nightCount} nights · {ci.slice(0, 4)}
                     </p>
                   ) : null}
-                  {estimatedTotal > 0 ? <p className="mt-1 font-semibold text-foreground">~${estimatedTotal.toLocaleString("en-US")} estimated</p> : null}
+                  {estimatedTotal > 0 ? (
+                    <p className="mt-1 font-semibold text-foreground">from {money(estimatedTotal)} + 21% tax</p>
+                  ) : null}
                 </div>
               </div>
               <button
@@ -427,14 +501,37 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
 
         {step < 3 ? (
           <div className="flex items-center justify-between border-t border-border p-5">
-            <p className="text-xs text-muted">
-              <b className="text-foreground">{villa.name}</b> · {guests} guests
-              {step === 1 ? " · pick your nights" : ""}
+            <p className={`text-xs ${step === 2 && ci && co && nightCount < min ? "text-danger" : "text-muted"}`}>
+              {step === 2 && ci && co ? (
+                nightCount < min ? (
+                  <>
+                    <b>
+                      {nightCount} night{nightCount > 1 ? "s" : ""} selected
+                    </b>{" "}
+                    · {min}-night minimum this season — extend your check-out
+                  </>
+                ) : (
+                  <>
+                    <b className="text-foreground">
+                      {fmtDate(ci)} → {fmtDate(co)} · {nightCount} nights
+                    </b>{" "}
+                    · {active.name} · from {money(nightlyRate * nightCount)} + 21% tax
+                  </>
+                )
+              ) : step === 2 && ci ? (
+                <>
+                  <b className="text-foreground">Check-in {fmtDate(ci)}</b> · now pick your check-out
+                </>
+              ) : (
+                <>
+                  <b className="text-foreground">{active.name}</b> · {guests} guests{step === 1 ? " · pick your nights" : ""}
+                </>
+              )}
             </p>
             <button
               type="button"
-              disabled={step === 2 && !(range.start && range.end)}
-              onClick={() => setStep((s) => (s + 1) as Step)}
+              disabled={step === 2 && !datesValid}
+              onClick={advance}
               className="rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-40"
             >
               {step === 1 ? "See available dates" : "Continue"}
@@ -446,8 +543,8 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
   );
 }
 
-export function useBookingModal(initialVillaSlug: string) {
-  const [open, setOpen] = useState(false);
+export function useBookingModal(initialVillaSlug: string, initialOpen = false) {
+  const [open, setOpen] = useState(initialOpen);
   const modal = useMemo(
     () => (open ? <BookingModal initialVillaSlug={initialVillaSlug} onClose={() => setOpen(false)} /> : null),
     [open, initialVillaSlug],
