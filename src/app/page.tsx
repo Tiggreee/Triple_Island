@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Azulejo } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 
 const gatherings = [
@@ -110,11 +111,17 @@ export default function Home() {
         </div>
         <a
           href="#collection"
-          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
+          aria-label="Explore the collection"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[2px] text-white/85 transition hover:text-white"
         >
-          Explore
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/40 text-xs">
-            &darr;
+          <span className="scroll-cue-bob flex flex-col items-center gap-2">
+            Explore
+            <span className="relative flex h-11 w-11 items-center justify-center">
+              <Azulejo tone="white" variant="ring" size={44} className="scroll-cue-ring" />
+              <svg viewBox="0 0 24 24" className="absolute h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </span>
         </a>
       </div>
