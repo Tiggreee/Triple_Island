@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { DESIGN_COMPONENT_NAMES } from "@/lib/design-contract";
 import { Azulejo } from "@/components/ui/azulejo";
+import { NavButtonIcon } from "@/components/ui/nav-button-icon";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "light";
 
@@ -8,7 +9,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
   isLoading?: boolean;
   variant?: ButtonVariant;
-  icon?: boolean;
+  icon?: boolean | "nav";
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
@@ -46,13 +47,14 @@ export function Button({
       ].join(" ")}
     >
       {isLoading ? "Loading..." : children}
-      {icon && !isLoading ? (
+      {icon === true && !isLoading ? (
         <Azulejo
           tone={iconTone}
           size={13}
           className="transition-transform duration-[450ms] ease-[cubic-bezier(.7,0,.2,1)] group-hover:rotate-90"
         />
       ) : null}
+      {icon === "nav" && !isLoading ? <NavButtonIcon /> : null}
     </button>
   );
 }
