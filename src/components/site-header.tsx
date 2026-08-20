@@ -35,7 +35,7 @@ export function SiteHeader() {
   return (
     <header
       className={`sticky top-0 z-40 transition-colors duration-300 ${
-        transparent ? "border-b border-transparent bg-transparent" : "border-b border-border bg-surface"
+        transparent ? "border-b border-transparent bg-transparent" : "border-b border-border bg-[rgba(251,248,243,0.96)] backdrop-blur-[10px]"
       } ${hasHero ? "-mb-19.5 lg:-mb-29.5" : ""}`}
     >
       <div className="mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-4 sm:px-6 lg:h-29.5 lg:px-8">
