@@ -24,6 +24,15 @@ const gatherings = [
   },
 ];
 
+const experiences = [
+  { title: "Yoga & wellness", body: "Sunrise sessions and hosted retreats, led by seasoned instructors.", photo: "/media/coco/yoga-mats.jpg" },
+  { title: "Private boat transfers", body: "Arrivals by private boat and charters across the Caribbean.", photo: "/media/coco/catamaran.jpg" },
+  { title: "Private chef dinners", body: "In-house chefs cooking family-style, wherever you want to eat.", photo: "/media/coco/dining.jpg" },
+  { title: "Weddings & events", body: "Ceremonies on the sand and dinners under the palapa.", photo: "/media/coco/wedding-ceremony.jpg" },
+  { title: "Excursions & activities", body: "Snorkelling, paddleboards and island adventures at your door.", photo: "/media/coco/island-snorkelling-golden-hour.png" },
+  { title: "Spa & massage", body: "In-villa treatments and massage, arranged on request.", photo: "/media/coco/sunset-pool.jpg" },
+];
+
 const villas = [
   { slug: "lola", name: "Casa Lola", tag: "The newest gem", note: "Rooftop terrace, 360° views of the Caribbean", photo: "/media/coco/villas/lola-01.webp" },
   { slug: "encantada", name: "Villa Encantada", tag: "The inaugural villa", note: "", photo: "/media/coco/villas/encantada-01.webp" },
@@ -175,6 +184,28 @@ export default function Home() {
                 <div className="p-5">
                   <h3 className="text-sm font-semibold uppercase tracking-[1px] text-foreground">{item.title}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted">{item.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        {/* Experiences — UX-005: texto fuera del contenedor de la imagen, sobre fondo sand. */}
+        <div className="space-y-8">
+          <div className="text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Beyond the villa</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Experiences</h2>
+            <AzulejoRule className="mt-4" />
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {experiences.map((x) => (
+              <article key={x.title} className="group overflow-hidden rounded-2xl border border-border bg-surface">
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image src={x.photo} alt={x.title} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105" />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-sm font-semibold uppercase tracking-[1px] text-foreground">{x.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted">{x.body}</p>
                 </div>
               </article>
             ))}
