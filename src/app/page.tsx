@@ -286,34 +286,62 @@ export default function Home() {
         </div>
 
         {/* Full-service planning + testimonials */}
-        <div className="grid grid-cols-1 gap-10 rounded-2xl border border-border bg-surface p-6 lg:grid-cols-2 lg:p-10">
-          <div className="space-y-6">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
-              <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
-              <AzulejoRule className="mt-4" />
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {retreatTags.map((tag) => (
-                <span key={tag} className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[1px] text-muted">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl">
-              <Image src="/media/coco/dining.jpg" alt="Outdoor dining set up for a Coco B retreat" fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-            </div>
-            <Link href="/retiros">
-              <Button variant="secondary" icon>Inquire about a retreat</Button>
-            </Link>
+        <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
+          <div className="text-center">
+            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
+            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
+            <AzulejoRule className="mt-4" />
           </div>
-          <div className="space-y-6">
+
+          <div className="flex flex-wrap justify-center gap-2">
+            {retreatTags.map((tag) => (
+              <span key={tag} className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[1px] text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <figure className="space-y-3">
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="/media/coco/dining.jpg"
+                  alt="Outdoor dining set up for a Coco B retreat"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Retreat in progress · 16:9</figcaption>
+            </figure>
+
+            <figure className="space-y-3">
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+                <Image
+                  src="/media/coco/retreat-ceremony-palapa.png"
+                  alt="Ceremony setup under the palapa for a destination retreat"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+              <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Ceremony · 16:9</figcaption>
+            </figure>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {testimonials.map((t) => (
-              <figure key={t.author} className="space-y-2 border-b border-border pb-6 last:border-0 last:pb-0">
+              <figure key={t.author} className="h-full space-y-3 rounded-2xl border border-border bg-white/70 p-5">
                 <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
                 <figcaption className="text-xs uppercase tracking-[1px] text-foreground">{t.author}</figcaption>
               </figure>
             ))}
+          </div>
+
+          <div className="flex justify-center">
+            <Link href="/retiros">
+              <Button variant="secondary" icon>Inquire about a retreat</Button>
+            </Link>
           </div>
         </div>
 
