@@ -35,17 +35,17 @@ export function SiteHeader() {
   return (
     <header
       className={`sticky top-0 z-40 transition-colors duration-300 ${
-        transparent ? "border-b border-transparent bg-transparent" : "border-b border-border bg-surface"
-      } ${hasHero ? "-mb-[78px] lg:-mb-[118px]" : ""}`}
+        transparent ? "border-b border-transparent bg-transparent" : "border-b border-border bg-[rgba(251,248,243,0.96)] backdrop-blur-[10px]"
+      } ${hasHero ? "-mb-19.5 lg:-mb-29.5" : ""}`}
     >
-      <div className="mx-auto flex h-[78px] max-w-[1180px] items-center justify-between gap-3 px-4 sm:px-6 lg:h-[118px] lg:px-8">
+      <div className="mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-4 sm:px-6 lg:h-29.5 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src={transparent ? "/media/coco/logo-white.png" : "/media/figma/footer-logo.png"}
             alt="Coco B Isla"
             width={82}
             height={69}
-            className="h-[52px] w-auto drop-shadow-[0_2px_8px_rgba(11,32,40,0.35)] lg:h-[82px]"
+            className="h-13 w-auto drop-shadow-[0_2px_8px_rgba(11,32,40,0.35)] lg:h-20.5"
           />
           <span className={`hidden text-sm font-medium uppercase tracking-[1.5px] sm:inline ${transparent ? "text-white" : "text-foreground"}`}>
             Coco B Isla
@@ -68,7 +68,8 @@ export function SiteHeader() {
           <Link href={pathname === "/villas" ? "/solicitud" : "/villas"}>
             <Button
               variant="primary"
-              className={`!px-5 !py-2.5 text-[11px] ${transparent ? "!border-white/55 !bg-white/15 backdrop-blur-sm hover:!bg-white/25" : ""}`}
+              icon="nav"
+              className={`px-5! py-2.5! text-[11px] ${transparent ? "border-white/55! bg-white/15! backdrop-blur-sm hover:bg-white/25!" : ""}`}
             >
               {pathname === "/villas" ? "Check Availability" : "Explore the Villas"}
             </Button>
