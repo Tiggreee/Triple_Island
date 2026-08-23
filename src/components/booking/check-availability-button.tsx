@@ -6,14 +6,15 @@ import { useBookingModal } from "@/components/booking/booking-modal";
 type CheckAvailabilityButtonProps = {
   villaSlug: string;
   className?: string;
+  label?: string;
 };
 
-export function CheckAvailabilityButton({ villaSlug, className }: CheckAvailabilityButtonProps) {
+export function CheckAvailabilityButton({ villaSlug, className, label = "Check Availability" }: CheckAvailabilityButtonProps) {
   const { open, modal } = useBookingModal(villaSlug);
   return (
     <>
-      <Button variant="primary" className={className} onClick={open}>
-        Check Availability
+      <Button variant="primary" icon className={className} onClick={open}>
+        {label}
       </Button>
       {modal}
     </>

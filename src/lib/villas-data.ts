@@ -62,3 +62,6 @@ export const REAL_VILLAS: VillaData[] = [
     extra: "A 5th suite may be added for US$150–200 extra per night, depending on season.",
   },
 ];
+
+// Villa slug → availability unit index (UNITS order in lib/availability).
+export const SLUG_TO_UNIT: Record<string, number> = { coco: 0, encantada: 1, lola: 2, cielo: 3 };

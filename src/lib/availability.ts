@@ -114,3 +114,48 @@ export function rangeHasBusy(unit: number, a: string, b: string, year: number, m
   }
   return null;
 }
+
+export type AugStatus = { tone: "open" | "filling" | "almost"; label: string };
+
+// August 2026 availability summary for the villa card chip. Free-night count
+// and longest open streak drive the three states.
+export function augStatus(unit: number): AugStatus {
+  const year = 2026;
+  const month = 7;
+  let free = 0;
+  let streak = 0;
+  let bestLen = 0;
+  let bestStart = "";
+  let runStart = "";
+  for (let d = 1; d <= 31; d++) {
+    const s = iso(year, month, d);
+    if (bookedFor(unit, s)) {
+      streak = 0;
+      continue;
+    }
+    free++;
+    if (streak === 0) runStart = s;
+    streak++;
+    if (streak > bestLen) {
+      bestLen = streak;
+      bestStart = runStart;
+    }
+  }
+  if (free >= 22) return { tone: "open", label: "Open most of August" };
+  if (free >= 12) return { tone: "filling", label: `Filling up · ${bestLen} nights free from ${fmtDate(bestStart)}` };
+  return { tone: "almost", label: `Almost booked · only ${free} nights left in August` };
+}
+
+export type PeakRate = { season: string; min: number; nightly: number; tax: number; total: number };
+
+// Published peak-season rates for a unit, computed from the official rate card.
+export function peakRatesFor(unit: number): PeakRate[] {
+  return SEASONS.filter((s) => s.rates[unit] != null)
+    .slice()
+    .sort((a, b) => a.from.localeCompare(b.from))
+    .map((s) => {
+      const nightly = s.rates[unit];
+      const tax = Math.round(nightly * 0.21);
+      return { season: s.key, min: s.min, nightly, tax, total: nightly + tax };
+    });
+}
