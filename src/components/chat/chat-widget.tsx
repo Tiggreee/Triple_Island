@@ -108,7 +108,7 @@ export function ChatWidget() {
 
       setMessages((prev) => [...prev, { role: "assistant", content: data.reply as string }]);
     } catch {
-      setError("Sorry, the concierge is unavailable right now. Please try again.");
+      setError("The concierge is unavailable right now — leave your question and we'll reply within 24 hours.");
     } finally {
       setLoading(false);
     }
@@ -235,7 +235,18 @@ export function ChatWidget() {
                 </span>
               </div>
             )}
-            {error && <p className="text-center text-xs text-accent">{error}</p>}
+            {error && (
+              <div className="rounded-xl border border-border bg-background px-3.5 py-3 text-center text-xs">
+                <p className="text-muted">{error}</p>
+                <Link
+                  href="/solicitud"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 inline-flex items-center gap-1 rounded-full bg-primary px-4 py-2 text-[11px] font-semibold uppercase tracking-[1px] text-white transition hover:opacity-90"
+                >
+                  Leave your question <span aria-hidden>&rarr;</span>
+                </Link>
+              </div>
+            )}
           </div>
 
           {!loading && (

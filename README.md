@@ -1,5 +1,7 @@
 Triple Island
 
+**Demo en vivo (producción):** https://cocob-web.whitetree-e39b7f21.eastus2.azurecontainerapps.io/
+
 Sitio de Coco B Isla — villas de lujo, hoteles boutique y retiros en Isla Mujeres. Next.js con App Router, WordPress headless como CMS, captura de leads a HubSpot y un chatbot con grounding sobre las villas.
 
 Stack
@@ -17,6 +19,8 @@ Reserva
 El flujo es un stepper de tres pasos (huéspedes → fechas → datos) que sale del detalle de villa y de `/solicitud`. El calendario trabaja con fechas reales, mínimos de noches por temporada e impuesto del 21% a la vista. Para grupos grandes ofrece villas combinadas (Lola & Encantada, Coco & Cielo): una noche está libre solo si ambas casas lo están, y las que tienen una sola ocupada se marcan aparte. Todo termina en `/api/lead` → HubSpot. Retiros y waitlist entran por el mismo `/solicitud` con un formulario contextual.
 
 Despliegue
+
+Producción (frontend): https://cocob-web.whitetree-e39b7f21.eastus2.azurecontainerapps.io/
 
 Corre en Azure Container Apps (resource group `cocob-isla-rg`): frontend y WordPress como contenedores separados, MySQL Flexible Server, Key Vault, Storage y Application Insights, con Azure Front Door al frente (caché de borde + compresión). Infra como código en [infra/azure/](infra/azure) (Bicep).
 
