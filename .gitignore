@@ -53,7 +53,6 @@ reference/
 /coco_by_coco_b_isla*.mp4
 
 # Editor / tooling local
-.claude/
 .vscode/mcp.json
 
 # Local deploy secrets (never commit)
