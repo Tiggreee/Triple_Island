@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { trackEvent } from "@/lib/analytics";
+import { Azulejo } from "@/components/ui/azulejo";
 import {
   UNITS,
   CALENDAR_MONTHS,
@@ -48,6 +49,8 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
     lastName: "",
     email: "",
     phone: "",
+    flexible: "",
+    heard: "",
     trip: "",
     consent: false,
   });
@@ -134,7 +137,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
         body: JSON.stringify({
           name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
-          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}\n\n${form.trip}`,
+          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
           leadType: "solicitud",
           website: "",
           startedAt: Date.now(),
@@ -158,6 +161,10 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
   function advance() {
     if (step === 2) trackEvent("stepper_fechas_seleccionadas", { unit: active.name, nights: nightCount });
     setStep((s) => (s + 1) as Step);
+  }
+
+  function back() {
+    setStep((s) => (s > 1 ? ((s - 1) as Step) : s));
   }
 
   const steps: { n: Step; label: string }[] = [
@@ -192,21 +199,30 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
 
         {step < 4 ? (
           <div className="flex items-center justify-center gap-2 border-b border-border px-5 py-3">
-            {steps.map((s, i) => (
-              <div key={s.n} className="flex items-center gap-2">
-                <span
-                  className={`flex items-center gap-1.5 text-[11px] uppercase tracking-[1px] ${step === s.n ? "text-primary" : step > s.n ? "text-muted" : "text-muted/50"}`}
-                >
+            {steps.map((s, i) => {
+              const state = step === s.n ? "active" : step > s.n ? "done" : "pending";
+              return (
+                <div key={s.n} className="flex items-center gap-2">
                   <span
-                    className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${step >= s.n ? "bg-primary text-white" : "border border-border"}`}
+                    className={`flex items-center gap-2 text-[11px] uppercase tracking-[1px] ${
+                      state === "active" ? "text-primary" : state === "done" ? "text-brand" : "text-muted/60"
+                    }`}
                   >
-                    {s.n}
+                    <span className="relative flex h-8 w-8 items-center justify-center">
+                      <Azulejo
+                        variant="ring"
+                        tone={state === "active" ? "action" : state === "done" ? "teal" : "muted"}
+                        size={32}
+                        className="absolute inset-0 m-auto"
+                      />
+                      <b className="relative text-[11px] font-semibold">{s.n}</b>
+                    </span>
+                    {s.label}
                   </span>
-                  {s.label}
-                </span>
-                {i < steps.length - 1 ? <span className="h-px w-6 bg-border" /> : null}
-              </div>
-            ))}
+                  {i < steps.length - 1 ? <span className="h-px w-6 bg-border" /> : null}
+                </div>
+              );
+            })}
           </div>
         ) : null}
 
@@ -424,6 +440,36 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                 />
                 {errors.phone ? <span className="text-[11px] text-danger">{errors.phone}</span> : null}
               </label>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <label className="grid gap-1 text-xs text-foreground">
+                  Are your dates flexible?
+                  <select
+                    value={form.flexible}
+                    onChange={(e) => setForm((f) => ({ ...f, flexible: e.target.value }))}
+                    className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
+                  >
+                    <option value="">Select one</option>
+                    <option>Dates are firm</option>
+                    <option>Can shift a few days</option>
+                    <option>Fully flexible</option>
+                  </select>
+                </label>
+                <label className="grid gap-1 text-xs text-foreground">
+                  How did you hear about us?
+                  <select
+                    value={form.heard}
+                    onChange={(e) => setForm((f) => ({ ...f, heard: e.target.value }))}
+                    className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
+                  >
+                    <option value="">Select one</option>
+                    <option>Instagram</option>
+                    <option>Google</option>
+                    <option>Friend or past guest</option>
+                    <option>Travel agent</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+              </div>
               <label className="grid gap-1 text-xs text-foreground">
                 Tell us about the trip
                 <textarea
@@ -444,13 +490,22 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                 I agree to be contacted by Coco B Isla by email or WhatsApp about this inquiry. *
               </label>
               {submitError ? <p className="text-xs text-danger">{submitError}</p> : null}
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-60"
-              >
-                {submitting ? "Sending..." : "Send Inquiry"}
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={back}
+                  className="inline-flex shrink-0 items-center gap-1 rounded-full px-4 py-3 text-[11px] font-semibold uppercase tracking-[1.4px] text-muted transition hover:text-foreground"
+                >
+                  <span aria-hidden="true">‹</span> Back
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex-1 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-60"
+                >
+                  {submitting ? "Sending..." : "Send Inquiry"}
+                </button>
+              </div>
             </form>
           ) : null}
 
@@ -490,8 +545,18 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
         </div>
 
         {step < 3 ? (
-          <div className="flex items-center justify-between border-t border-border p-5">
-            <p className={`text-xs ${step === 2 && ci && co && nightCount < min ? "text-danger" : "text-muted"}`}>
+          <div className="flex items-center justify-between gap-3 border-t border-border p-5">
+            <div className="flex min-w-0 items-center gap-3">
+              {step > 1 ? (
+                <button
+                  type="button"
+                  onClick={back}
+                  className="inline-flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[1.4px] text-muted transition hover:text-foreground"
+                >
+                  <span aria-hidden="true">‹</span> Back
+                </button>
+              ) : null}
+              <p className={`text-xs ${step === 2 && ci && co && nightCount < min ? "text-danger" : "text-muted"}`}>
               {step === 2 && ci && co ? (
                 nightCount < min ? (
                   <>
@@ -518,11 +583,12 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                 </>
               )}
             </p>
+            </div>
             <button
               type="button"
               disabled={step === 2 && !datesValid}
               onClick={advance}
-              className="rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-40"
+              className="shrink-0 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-40"
             >
               {step === 1 ? "See available dates" : "Continue"}
             </button>

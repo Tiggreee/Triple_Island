@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { CheckAvailabilityButton } from "@/components/booking/check-availability-button";
-import { Button } from "@/components/ui/button";
 import { HeroScrim } from "@/components/hero-scrim";
+import { VillaCard } from "@/components/villa/villa-card";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
@@ -81,44 +80,7 @@ export default async function VillasPage() {
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         {items.map((villa) => (
-          <article key={villa.slug} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
-            <div className="relative aspect-[4/3] w-full">
-              <Image
-                src={villa.photo}
-                alt={`${villa.name} exterior`}
-                fill
-                sizes="(min-width: 640px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="flex flex-1 flex-col gap-3 p-5">
-              <h2 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">
-                {villa.name}
-              </h2>
-              <p className="text-[13px] font-light leading-[24px] text-muted">{villa.description}</p>
-
-              <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 border-t border-border pt-3 text-[12px] text-muted">
-                <span>{villa.suites} suites</span>
-                <span>{villa.guests} guests</span>
-                <span>{villa.bedrooms} bed</span>
-                <span>{villa.bathrooms} bath</span>
-              </div>
-
-              <p className="text-[13px] text-foreground">
-                From <span className="font-medium">${villa.priceFrom.toLocaleString("en-US")}</span> / night
-                <span className="block text-[11px] text-muted">+ 21% tax</span>
-              </p>
-
-              <div className="mt-auto flex flex-col gap-2 pt-2">
-                <Link href={`/villas/${villa.slug}`}>
-                  <Button variant="secondary" className="w-full">
-                    Details
-                  </Button>
-                </Link>
-                <CheckAvailabilityButton villaSlug={villa.slug} className="w-full" />
-              </div>
-            </div>
-          </article>
+          <VillaCard key={villa.slug} villa={villa} />
         ))}
       </div>
 
