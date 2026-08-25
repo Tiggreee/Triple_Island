@@ -176,10 +176,10 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4" onClick={onClose}>
       <div
-        className="max-h-[90vh] w-full max-w-[640px] overflow-y-auto rounded-2xl bg-surface shadow-2xl"
+        className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-2xl bg-[#f8f5ef] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 border-b border-border p-5">
+        <div className="flex items-center gap-3 border-b border-[#e6dfd3] bg-white p-5">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
             <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
           </div>
@@ -191,21 +191,21 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="rounded-full p-1.5 text-muted hover:bg-background hover:text-foreground"
+            className="rounded-full p-1.5 text-[#8f96a0] hover:bg-[#f3efe7] hover:text-foreground"
           >
             &times;
           </button>
         </div>
 
         {step < 4 ? (
-          <div className="flex items-center justify-center gap-2 border-b border-border px-5 py-3">
+          <div className="flex items-center justify-center gap-2 border-b border-[#e6dfd3] bg-[#f3eee5] px-5 py-3">
             {steps.map((s, i) => {
               const state = step === s.n ? "active" : step > s.n ? "done" : "pending";
               return (
                 <div key={s.n} className="flex items-center gap-2">
                   <span
                     className={`flex items-center gap-2 text-[11px] uppercase tracking-[1px] ${
-                      state === "active" ? "text-primary" : state === "done" ? "text-brand" : "text-muted/60"
+                      state === "active" ? "text-primary" : state === "done" ? "text-brand" : "text-[#9f978a]"
                     }`}
                   >
                     <span className="relative flex h-8 w-8 items-center justify-center">
@@ -219,14 +219,14 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                     </span>
                     {s.label}
                   </span>
-                  {i < steps.length - 1 ? <span className="h-px w-6 bg-border" /> : null}
+                  {i < steps.length - 1 ? <span className="h-px w-6 bg-[#ddd3c2]" /> : null}
                 </div>
               );
             })}
           </div>
         ) : null}
 
-        <div className="p-5">
+        <div className="flex-1 overflow-y-auto p-5">
           {step === 1 ? (
             <div className="space-y-5">
               <p className="text-xs text-muted">
@@ -242,7 +242,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                   type="button"
                   onClick={() => setGuests((g) => Math.max(1, g - 1))}
                   aria-label="Remove guest"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-lg text-foreground hover:bg-background"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10"
                 >
                   &minus;
                 </button>
@@ -251,12 +251,12 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                   type="button"
                   onClick={() => setGuests((g) => Math.min(28, g + 1))}
                   aria-label="Add guest"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-lg text-foreground hover:bg-background"
+                  className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10"
                 >
                   +
                 </button>
               </div>
-              <p className="text-center text-xs text-muted">guests</p>
+              <p className="text-center text-xs text-muted">guests · {UNITS.filter((v) => !v.pair && v.guests >= guests).length} of the 4 houses fit</p>
 
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {UNITS.map((v, i) =>
@@ -265,7 +265,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                       key={v.name}
                       type="button"
                       onClick={() => setUnit(i)}
-                      className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
+                      className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-[#eaf3fb]" : "border-[#ded6c9] bg-white hover:bg-[#f3efe7]"}`}
                     >
                       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
                         <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
@@ -289,7 +289,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                       key={v.name}
                       type="button"
                       onClick={() => setUnit(i)}
-                      className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-primary/5" : "border-border hover:bg-background"}`}
+                      className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-[#eaf3fb]" : "border-[#ded6c9] bg-white hover:bg-[#f3efe7]"}`}
                     >
                       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
                         <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
@@ -545,7 +545,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
         </div>
 
         {step < 3 ? (
-          <div className="flex items-center justify-between gap-3 border-t border-border p-5">
+          <div className="flex items-center justify-between gap-3 border-t border-[#e6dfd3] bg-white p-5">
             <div className="flex min-w-0 items-center gap-3">
               {step > 1 ? (
                 <button
