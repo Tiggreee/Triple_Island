@@ -250,7 +250,7 @@ export function ChatWidget() {
           </div>
 
           {!loading && (
-            <div className="flex flex-wrap gap-1.5 px-3 pt-2">
+            <div className="mb-4 flex flex-wrap gap-1.5 px-3 pt-2">
               {QUICK_REPLIES.map((qr) => (
                 <button
                   key={qr}
@@ -264,25 +264,30 @@ export function ChatWidget() {
             </div>
           )}
 
-          <form onSubmit={onSubmit} className="flex items-center gap-2 border-t border-border px-3 py-3">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask the concierge…"
-              aria-label="Message"
-              className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
-            />
-            <button
-              type="submit"
-              disabled={loading || input.trim().length === 0}
-              aria-label="Send message"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
+          <form onSubmit={onSubmit} className="space-y-2 border-t border-border px-3 py-3">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Ask the concierge…"
+                aria-label="Message"
+                className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+              />
+              <button
+                type="submit"
+                disabled={loading || input.trim().length === 0}
+                aria-label="Send message"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                  <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+            <p className="px-1 text-center text-[11px] leading-4 text-muted">
+              Answers use live villa data. For a formal quote we'll reply by email within 24 hours.
+            </p>
           </form>
         </div>
       )}

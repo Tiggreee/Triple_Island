@@ -60,8 +60,8 @@ export default async function VillasPage() {
             ))}
           </p>
           <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-white/90">
-            A sanctuary of luxury and tranquility nestled on the pristine Sac Bajo peninsula. Four private villas,
-            three to twenty-seven suites, steps from calm water.
+            Four private villas on the Sac Bajo península. Three to tewnty-seven suites, a shared stretch of shoreline,
+            and wáter calm enough to swim at dawn.
           </p>
         </div>
         <a

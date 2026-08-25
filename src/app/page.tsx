@@ -364,10 +364,12 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
-              <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
-                <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="mx-auto mb-3 h-[34px] w-[96px] object-contain" />
-                <p className="text-2xl font-semibold text-primary">{r.score}</p>
-                <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
+              <div key={r.count} className="flex items-center gap-4 rounded-2xl border border-border bg-surface px-4 py-5 text-left">
+                <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="h-8.5 w-24 shrink-0 object-contain" />
+                <div className="min-w-0">
+                  <p className="text-2xl font-semibold leading-none text-primary">{r.score}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
+                </div>
               </div>
             ))}
           </div>

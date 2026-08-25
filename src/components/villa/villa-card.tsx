@@ -35,11 +35,11 @@ export function VillaCard({ villa }: { villa: VillaData }) {
         </p>
         <p className="text-[11px] text-muted">{villa.suites} suites · 5–7 night minimum in peak season</p>
 
-        <div className="mt-auto flex flex-col gap-2 pt-2">
-          <Button variant="ghost" className="w-full border border-border" onClick={() => setOpen(true)}>
+        <div className="mt-auto grid grid-cols-2 gap-2 pt-2">
+          <Button variant="secondary" className="h-11 w-full" onClick={() => setOpen(true)}>
             Details
           </Button>
-          <CheckAvailabilityButton villaSlug={villa.slug} label="Check Dates" className="w-full" />
+          <CheckAvailabilityButton villaSlug={villa.slug} label="Check Dates" icon={false} className="h-11 w-full" />
         </div>
       </div>
       <VillaDetailModal villa={villa} unit={unit} gallery={gallery} open={open} onClose={() => setOpen(false)} />
