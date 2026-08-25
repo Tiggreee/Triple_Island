@@ -80,10 +80,10 @@ const reviews = [
 ];
 
 const press = [
-  { name: "Tripadvisor", logo: "/media/coco/press-tripadvisor-stars.png" },
-  { name: "Condé Nast Traveler", logo: "/media/coco/press-conde-nast-traveler.png" },
-  { name: "Travelmyth", logo: "/media/coco/press-travelmyth-honeymoon.png" },
-  { name: "Boutique Hotel Awards", logo: "/media/coco/press-boutique-hotel-awards.png" },
+  { name: "Tripadvisor", logo: "/media/coco/press-tripadvisor-stars.png", width: 185, height: 120 },
+  { name: "Condé Nast Traveler", logo: "/media/coco/press-conde-nast-traveler.png", width: 260, height: 96 },
+  { name: "Travelmyth", logo: "/media/coco/press-travelmyth-honeymoon.png", width: 133, height: 120 },
+  { name: "Boutique Hotel Awards", logo: "/media/coco/press-boutique-hotel-awards.png", width: 118, height: 120 },
 ];
 
 export default function Home() {
@@ -365,7 +365,14 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
               <div key={r.count} className="flex items-center gap-4 rounded-2xl border border-border bg-surface px-4 py-5 text-left">
-                <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="h-8.5 w-24 shrink-0 object-contain" />
+                <Image
+                  src={r.logo}
+                  alt={r.platform}
+                  width={96}
+                  height={34}
+                  unoptimized={r.logo.endsWith(".svg")}
+                  className="h-8.5 w-24 shrink-0 object-contain"
+                />
                 <div className="min-w-0">
                   <p className="text-2xl font-semibold leading-none text-primary">{r.score}</p>
                   <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
@@ -377,11 +384,12 @@ export default function Home() {
             <p className="text-center text-[11px] font-medium uppercase tracking-[2.5px] text-muted">Press &amp; Awards</p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
               {press.map((p) => (
-                <img
+                <Image
                   key={p.name}
                   src={p.logo}
                   alt={p.name}
-                  loading="lazy"
+                  width={p.width}
+                  height={p.height}
                   className="h-9 w-auto object-contain opacity-40 grayscale transition hover:opacity-100 hover:grayscale-0"
                 />
               ))}
