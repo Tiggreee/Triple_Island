@@ -286,7 +286,7 @@ export function ChatWidget() {
               </button>
             </div>
             <p className="px-1 text-center text-[11px] leading-4 text-muted">
-              Answers use live villa data. For a formal quote we'll reply by email within 24 hours.
+              Answers use live villa data. For a formal quote we&apos;ll reply by email within 24 hours.
             </p>
           </form>
         </div>
