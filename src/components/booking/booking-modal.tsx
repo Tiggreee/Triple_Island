@@ -292,7 +292,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       <span>
                         <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
                         <span className="block text-[11px] text-muted">
-                          {v.suites} suites · up to {v.guests} · from {money(v.from)}
+                          {v.suites} suites · up to {v.guests} guests · from {money(v.from)}/night
                         </span>
                       </span>
                     </button>
@@ -316,7 +316,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       <span>
                         <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
                         <span className="block text-[11px] text-muted">
-                          {v.suites} suites · up to {v.guests} · from {money(v.from)}
+                          {v.suites} suites · up to {v.guests} guests · from {money(v.from)}/night
                           {v.quote ? " · combined rate on request" : ""}
                         </span>
                       </span>
