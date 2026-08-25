@@ -61,7 +61,17 @@ function guestsInConversation(messages: ChatMessage[]): number | undefined {
   return undefined;
 }
 
-const QUICK_REPLIES = ["Check availability", "What's included?", "Where are you?", "Plan a stay"];
+// UX-024: pool mas grande que lo visible — al usar una, se quita y sale otra del pool.
+const QUICK_REPLY_POOL = [
+  "Check availability",
+  "What's included?",
+  "Where are you?",
+  "Plan a stay",
+  "What's the minimum stay?",
+  "Do you host retreats?",
+  "How does payment work?",
+];
+const QUICK_REPLIES_VISIBLE = 4;
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -72,7 +82,10 @@ export function ChatWidget() {
   const [showTeaser, setShowTeaser] = useState(false);
   const [teaserGone, setTeaserGone] = useState(false);
   const [online, setOnline] = useState(true);
+  const [usedQuickReplies, setUsedQuickReplies] = useState<string[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const visibleQuickReplies = QUICK_REPLY_POOL.filter((qr) => !usedQuickReplies.includes(qr)).slice(0, QUICK_REPLIES_VISIBLE);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -175,7 +188,7 @@ export function ChatWidget() {
         }}
         aria-expanded={open}
         aria-label={open ? "Close concierge chat" : "Open concierge chat"}
-        className={`cb-chat-fab fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 md:h-[62px] md:w-[62px] ${
+        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 md:h-[62px] md:w-[62px] ${
           teaserVisible || open ? "" : "cb-fab-bounce"
         }`}
       >
@@ -266,13 +279,16 @@ export function ChatWidget() {
             )}
           </div>
 
-          {!loading && (
+          {!loading && visibleQuickReplies.length > 0 && (
             <div className="mb-4 flex flex-wrap gap-1.5 px-3 pt-2">
-              {QUICK_REPLIES.map((qr) => (
+              {visibleQuickReplies.map((qr) => (
                 <button
                   key={qr}
                   type="button"
-                  onClick={() => void send(qr)}
+                  onClick={() => {
+                    setUsedQuickReplies((prev) => [...prev, qr]);
+                    void send(qr);
+                  }}
                   className="rounded-full border border-primary/40 px-3 py-1 text-[11px] font-medium text-primary transition hover:bg-primary/5"
                 >
                   {qr}
