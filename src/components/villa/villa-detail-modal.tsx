@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useEffect } from "react";
-import { CheckAvailabilityButton } from "@/components/booking/check-availability-button";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { SpecStrip } from "@/components/villa/spec-strip";
 import { peakRatesFor } from "@/lib/availability";
 import type { VillaData } from "@/lib/villas-data";
@@ -14,6 +14,7 @@ type VillaDetailModalProps = {
   gallery: string[];
   open: boolean;
   onClose: () => void;
+  onCheckAvailability: () => void;
 };
 
 const money = (n: number) => `$${n.toLocaleString("en-US")}`;
@@ -27,11 +28,18 @@ const AMENITIES: { label: string; path: ReactNode }[] = [
   { label: "Wi-Fi throughout", path: <path d="M5 12a10 10 0 0 1 14 0M8 15.5a6 6 0 0 1 8 0M12 19h.01" /> },
 ];
 
-export function VillaDetailModal({ villa, unit, gallery, open, onClose }: VillaDetailModalProps) {
+export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckAvailability }: VillaDetailModalProps) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key !== "Escape") return;
+      if (lightboxIndex !== null) {
+        setLightboxIndex(null);
+        return;
+      }
+      onClose();
     }
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -39,9 +47,14 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose }: VillaD
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [open, onClose]);
+  }, [open, onClose, lightboxIndex]);
 
   if (!open) return null;
+
+  function close() {
+    setLightboxIndex(null);
+    onClose();
+  }
 
   const rates = peakRatesFor(unit);
   const total = Math.round(villa.priceFrom * 1.21);
@@ -59,7 +72,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose }: VillaD
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4"
-      onClick={onClose}
+      onClick={close}
       role="dialog"
       aria-modal="true"
       aria-label={villa.name}
@@ -77,7 +90,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose }: VillaD
           </div>
           <button
             type="button"
-            onClick={onClose}
+            onClick={close}
             aria-label="Close"
             className="rounded-full p-1.5 text-2xl leading-none text-muted hover:bg-background hover:text-foreground"
           >
@@ -89,12 +102,21 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose }: VillaD
           {gallery.length > 0 ? (
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {gallery.slice(0, 5).map((src, i) => (
-                <div
+                <button
                   key={src}
-                  className={`relative aspect-[4/3] overflow-hidden rounded-xl ${i === 0 ? "col-span-2" : ""}`}
+                  type="button"
+                  onClick={() => setLightboxIndex(i)}
+                  aria-label={`Expand ${villa.name} photo ${i + 1}`}
+                  className={`group relative aspect-[4/3] overflow-hidden rounded-xl ${i === 0 ? "col-span-2" : ""}`}
                 >
-                  <Image src={src} alt={`${villa.name} photo ${i + 1}`} fill sizes="(min-width: 640px) 25vw, 50vw" className="object-cover" />
-                </div>
+                  <Image
+                    src={src}
+                    alt={`${villa.name} photo ${i + 1}`}
+                    fill
+                    sizes="(min-width: 640px) 25vw, 50vw"
+                    className="object-cover transition group-hover:scale-105"
+                  />
+                </button>
               ))}
             </div>
           ) : null}
@@ -182,9 +204,71 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose }: VillaD
           <p className="text-[12px] text-muted">
             From <b className="text-foreground">{money(villa.priceFrom)}</b> / night · + 21% tax
           </p>
-          <CheckAvailabilityButton villaSlug={villa.slug} />
+          <Button variant="primary" icon onClick={onCheckAvailability}>
+            Check Availability
+          </Button>
         </div>
       </div>
+
+      {lightboxIndex !== null ? (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+          onClick={(e) => {
+            e.stopPropagation();
+            setLightboxIndex(null);
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${villa.name} photo ${lightboxIndex + 1}`}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightboxIndex(null);
+            }}
+            aria-label="Close photo"
+            className="absolute right-5 top-5 rounded-full p-2 text-3xl leading-none text-white/80 hover:text-white"
+          >
+            &times;
+          </button>
+          {gallery.length > 1 ? (
+            <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length));
+                }}
+                aria-label="Previous photo"
+                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-3 text-3xl leading-none text-white/80 hover:text-white sm:left-6"
+              >
+                &lsaquo;
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex((i) => (i === null ? i : (i + 1) % gallery.length));
+                }}
+                aria-label="Next photo"
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-3 text-3xl leading-none text-white/80 hover:text-white sm:right-6"
+              >
+                &rsaquo;
+              </button>
+            </>
+          ) : null}
+          <div className="relative h-full max-h-[80vh] w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={gallery[lightboxIndex]}
+              alt={`${villa.name} photo ${lightboxIndex + 1}`}
+              fill
+              sizes="90vw"
+              className="object-contain"
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { CheckAvailabilityButton } from "@/components/booking/check-availability-button";
+import { useBookingModal } from "@/components/booking/booking-modal";
 import { Button } from "@/components/ui/button";
 import { AvailabilityChip } from "@/components/villa/availability-chip";
 import { SpecStrip } from "@/components/villa/spec-strip";
@@ -13,6 +14,7 @@ const money = (n: number) => `$${n.toLocaleString("en-US")}`;
 
 export function VillaCard({ villa }: { villa: VillaData }) {
   const [open, setOpen] = useState(false);
+  const { open: openBooking, modal: bookingModal } = useBookingModal(villa.slug);
   const unit = SLUG_TO_UNIT[villa.slug] ?? 0;
   const gallery = Array.from({ length: 5 }, (_, i) => `/media/coco/villas/${villa.slug}-0${i + 1}.webp`);
   const shortDescription = villa.description.split(". ")[0];
@@ -42,7 +44,18 @@ export function VillaCard({ villa }: { villa: VillaData }) {
           <CheckAvailabilityButton villaSlug={villa.slug} label="Check Dates" icon={false} className="h-11 w-full" />
         </div>
       </div>
-      <VillaDetailModal villa={villa} unit={unit} gallery={gallery} open={open} onClose={() => setOpen(false)} />
+      <VillaDetailModal
+        villa={villa}
+        unit={unit}
+        gallery={gallery}
+        open={open}
+        onClose={() => setOpen(false)}
+        onCheckAvailability={() => {
+          setOpen(false);
+          openBooking();
+        }}
+      />
+      {bookingModal}
     </article>
   );
 }
