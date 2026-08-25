@@ -65,6 +65,14 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
     trackEvent("stepper_inicio", { unit: UNITS[initialUnit].name });
   }, [initialUnit]);
 
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   const nightCount = nightsBetween(ci, co);
   const min = minNights(ci);
   const nightlyRate = (ci && rateFor(unit, ci)) || active.from;
