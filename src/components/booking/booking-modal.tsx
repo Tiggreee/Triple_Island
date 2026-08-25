@@ -70,6 +70,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
   const nightlyRate = (ci && rateFor(unit, ci)) || active.from;
   const estimatedTotal = nightCount > 0 ? nightlyRate * nightCount : 0;
   const datesValid = Boolean(ci && co && nightCount >= min);
+  const guestsValid = guests <= active.guests;
   const limit = ci && !co ? nextBusyAfter(unit, ci, year, month) : null;
 
   function tap(s: string) {
@@ -186,8 +187,12 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
             <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-semibold text-foreground">Your stay</p>
-            {step < 4 ? <p className="text-xs text-muted">No payment, no card · we reply within 24 hours</p> : null}
+            <p className="text-sm font-semibold text-foreground">{active.name}</p>
+            {step < 4 ? (
+              <p className="text-xs text-muted">
+                {active.suites} suites · up to {active.guests} guests
+              </p>
+            ) : null}
           </div>
           <button
             type="button"
@@ -259,6 +264,9 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                 </button>
               </div>
               <p className="text-center text-xs text-muted">guests · {UNITS.filter((v) => !v.pair && v.guests >= guests).length} of the 4 houses fit</p>
+              {!guestsValid ? (
+                <p className="text-center text-xs text-danger">{active.name} sleeps up to {active.guests} guests — lower the count or pick a larger villa.</p>
+              ) : null}
 
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {UNITS.map((v, i) =>
@@ -591,7 +599,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
             </div>
             <button
               type="button"
-              disabled={step === 2 && !datesValid}
+              disabled={(step === 1 && !guestsValid) || (step === 2 && !datesValid)}
               onClick={advance}
               className="shrink-0 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-40"
             >
