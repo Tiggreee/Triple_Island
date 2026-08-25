@@ -58,6 +58,8 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
   const active = UNITS[unit];
   const cameFrom = UNITS[initialUnit];
   const [year, month] = CALENDAR_MONTHS[mi];
+  const today = new Date();
+  const todayIso = iso(today.getFullYear(), today.getMonth(), today.getDate());
 
   useEffect(() => {
     trackEvent("stepper_inicio", { unit: UNITS[initialUnit].name });
@@ -93,12 +95,12 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
     setCi(s);
   }
 
-  function dayClass(o: { sel: boolean; inRange: boolean; booked: boolean; part: boolean; far: boolean; peak: boolean }): string {
+  function dayClass(o: { sel: boolean; inRange: boolean; booked: boolean; part: boolean; far: boolean; past: boolean; peak: boolean }): string {
     if (o.sel) return "bg-primary text-white";
     if (o.inRange) return "bg-primary/15 text-foreground";
     if (o.booked && !o.part) return "cursor-not-allowed text-muted/40 line-through";
     if (o.part) return "cursor-not-allowed text-muted/60 [background:repeating-linear-gradient(45deg,transparent,transparent_3px,#78787830_3px,#78787830_6px)]";
-    if (o.far) return "cursor-not-allowed text-muted/30";
+    if (o.past || o.far) return "cursor-not-allowed text-muted/30";
     if (o.peak) return "bg-accent/10 text-foreground hover:bg-accent/20";
     return "text-foreground hover:bg-primary/10";
   }
@@ -351,14 +353,17 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                   const sel = s === ci || s === co;
                   const inRange = Boolean(ci && co && s > ci && s < co);
                   const far = Boolean(ci && !co && limit && s > limit);
-                  const disabled = booked || far;
-                  const label = booked
-                    ? part
-                      ? `${c.day} ${MONTH_NAMES[month]}, booked at ${part}`
-                      : `${c.day} ${MONTH_NAMES[month]}, booked`
-                    : far
-                      ? `${c.day} ${MONTH_NAMES[month]}, beyond the next booked night`
-                      : undefined;
+                  const past = s < todayIso;
+                  const disabled = booked || far || past;
+                  const label = past
+                    ? `${c.day} ${MONTH_NAMES[month]}, in the past`
+                    : booked
+                      ? part
+                        ? `${c.day} ${MONTH_NAMES[month]}, booked at ${part}`
+                        : `${c.day} ${MONTH_NAMES[month]}, booked`
+                      : far
+                        ? `${c.day} ${MONTH_NAMES[month]}, beyond the next booked night`
+                        : undefined;
                   return (
                     <button
                       key={c.key}
@@ -367,7 +372,7 @@ export function BookingModal({ initialVillaSlug, onClose }: BookingModalProps) {
                       aria-label={label}
                       title={label}
                       onClick={() => tap(s)}
-                      className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${dayClass({ sel, inRange, booked, part: Boolean(part), far, peak })}`}
+                      className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${dayClass({ sel, inRange, booked, part: Boolean(part), far, past, peak })}`}
                     >
                       <span>{c.day}</span>
                       {r ? <span className="text-[9px]">{(r / 1000).toFixed(1)}k</span> : null}
