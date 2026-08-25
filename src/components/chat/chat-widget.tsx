@@ -14,11 +14,12 @@ const SYSTEM_PROMPT =
   "luxury villas, wellness retreats and a pop-up boutique hotel in Isla Mujeres, Mexico, on " +
   "the calm western shore, a short ferry ride from Cancún. The villa collection has exactly " +
   "four villas: Coco, Lola, Encantada and Cielo. Retreats cover weddings, yoga, wellness, " +
-  "culinary, fitness and corporate. Only use these facts; never invent villa names, prices or " +
-  "availability. If you do not know something, say so and point the guest to the inquiry form " +
-  "at /solicitud. Keep replies short and helpful. To book or check availability, guide the " +
-  "guest to /solicitud. Never use markdown tables, pipes (|) or headings — present options as " +
-  "short plain lines or simple bullets, one per line.";
+  "culinary, fitness and corporate. Only use the facts you're given; never invent villa names " +
+  "or prices. When a guest mentions a group size, name the specific villa that fits it — " +
+  "capacity is a known fact, not a guess. Calendar/date availability is not something you " +
+  "know; for that, point the guest to the inquiry form at /solicitud. Keep replies short and " +
+  "helpful. Never use markdown tables, pipes (|) or headings — present options as short plain " +
+  "lines or simple bullets, one per line.";
 
 const WELCOME: ChatMessage = {
   role: "assistant",
@@ -37,11 +38,27 @@ function formatReply(text: string): string {
 }
 
 // UX-023/026: detecta villas mencionadas para mostrar card + salto al stepper.
+// Normaliza espacios: algunos modelos intercalan narrow no-break space (U+202F)
+// entre "Casa" y "Coco", que rompe una comparacion con espacio normal.
 function villasInText(text: string): VillaData[] {
-  const lower = text.toLowerCase();
+  const lower = text.toLowerCase().replace(/\s+/g, " ");
   return REAL_VILLAS.filter((v) =>
     v.slug === "coco" ? lower.includes("casa coco") : new RegExp(`\\b${v.slug}\\b`).test(lower),
   );
+}
+
+// UX-026: cantidad de huespedes que el propio usuario declaro, para llevarla al Stepper.
+// Solo lee mensajes del usuario: la respuesta del concierge tambien menciona numeros
+// (capacidad de la villa) que no son el tamano real del grupo.
+function guestsInConversation(messages: ChatMessage[]): number | undefined {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role !== "user") continue;
+    const content = messages[i].content.replace(/\s+/g, " ");
+    const match = content.match(/\b(\d{1,2})\s*(?:guests?|people|pax|of us)\b/i);
+    const n = match ? Number(match[1]) : NaN;
+    if (n >= 1 && n <= 28) return n;
+  }
+  return undefined;
 }
 
 const QUICK_REPLIES = ["Check availability", "What's included?", "Where are you?", "Plan a stay"];
@@ -61,9 +78,8 @@ export function ChatWidget() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
-  // UX-003: teaser aparece 2.6s despues del FAB, solo en pantallas anchas.
+  // UX-003: teaser aparece 2.6s despues del FAB.
   useEffect(() => {
-    if (window.innerWidth <= 620) return;
     const t = window.setTimeout(() => setShowTeaser(true), 2600);
     return () => window.clearTimeout(t);
   }, []);
@@ -124,7 +140,7 @@ export function ChatWidget() {
   return (
     <>
       {teaserVisible && (
-        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-[620px]:hidden max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
+        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
           <button
             type="button"
             onClick={() => {
@@ -175,7 +191,7 @@ export function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-[121] flex h-[520px] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+        <div className="fixed bottom-24 right-5 z-[121] flex h-[min(520px,calc(100dvh-120px))] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
           <header className="flex items-center gap-3 border-b border-border bg-[linear-gradient(140deg,#0e5f6b,#107480,#17879a)] px-4 py-3 text-white">
             <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
               <Azulejo tone="white" size={20} />
@@ -190,6 +206,7 @@ export function ChatWidget() {
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
             {messages.map((m, i) => {
               const villas = m.role === "assistant" ? villasInText(m.content) : [];
+              const guestsForHandoff = villas.length > 0 ? guestsInConversation(messages.slice(0, i + 1)) : undefined;
               return (
                 <div key={i} className={m.role === "user" ? "flex justify-end" : "flex flex-col items-start gap-1.5"}>
                   <p
@@ -211,7 +228,7 @@ export function ChatWidget() {
                           <p className="text-sm font-semibold text-foreground">{v.name}</p>
                           <p className="mt-0.5 text-xs text-muted">From ${v.priceFrom.toLocaleString()} · {v.suites} suites</p>
                           <Link
-                            href={`/solicitud?villa=${v.slug}`}
+                            href={`/solicitud?villa=${v.slug}${guestsForHandoff ? `&guests=${guestsForHandoff}` : ""}`}
                             onClick={() => setOpen(false)}
                             className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[1px] text-primary hover:underline"
                           >
