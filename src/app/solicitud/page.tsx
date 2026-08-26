@@ -149,7 +149,9 @@ function VillaInquiry() {
   const searchParams = useSearchParams();
   const requested = searchParams.get("villa");
   const initialSlug = REAL_VILLAS.find((v) => v.slug === requested)?.slug ?? REAL_VILLAS[0].slug;
-  const { open, modal } = useBookingModal(initialSlug, true);
+  const requestedGuests = Number(searchParams.get("guests"));
+  const initialGuests = requestedGuests >= 1 && requestedGuests <= 28 ? requestedGuests : undefined;
+  const { open, modal } = useBookingModal(initialSlug, true, initialGuests);
 
   return (
     <div className="mx-auto flex min-h-[70vh] w-full max-w-2xl flex-col items-center justify-center px-4 py-24 text-center">

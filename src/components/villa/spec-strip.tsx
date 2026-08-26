@@ -19,7 +19,7 @@ const items: { label: string; path: ReactNode }[] = [
     ),
   },
   {
-    label: "Bedrooms",
+    label: "Suites",
     path: (
       <>
         <path d="M3 19v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7" />

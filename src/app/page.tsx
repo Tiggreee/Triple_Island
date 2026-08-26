@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FilmCarousel } from "@/components/film-carousel";
 import { FloatingBar } from "@/components/floating-bar";
 import { HeroScrim } from "@/components/hero-scrim";
+import { VillaCollectionGrid } from "@/components/villa/villa-collection-grid";
 
 const gatherings = [
   {
@@ -80,10 +81,10 @@ const reviews = [
 ];
 
 const press = [
-  { name: "Tripadvisor", logo: "/media/coco/press-tripadvisor-stars.png" },
-  { name: "Condé Nast Traveler", logo: "/media/coco/press-conde-nast-traveler.png" },
-  { name: "Travelmyth", logo: "/media/coco/press-travelmyth-honeymoon.png" },
-  { name: "Boutique Hotel Awards", logo: "/media/coco/press-boutique-hotel-awards.png" },
+  { name: "Tripadvisor", logo: "/media/coco/press-tripadvisor-stars.png", width: 185, height: 120 },
+  { name: "Condé Nast Traveler", logo: "/media/coco/press-conde-nast-traveler.png", width: 260, height: 96 },
+  { name: "Travelmyth", logo: "/media/coco/press-travelmyth-honeymoon.png", width: 133, height: 120 },
+  { name: "Boutique Hotel Awards", logo: "/media/coco/press-boutique-hotel-awards.png", width: 118, height: 120 },
 ];
 
 export default function Home() {
@@ -225,31 +226,7 @@ export default function Home() {
               wellness getaways.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 min-[901px]:auto-rows-[300px]">
-            {villas.map((villa, i) => (
-              <Link
-                key={villa.slug}
-                href={`/villas/${villa.slug}`}
-                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl min-[901px]:aspect-auto ${
-                  i === 0 ? "min-[901px]:row-span-2" : ""
-                } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
-              >
-                <Image
-                  src={villa.photo}
-                  alt={villa.name}
-                  fill
-                  sizes="(min-width: 640px) 33vw, 100vw"
-                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-foreground/75 via-foreground/15 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                  <p className="text-[11px] font-medium uppercase tracking-[2px] text-white/80">{villa.tag}</p>
-                  <h3 className="mt-1 text-lg font-light uppercase tracking-[1.5px]">{villa.name}</h3>
-                  {villa.note ? <p className="mt-1 text-xs leading-5 text-white/75">{villa.note}</p> : null}
-                </div>
-              </Link>
-            ))}
-          </div>
+          <VillaCollectionGrid villas={villas} />
           <div className="flex flex-col items-center gap-2">
             <Link href="/villas">
               <Button variant="primary" icon>Explore the villas</Button>
@@ -333,7 +310,7 @@ export default function Home() {
             {testimonials.map((t) => (
               <figure key={t.author} className="h-full space-y-3 rounded-2xl border border-border bg-white/70 p-5">
                 <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
-                <figcaption className="text-xs uppercase tracking-[1px] text-foreground">{t.author}</figcaption>
+                <figcaption className="text-[10.5px] font-semibold uppercase tracking-[1.8px] text-brand">{t.author}</figcaption>
               </figure>
             ))}
           </div>
@@ -364,10 +341,19 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
-              <div key={r.count} className="rounded-2xl border border-border bg-surface px-4 py-6 text-center">
-                <img src={r.logo} alt={r.platform} width={96} height={34} loading="lazy" className="mx-auto mb-3 h-[34px] w-[96px] object-contain" />
-                <p className="text-2xl font-semibold text-primary">{r.score}</p>
-                <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
+              <div key={r.count} className="flex items-center gap-4 rounded-2xl border border-border bg-surface px-4 py-5 text-left">
+                <Image
+                  src={r.logo}
+                  alt={r.platform}
+                  width={96}
+                  height={34}
+                  unoptimized={r.logo.endsWith(".svg")}
+                  className="h-8.5 w-24 shrink-0 object-contain"
+                />
+                <div className="min-w-0">
+                  <p className="text-2xl font-semibold leading-none text-primary">{r.score}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[1px] text-muted">{r.count}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -375,11 +361,12 @@ export default function Home() {
             <p className="text-center text-[11px] font-medium uppercase tracking-[2.5px] text-muted">Press &amp; Awards</p>
             <div className="mt-5 flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
               {press.map((p) => (
-                <img
+                <Image
                   key={p.name}
                   src={p.logo}
                   alt={p.name}
-                  loading="lazy"
+                  width={p.width}
+                  height={p.height}
                   className="h-9 w-auto object-contain opacity-40 grayscale transition hover:opacity-100 hover:grayscale-0"
                 />
               ))}
@@ -430,7 +417,7 @@ export default function Home() {
               four villas are within walking distance of one another.
             </p>
             <Link href="/villas">
-              <Button variant="secondary" icon>Explore the villas</Button>
+              <Button variant="primary" icon>Explore the villas</Button>
             </Link>
           </div>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border">
