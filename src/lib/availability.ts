@@ -1,8 +1,3 @@
-// Availability, seasons and rates for the booking calendar (illustrative
-// August 2026 occupancy). Unit indices: 0 Casa Coco · 1 Villa Encantada ·
-// 2 Casa Lola · 3 Casa Cielo · 4 Lola & Encantada (pair) · 5 Coco & Cielo (pair).
-// Same order as REAL_VILLAS.
-
 export type Unit = {
   name: string;
   suites: number;
@@ -22,7 +17,6 @@ export const UNITS: Unit[] = [
   { name: "Coco & Cielo", suites: 14, guests: 28, from: 6505, photo: "/media/coco/villas/coco-01.webp", pair: [0, 3], quote: true },
 ];
 
-// [year, monthIndex] — August 2026 through January 2027.
 export const CALENDAR_MONTHS: [number, number][] = [
   [2026, 7], [2026, 8], [2026, 9], [2026, 10], [2026, 11], [2027, 0],
 ];
@@ -32,7 +26,6 @@ export const MONTH_NAMES = [
   "July", "August", "September", "October", "November", "December",
 ];
 
-// Occupancy · August 2026. Ranges are [checkIn, checkOut) ISO dates.
 const BOOKED: Record<number, [string, string][]> = {
   0: [["2026-08-02", "2026-08-04"], ["2026-08-05", "2026-08-10"], ["2026-08-27", "2026-08-30"]],
   1: [["2026-08-02", "2026-08-06"], ["2026-08-13", "2026-08-16"], ["2026-08-27", "2026-08-31"]],
@@ -72,8 +65,6 @@ export function bookedFor(unit: number, s: string): boolean {
   return v.pair.some((i) => isBookedRange(i, s));
 }
 
-// For a compound, returns the name of the single booked house when exactly one
-// of the pair is taken (the "striped" partial night); null otherwise.
 export function partialFor(unit: number, s: string): string | null {
   const v = UNITS[unit];
   if (!v.pair) return null;
@@ -93,7 +84,6 @@ export function nights(ci: string | null, co: string | null): number {
 
 export function minNights(ci: string | null): number {
   const se = ci ? seasonOf(ci) : undefined;
-  // Low-season minimum: 4 nights.
   return se ? se.min : 4;
 }
 
@@ -117,8 +107,6 @@ export function rangeHasBusy(unit: number, a: string, b: string, year: number, m
 
 export type AugStatus = { tone: "open" | "filling" | "almost"; label: string };
 
-// August 2026 availability summary for the villa card chip. Free-night count
-// and longest open streak drive the three states.
 export function augStatus(unit: number): AugStatus {
   const year = 2026;
   const month = 7;
@@ -148,7 +136,6 @@ export function augStatus(unit: number): AugStatus {
 
 export type PeakRate = { season: string; min: number; nightly: number; tax: number; total: number };
 
-// Published peak-season rates for a unit, computed from the official rate card.
 export function peakRatesFor(unit: number): PeakRate[] {
   return SEASONS.filter((s) => s.rates[unit] != null)
     .slice()

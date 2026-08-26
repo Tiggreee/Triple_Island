@@ -66,7 +66,6 @@ body {
   }
 }
 
-/* Scroll cue (azulejo ring): el conjunto bota 8px cada 2.8s, el anillo gira 90° cada 9s. */
 @keyframes cb-cue-bob {
   0%,
   100% {
@@ -115,8 +114,6 @@ body {
   }
 }
 
-/* Chat FAB (UX-002): rebote de atencion cada 5s. Cuando la barra flotante esta
-   visible (data-floatbar en body) el FAB y su teaser suben para no encimarse. */
 @keyframes cb-fab-bounce {
   0%,
   78%,
@@ -154,7 +151,6 @@ body[data-floatbar="1"] .cb-chat-teaser {
   }
 }
 
-/* UX-025: indicador de escritura del chat — tres azulejos con retardo escalonado. */
 .cw-typing {
   animation: cw-typing-dot 1.25s ease-in-out infinite;
 }

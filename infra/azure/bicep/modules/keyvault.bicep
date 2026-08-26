@@ -53,8 +53,6 @@ resource secretAiApiKey 'Microsoft.KeyVault/vaults/secrets@2023-07-01' = {
   }
 }
 
-// Container App's managed identity gets read access to secrets only — no
-// vault-wide admin role, no write, no key/certificate permissions.
 resource secretsUserRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(keyVault.id, principalId, 'Key Vault Secrets User')
   scope: keyVault

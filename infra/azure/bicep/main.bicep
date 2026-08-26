@@ -1,5 +1,3 @@
-// Coco B Isla — WordPress headless backend on Azure.
-// Deploy: az deployment group create -g <rg> -f main.bicep -p @main.parameters.json
 targetScope = 'resourceGroup'
 
 @description('Short name used to derive all resource names (lowercase, alnum, no spaces).')
@@ -77,9 +75,6 @@ module insights 'modules/insights.bicep' = {
   }
 }
 
-// Storage connection string is composed inside the keyvault module (from the
-// storage account name) so listKeys() runs after the account exists and the
-// secret never leaves a module boundary as a plain output.
 module keyvault 'modules/keyvault.bicep' = {
   name: 'keyvault'
   params: {

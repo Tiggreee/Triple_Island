@@ -133,7 +133,6 @@ export default async function VillasPage() {
         </div>
       </div>
 
-      {/* FAQ — "Frequent questions" */}
       <div className="space-y-6">
         <div className="text-center">
           <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Before you write to us</p>

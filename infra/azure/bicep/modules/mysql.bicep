@@ -44,9 +44,6 @@ resource database 'Microsoft.DBforMySQL/flexibleServers/databases@2023-12-30' = 
   }
 }
 
-// MVP networking: allow Azure services only (Container Apps Consumption plan has
-// no static outbound IP without a NAT gateway). Tighten to a VNET rule once the
-// Container Apps environment has one — see arquitectura.md, "siguiente fase".
 resource allowAzureServices 'Microsoft.DBforMySQL/flexibleServers/firewallRules@2023-12-30' = {
   parent: mysql
   name: 'AllowAzureServices'

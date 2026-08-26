@@ -26,7 +26,6 @@ const WELCOME: ChatMessage = {
   content: "Hi! I'm the Coco B Isla concierge. Ask me about our villas, retreats or planning a stay.",
 };
 
-// UX-023: limpia artefactos de markdown para no imprimir sintaxis cruda al usuario.
 function formatReply(text: string): string {
   return text
     .replace(/\*\*(.+?)\*\*/g, "$1")
@@ -37,9 +36,6 @@ function formatReply(text: string): string {
     .trim();
 }
 
-// UX-023/026: detecta villas mencionadas para mostrar card + salto al stepper.
-// Normaliza espacios: algunos modelos intercalan narrow no-break space (U+202F)
-// entre "Casa" y "Coco", que rompe una comparacion con espacio normal.
 function villasInText(text: string): VillaData[] {
   const lower = text.toLowerCase().replace(/\s+/g, " ");
   return REAL_VILLAS.filter((v) =>
@@ -47,9 +43,6 @@ function villasInText(text: string): VillaData[] {
   );
 }
 
-// UX-026: cantidad de huespedes que el propio usuario declaro, para llevarla al Stepper.
-// Solo lee mensajes del usuario: la respuesta del concierge tambien menciona numeros
-// (capacidad de la villa) que no son el tamano real del grupo.
 function guestsInConversation(messages: ChatMessage[]): number | undefined {
   for (let i = messages.length - 1; i >= 0; i--) {
     if (messages[i].role !== "user") continue;
@@ -61,7 +54,6 @@ function guestsInConversation(messages: ChatMessage[]): number | undefined {
   return undefined;
 }
 
-// UX-024: pool mas grande que lo visible — al usar una, se quita y sale otra del pool.
 const QUICK_REPLY_POOL = [
   "Check availability",
   "What's included?",
@@ -91,18 +83,15 @@ export function ChatWidget() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
 
-  // UX-003: teaser aparece 2.6s despues del FAB.
   useEffect(() => {
     const t = window.setTimeout(() => setShowTeaser(true), 2600);
     return () => window.clearTimeout(t);
   }, []);
 
-  // UX-022: punto de estado verde en horario (7-23 Central), ambar fuera.
   useEffect(() => {
     const h = Number(
       new Intl.DateTimeFormat("en-US", { timeZone: "America/Mexico_City", hour: "numeric", hour12: false }).format(new Date()),
     );
-    // Se deriva tras montar (client-only) para no romper la hidratacion SSR.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setOnline(h >= 7 && h < 23);
   }, []);
