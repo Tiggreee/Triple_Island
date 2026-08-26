@@ -1,7 +1,5 @@
 name: Deploy to Azure
 
-# CD estandar: develop valida (CI), main despliega. Merge/push a main = deploy.
-# Auth por OIDC (federated credentials) — sin secretos de larga vida en GitHub.
 on:
   push:
     branches: [main]

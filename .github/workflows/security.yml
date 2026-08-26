@@ -17,8 +17,7 @@ jobs:
       - name: Check for exposed secrets
         run: |
           echo "Scanning for potential secrets in tracked files..."
-          
-          # Check for common secret patterns in tracked files
+
           if git grep -E "(api[_-]?key|secret[_-]?key|password|token)\s*=\s*['\"][^'\"]{10,}" -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.json'; then
             echo "Potential hardcoded secret found!"
             exit 1
@@ -41,8 +40,6 @@ jobs:
         run: |
           echo "Validating .gitignore includes sensitive files..."
 
-          # Check actual git behavior, not just literal text in .gitignore —
-          # a glob like ".env*" ignores .env.local without ever spelling it out.
           if ! git check-ignore -q .env.local; then
             echo ".env.local is not actually ignored by git!"
             exit 1

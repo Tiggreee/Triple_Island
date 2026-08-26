@@ -91,8 +91,6 @@ resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
       ]
     }
     template: {
-      // min 1 replica on purpose: WordPress cold start (PHP + DB connect) is
-      // slow enough to be visible mid-demo if this is left at scale-to-zero.
       scale: {
         minReplicas: 1
         maxReplicas: 2
@@ -110,11 +108,6 @@ resource containerApp 'Microsoft.App/containerApps@2023-11-02-preview' = {
             { name: 'WORDPRESS_DB_NAME', value: mysqlDbName }
             { name: 'WORDPRESS_DB_USER', value: mysqlAdminLogin }
             { name: 'WORDPRESS_DB_PASSWORD', secretRef: 'mysql-admin-password' }
-            // WP_HOME/WP_SITEURL intentionally NOT hardcoded here — the DB-stored
-            // siteurl/home options (set once through the install wizard, pointing
-            // at the real Container Apps FQDN) are what should govern this. A
-            // hardcoded override is exactly what caused the redirect-loop bug on
-            // local dev earlier — see infra/azure/despliegue.md.
             { name: 'AZURE_STORAGE_ACCOUNT', value: storageAccountName }
             { name: 'AZURE_STORAGE_CONNECTION_STRING', secretRef: 'storage-connection-string' }
             { name: 'AZURE_BLOB_ENDPOINT', value: blobEndpoint }
