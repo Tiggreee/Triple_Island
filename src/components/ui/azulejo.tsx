@@ -1,13 +1,10 @@
 import type { CSSProperties } from "react";
 
-// Componente raíz del sistema visual (guía de Estefanía): dos capas, ring y
-// cross, coloreadas por las custom properties --c-ring / --c-cross. SVG tomado
-// del logo oficial (viewBox 255x254).
 type AzulejoTone = "brand" | "action" | "teal" | "white" | "muted";
 type AzulejoVariant = "solid" | "ring" | "ghost";
 
 const TONE: Record<AzulejoTone, string> = {
-  brand: "#5bcaeb", // Caribbean Blue · decorativo
+  brand: "#5bcaeb",
   action: "var(--cb-color-primary, #246a94)",
   teal: "var(--cb-color-brand, #107480)",
   white: "#ffffff",
@@ -55,7 +52,6 @@ export function Azulejo({ tone = "brand", variant = "solid", size = 22, classNam
   );
 }
 
-// Divisor de seccion (guia): linea + azulejo 14px + linea, centrado. Abre cada seccion.
 export function AzulejoRule({ className }: { className?: string }) {
   return (
     <span className={`flex items-center justify-center gap-3 ${className ?? ""}`} aria-hidden="true">

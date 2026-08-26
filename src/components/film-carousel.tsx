@@ -5,9 +5,6 @@ import { useRef, useState } from "react";
 
 type Film = { caption: string; vimeoId?: string; poster?: string };
 
-// UX-010: 3-up en desktop; por debajo de lg pasa a scroll horizontal con snap
-// (62% tablet, 87% movil) y paging dots que siguen el scroll. El iframe de Vimeo
-// solo se inserta al pulsar, sin cargar terceros antes del consentimiento.
 export function FilmCarousel({ films }: { films: Film[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);

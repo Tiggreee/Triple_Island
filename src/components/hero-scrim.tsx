@@ -1,6 +1,3 @@
-// UX-018/019: capa de oscurecimiento compartida por los heroes de landing y villas.
-// Radial centrado sobre el texto + lineal vertical, para mantener contraste AA sobre
-// el fotograma mas claro del video o la foto.
 export function HeroScrim() {
   return (
     <div

@@ -27,8 +27,6 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:path*", headers: securityHeaders },
       {
-        // Estáticos de media (video/fotos): cache larga inmutable para que
-        // Front Door los sirva desde el borde y no re-baje del origen.
         source: "/media/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
       },

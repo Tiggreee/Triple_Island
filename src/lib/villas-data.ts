@@ -63,5 +63,4 @@ export const REAL_VILLAS: VillaData[] = [
   },
 ];
 
-// Villa slug → availability unit index (UNITS order in lib/availability).
 export const SLUG_TO_UNIT: Record<string, number> = { coco: 0, encantada: 1, lola: 2, cielo: 3 };

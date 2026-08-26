@@ -29,8 +29,6 @@ export function analyticsAllowed(): boolean {
 
 let initialized = false;
 
-// Loads GA4 only when a Measurement ID is configured AND the visitor granted
-// analytics consent. No ID or no consent = no script, no cookies, no calls.
 export function loadAnalytics(): void {
   if (initialized || typeof window === "undefined") return;
   if (!GA_ID || !analyticsAllowed()) return;

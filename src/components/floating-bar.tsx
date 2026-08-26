@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-// UX-015: CTA diferido. Aparece al pasar el 75% del hero y se esconde arriba del
-// todo y en los ultimos 780px. Vidrio (blur 22, saturate 1.25), z-55.
 export function FloatingBar() {
   const [visible, setVisible] = useState(false);
 
@@ -25,7 +23,6 @@ export function FloatingBar() {
     };
   }, []);
 
-  // El FAB del chat lee este flag para subir 100px y no encimarse.
   useEffect(() => {
     document.body.dataset.floatbar = visible ? "1" : "0";
     return () => {
