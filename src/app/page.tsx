@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Azulejo, AzulejoRule } from "@/components/ui/azulejo";
+import { Azulejo } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
+import { SectionHeader } from "@/components/ui/section-header";
 import { FilmCarousel } from "@/components/film-carousel";
 import { FloatingBar } from "@/components/floating-bar";
 import { HeroScrim } from "@/components/hero-scrim";
@@ -137,23 +138,16 @@ export default function Home() {
 
       <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl space-y-3 text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">
-            Luxury villas · Boutique hotels · Destination retreats
-          </p>
-          <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">A collection, not a hotel</h2>
-          <AzulejoRule className="mt-4" />
-          <p className="text-sm leading-7 text-muted">
-            Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct
-            access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for
-            exceptional experiences.
-          </p>
+          <SectionHeader
+            eyebrow="Luxury villas · Boutique hotels · Destination retreats"
+            title="A collection, not a hotel"
+            lead="Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for exceptional experiences."
+          />
         </div>
 
         <div className="space-y-8">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">We live for</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Three kinds of gathering</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="We live for" title="Three kinds of gathering" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {gatherings.map((item) => (
@@ -172,9 +166,7 @@ export default function Home() {
 
         <div className="space-y-8">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Beyond the villa</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Experiences</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="Beyond the villa" title="Experiences" />
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {experiences.map((x) => (
@@ -193,15 +185,11 @@ export default function Home() {
 
         <div className="space-y-8">
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The collection</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
-              Coco · Lola · Encantada · Cielo
-            </h2>
-            <AzulejoRule className="mt-4" />
-            <p className="mt-3 text-sm leading-7 text-muted">
-              Each villa blends indoor and outdoor living, perfect for families, friends, corporate retreats or
-              wellness getaways.
-            </p>
+            <SectionHeader
+              eyebrow="The collection"
+              title="Coco · Lola · Encantada · Cielo"
+              lead="Each villa blends indoor and outdoor living, perfect for families, friends, corporate retreats or wellness getaways."
+            />
           </div>
           <VillaCollectionGrid villas={villas} />
           <div className="flex flex-col items-center gap-2">
@@ -214,9 +202,7 @@ export default function Home() {
 
         <div className="space-y-8">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">The island</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Sac Bajo, from the water</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="The island" title="Sac Bajo, from the water" />
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1fr_1fr] min-[901px]:auto-rows-[210px]">
             {sacBajo.map((shot, i) => (
@@ -240,9 +226,7 @@ export default function Home() {
 
         <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Destination retreats</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground">Full-service planning for your retreat</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="Destination retreats" title="Full-service planning for your retreat" />
           </div>
 
           <div className="flex flex-wrap justify-center gap-2">
@@ -299,18 +283,14 @@ export default function Home() {
 
         <div className="space-y-8">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Film</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">See the island move</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="Film" title="See the island move" />
           </div>
           <FilmCarousel films={films} />
         </div>
 
         <div className="space-y-6">
           <div className="text-center">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">What people say</p>
-            <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">370 verified reviews</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="What people say" title="370 verified reviews" />
           </div>
           <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
@@ -351,7 +331,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative min-h-[360px] overflow-hidden rounded-2xl">
+        <div className="relative h-[340px] overflow-hidden rounded-2xl min-[621px]:h-[380px] min-[901px]:h-[430px]">
           <Image
             src="/media/coco/sunset-pool.jpg"
             alt="Oceanfront pool at sunset"
@@ -359,26 +339,30 @@ export default function Home() {
             sizes="(min-width: 1180px) 1180px, 100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/85 via-foreground/45 to-foreground/10 sm:bg-gradient-to-r sm:from-foreground/85 sm:via-foreground/40 sm:to-transparent" />
-          <Azulejo tone="white" size={180} className="pointer-events-none absolute -right-8 -top-8 opacity-[0.08]" />
-          <Azulejo tone="white" size={120} className="pointer-events-none absolute -bottom-6 right-28 opacity-[0.06]" />
-          <div className="relative max-w-md space-y-4 p-8 text-white sm:p-12">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-white/80">Oceanfront boutique · pop-up hotel</p>
-            <h2 className="text-2xl font-light uppercase tracking-[2px] lg:text-3xl">Coco &amp; Lola, by the room</h2>
-            <p className="text-sm leading-7 text-white/85">
-              When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
-            </p>
-            <Link href="/solicitud">
-              <Button variant="light" icon>Ask about last-minute stays</Button>
-            </Link>
+          <div className="absolute inset-0 bg-gradient-to-b from-foreground/[0.55] to-foreground/[0.78] min-[621px]:bg-gradient-to-r min-[621px]:from-foreground/[0.74] min-[621px]:to-foreground/[0.2]" />
+          <Azulejo tone="white" size={340} className="pointer-events-none absolute -bottom-32 -right-24 opacity-10" />
+          <Azulejo tone="white" size={170} className="pointer-events-none absolute -left-13 -top-12 opacity-[0.09]" />
+          <div className="relative flex h-full items-center px-8 py-14 min-[621px]:px-12">
+            <div className="max-w-[540px] space-y-4 text-white">
+              <p className="text-[10px] font-medium uppercase tracking-[1.8px] text-white/90 min-[621px]:text-[11px] min-[621px]:tracking-[2.24px]">
+                Oceanfront boutique · pop-up hotel
+              </p>
+              <h2 className="text-[25px] font-extralight uppercase tracking-[2px] min-[621px]:text-[30px] min-[621px]:tracking-[3px] min-[901px]:text-[38px]">
+                Coco &amp; Lola, by the room
+              </h2>
+              <p className="text-[15px] leading-[1.8] text-[#efeae2] min-[621px]:max-w-[470px] min-[621px]:text-base">
+                When the villas aren&rsquo;t booked whole, single suites open for stays inside 30 days of arrival.
+              </p>
+              <Link href="/solicitud">
+                <Button variant="light" icon>Ask about last-minute stays</Button>
+              </Link>
+            </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
           <div className="space-y-4 text-center lg:text-left">
-            <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">A privileged location</p>
-            <h2 className="text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Isla Mujeres</h2>
-            <AzulejoRule className="mt-4" />
+            <SectionHeader eyebrow="A privileged location" title="Isla Mujeres" />
             <p className="text-sm leading-7 text-muted">
               Just a 25 minute boat ride off the coast of Cancún, you&rsquo;ll find Isla Mujeres — a small and
               alluring island with some of the most beautiful beaches and coastlines in all the Caribbean.
@@ -416,7 +400,7 @@ export default function Home() {
             <p className="text-white/70">Luxury villas on the Sac Bajo peninsula · 3–27 suites.</p>
           </div>
           <nav className="space-y-2" aria-label="Footer">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Explore</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Explore</p>
             <Link href="/villas" className="block text-white/80 hover:text-white">Villas</Link>
             <Link href="/retiros" className="block text-white/80 hover:text-white">Retreats</Link>
             <Link href="/solicitud" className="block text-white/80 hover:text-white">Plan a stay</Link>
@@ -424,13 +408,13 @@ export default function Home() {
             <Link href="/villas/coco" className="block text-white/80 hover:text-white">Casa Coco</Link>
           </nav>
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Reservations</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Reservations</p>
             <a href="tel:+18334392626" className="block text-white/80 hover:text-white">US toll-free 833 439 2626</a>
             <p className="text-white/60">9 a.m. – 5 p.m. Central</p>
             <a href="mailto:reservations@cocobisla.com" className="block text-white/80 hover:text-white">reservations@cocobisla.com</a>
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-white/50">Concierge</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Concierge</p>
             <p className="text-white/60">7 a.m. – 11 p.m. Central</p>
             <p className="text-white/80">WhatsApp <a href="https://wa.me/529983154343" className="underline decoration-white/40 underline-offset-2 hover:decoration-white">+52 998 315 4343</a></p>
             <a href="mailto:jeffrey@cocobisla.com" className="block text-white/80 hover:text-white">jeffrey@cocobisla.com</a>
