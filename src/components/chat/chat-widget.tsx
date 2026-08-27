@@ -201,16 +201,26 @@ export function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed bottom-24 right-5 z-[121] flex h-[min(520px,calc(100dvh-120px))] w-[min(92vw,380px)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl">
+        <div className="fixed inset-x-0 bottom-0 z-[121] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(520px,calc(100dvh-120px))] min-[621px]:w-[min(92vw,380px)] min-[621px]:rounded-2xl">
           <header className="flex items-center gap-3 border-b border-border bg-[linear-gradient(140deg,#0e5f6b,#107480,#17879a)] px-4 py-3 text-white">
             <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
               <Azulejo tone="white" size={20} />
               <span className={`absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0e5f6b] ${online ? "bg-green-400" : "bg-amber-400"}`} />
             </span>
-            <div className="leading-tight">
+            <div className="flex-1 leading-tight">
               <p className="text-sm font-semibold">Coco B Concierge</p>
               <p className="text-[11px] text-white/75">{online ? "Typically replies in a few minutes" : "Back at 7:00 a.m. Central"}</p>
             </div>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              aria-label="Close concierge chat"
+              className="rounded-full p-1.5 text-white/80 transition hover:bg-white/15 hover:text-white"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+              </svg>
+            </button>
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">

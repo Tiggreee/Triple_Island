@@ -71,14 +71,14 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/50 p-4"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4"
       onClick={close}
       role="dialog"
       aria-modal="true"
       aria-label={villa.name}
     >
       <div
-        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-2xl bg-surface shadow-2xl"
+        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-2xl bg-surface shadow-2xl min-[621px]:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-border bg-surface/95 px-5 py-4 backdrop-blur">
@@ -100,20 +100,20 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
         <div className="space-y-6 p-5">
           {gallery.length > 0 ? (
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+            <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {gallery.slice(0, 5).map((src, i) => (
                 <button
                   key={src}
                   type="button"
                   onClick={() => setLightboxIndex(i)}
                   aria-label={`Expand ${villa.name} photo ${i + 1}`}
-                  className={`group relative aspect-[4/3] overflow-hidden rounded-xl ${i === 0 ? "col-span-2" : ""}`}
+                  className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
                 >
                   <Image
                     src={src}
                     alt={`${villa.name} photo ${i + 1}`}
                     fill
-                    sizes="(min-width: 640px) 25vw, 50vw"
+                    sizes="(min-width: 621px) 25vw, 82vw"
                     className="object-cover transition group-hover:scale-105"
                   />
                 </button>
