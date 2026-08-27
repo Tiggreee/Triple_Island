@@ -53,6 +53,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
     firstName: "",
     lastName: "",
     email: "",
+    phoneCode: "+52",
     phone: "",
     flexible: "",
     heard: "",
@@ -163,7 +164,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
         body: JSON.stringify({
           name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
-          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
+          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phoneCode} ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
           leadType: "solicitud",
           website: "",
           startedAt: Date.now(),
@@ -451,7 +452,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     value={form.firstName}
                     onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
                     onBlur={() => setTouched((t) => ({ ...t, firstName: true }))}
-                    className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                    className={`min-h-12 rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.firstName ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
                   />
                   {errors.firstName ? <span className="text-[11px] text-danger">{errors.firstName}</span> : null}
                 </label>
@@ -461,7 +462,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     value={form.lastName}
                     onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
                     onBlur={() => setTouched((t) => ({ ...t, lastName: true }))}
-                    className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                    className={`min-h-12 rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.lastName ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
                   />
                   {errors.lastName ? <span className="text-[11px] text-danger">{errors.lastName}</span> : null}
                 </label>
@@ -473,29 +474,48 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-                  className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                  className={`min-h-12 rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.email ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
                 />
                 {errors.email ? <span className="text-[11px] text-danger">{errors.email}</span> : null}
               </label>
-              <label className="grid gap-1 text-xs text-foreground">
-                Phone *
-                <input
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                  onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
-                  placeholder="33 1234 5678"
-                  className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
-                />
+              <div className="grid gap-1 text-xs text-foreground">
+                <span>Phone *</span>
+                <div className="flex gap-2">
+                  <select
+                    value={form.phoneCode}
+                    onChange={(e) => setForm((f) => ({ ...f, phoneCode: e.target.value }))}
+                    aria-label="Country code"
+                    className="w-[120px] shrink-0 rounded-[11px] border border-border bg-surface px-2 py-2 text-base text-foreground min-[621px]:w-[130px]"
+                  >
+                    <option value="+52">🇲🇽 +52</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+34">🇪🇸 +34</option>
+                    <option value="+33">🇫🇷 +33</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+55">🇧🇷 +55</option>
+                    <option value="+54">🇦🇷 +54</option>
+                    <option value="+57">🇨🇴 +57</option>
+                    <option value="+56">🇨🇱 +56</option>
+                  </select>
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                    onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+                    placeholder="33 1234 5678"
+                    className={`min-h-12 w-full rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.phone ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
+                  />
+                </div>
                 {errors.phone ? <span className="text-[11px] text-danger">{errors.phone}</span> : null}
-              </label>
+              </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <label className="grid gap-1 text-xs text-foreground">
                   Are your dates flexible?
                   <select
                     value={form.flexible}
                     onChange={(e) => setForm((f) => ({ ...f, flexible: e.target.value }))}
-                    className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
+                    className="min-h-12 rounded-[11px] border border-border bg-surface px-3 py-2 text-base text-foreground"
                   >
                     <option value="">Select one</option>
                     <option>Dates are firm</option>
@@ -508,7 +528,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   <select
                     value={form.heard}
                     onChange={(e) => setForm((f) => ({ ...f, heard: e.target.value }))}
-                    className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
+                    className="min-h-12 rounded-[11px] border border-border bg-surface px-3 py-2 text-base text-foreground"
                   >
                     <option value="">Select one</option>
                     <option>Instagram</option>
@@ -525,7 +545,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   value={form.trip}
                   onChange={(e) => setForm((f) => ({ ...f, trip: e.target.value }))}
                   placeholder="My mother's birthday — 6 adults and 4 children, we'd love a private chef."
-                  className="min-h-20 rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                  className="min-h-20 rounded-[11px] border border-border px-3 py-2 text-base text-foreground"
                 />
                 <span className="text-[11px] text-muted">Optional, but it lets us send a full quote in the first reply.</span>
               </label>
@@ -534,7 +554,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   type="checkbox"
                   checked={form.consent}
                   onChange={(e) => setForm((f) => ({ ...f, consent: e.target.checked }))}
-                  className="mt-0.5"
+                  className="mt-0.5 h-[22px] w-[22px] shrink-0 accent-primary"
                 />
                 I agree to be contacted by Coco B Isla by email or WhatsApp about this inquiry. *
               </label>
