@@ -138,11 +138,17 @@ body {
 }
 
 body[data-floatbar="1"] .cb-chat-fab {
-  bottom: 7.5rem;
+  bottom: 118px;
 }
 
 body[data-floatbar="1"] .cb-chat-teaser {
   bottom: 11.75rem;
+}
+
+@media (min-width: 768px) {
+  body[data-floatbar="1"] .cb-chat-fab {
+    bottom: 100px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -16,11 +16,16 @@ export function SiteHeader() {
   useEffect(() => {
     if (!hasHero) return;
     function onScroll() {
-      setScrolled(window.scrollY > 80);
+      const heroHeight = document.getElementById("site-hero")?.offsetHeight ?? 0;
+      setScrolled(window.scrollY > heroHeight * 0.62);
     }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [hasHero]);
 
   const transparent = hasHero && !scrolled;

@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 
 export function FloatingBar() {
   const [visible, setVisible] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   useEffect(() => {
     function onScroll() {
       const y = window.scrollY;
-      const past = y > window.innerHeight * 0.75;
+      const heroHeight = document.getElementById("site-hero")?.offsetHeight ?? window.innerHeight;
+      const past = y > heroHeight * 0.75;
       const nearBottom = y + window.innerHeight > document.documentElement.scrollHeight - 780;
       setVisible(past && !nearBottom);
     }
@@ -30,10 +32,20 @@ export function FloatingBar() {
     };
   }, [visible]);
 
+  useEffect(() => {
+    const target = document.body;
+    const sync = () => setChatOpen(target.dataset.chatOpen === "1");
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(target, { attributeFilter: ["data-chat-open"] });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
       aria-hidden={!visible}
-      className={`fixed inset-x-0 bottom-0 z-[55] transition-all duration-500 ease-[cubic-bezier(.2,.9,.3,1)] motion-reduce:transition-none ${
+      style={{ bottom: chatOpen ? "74px" : "0" }}
+      className={`fixed inset-x-0 z-[55] transition-all duration-500 ease-[cubic-bezier(.2,.9,.3,1)] motion-reduce:transition-none ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
       }`}
     >
