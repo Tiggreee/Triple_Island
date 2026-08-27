@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { trackEvent } from "@/lib/analytics";
 import { Azulejo } from "@/components/ui/azulejo";
@@ -55,6 +55,8 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
     trip: "",
     consent: false,
   });
+
+  const openedAt = useRef(Date.now());
 
   const active = UNITS[unit];
   const cameFrom = UNITS[initialUnit];
@@ -152,7 +154,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
           message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
           leadType: "solicitud",
           website: "",
-          startedAt: Date.now(),
+          startedAt: openedAt.current,
         }),
       });
       const data = (await response.json()) as { ok?: boolean; error?: string };
