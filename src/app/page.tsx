@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { FilmCarousel } from "@/components/film-carousel";
 import { FloatingBar } from "@/components/floating-bar";
 import { HeroScrim } from "@/components/hero-scrim";
+import { HeroVideo } from "@/components/hero-video";
 import { VillaCollectionGrid } from "@/components/villa/villa-collection-grid";
 
 const gatherings = [
   {
     title: "Friends & family",
     body: "Whole houses for people who want the island to themselves.",
-    photo: "/media/coco/catamaran.jpg",
+    photo: "/media/coco/friends-family-palapa.webp",
   },
   {
     title: "Wellness & team retreats",
@@ -51,7 +52,7 @@ const sacBajo = [
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
 
 const films = [
-  { caption: "Coco by Coco B Isla · 16:9", vimeoId: "418219424", poster: "/media/coco/portfolio-pool.jpg" },
+  { caption: "Coco by Coco B Isla · 16:9", vimeoId: "418219424", poster: "/media/coco/guest-pool-sunset.webp" },
   { caption: "Coco B Wellness & Casa Coco · 16:9" },
   { caption: "Isla Mujeres, from the water · 16:9" },
 ];
@@ -99,20 +100,7 @@ export default function Home() {
           sizes="100vw"
           className="object-cover"
         />
-        <video
-          className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/media/coco/video/hero-poster.jpg"
-          aria-hidden="true"
-        >
-          <source src="/media/coco/video/hero-vertical.mp4" media="(orientation: portrait)" type="video/mp4" />
-          <source src="/media/coco/video/hero-1920.mp4" media="(min-width: 1024px)" type="video/mp4" />
-          <source src="/media/coco/video/hero-1280.mp4" type="video/mp4" />
-        </video>
+        <HeroVideo />
         <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Quintana Roo · Mexico</p>
