@@ -5,6 +5,8 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { trackEvent } from "@/lib/analytics";
 import { Azulejo } from "@/components/ui/azulejo";
+import { ConfirmationMark } from "@/components/ui/confirmation-mark";
+import { TideLoader } from "@/components/ui/tide-loader";
 import {
   UNITS,
   CALENDAR_MONTHS,
@@ -39,6 +41,8 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   const [guests, setGuests] = useState(initialGuests ?? 2);
   const [unit, setUnit] = useState(initialUnit);
   const [mi, setMi] = useState(0);
+  const [calLoading, setCalLoading] = useState(false);
+  const miMounted = useRef(false);
   const [ci, setCi] = useState<string | null>(null);
   const [co, setCo] = useState<string | null>(null);
   const [warn, setWarn] = useState<string | null>(null);
@@ -67,6 +71,16 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   useEffect(() => {
     trackEvent("stepper_inicio", { unit: UNITS[initialUnit].name });
   }, [initialUnit]);
+
+  useEffect(() => {
+    if (!miMounted.current) {
+      miMounted.current = true;
+      return;
+    }
+    setCalLoading(true);
+    const t = window.setTimeout(() => setCalLoading(false), 1400);
+    return () => window.clearTimeout(t);
+  }, [mi]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -333,7 +347,8 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
           ) : null}
 
           {step === 2 ? (
-            <div className="space-y-4">
+            <div className="relative space-y-4">
+              <TideLoader active={calLoading} />
               <div className="flex items-center justify-between">
                 <strong className="text-sm text-foreground">
                   {MONTH_NAMES[month]} {year}
@@ -547,6 +562,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
 
           {step === 4 ? (
             <div className="space-y-5 text-center">
+              <ConfirmationMark />
               <h3 className="text-xl font-light uppercase tracking-[2px] text-foreground">Inquiry received</h3>
               <p className="mx-auto max-w-xs text-sm text-muted">
                 We&rsquo;ll get back to you within 24 hours, to the email and WhatsApp you gave us.

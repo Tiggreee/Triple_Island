@@ -392,3 +392,94 @@ body[data-floatbar="1"] .cb-chat-teaser {
     animation: none;
   }
 }
+
+@keyframes cb-btn-tick {
+  0%,
+  18% {
+    transform: rotate(0deg);
+  }
+  25%,
+  43% {
+    transform: rotate(90deg);
+  }
+  50%,
+  68% {
+    transform: rotate(180deg);
+  }
+  75%,
+  93% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cb-tide {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+  70% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 0.2;
+  }
+}
+
+.cb-tide-wrap {
+  position: relative;
+  width: 74px;
+  height: 74px;
+}
+
+.cb-tide-wrap .cb-tide-clip {
+  position: absolute;
+  inset: 0;
+  animation: cb-tide 1.5s ease-in-out infinite;
+}
+
+@keyframes cb-mark-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-30deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.08) rotate(0deg);
+  }
+  40%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.cb-mark-tile {
+  opacity: 0;
+  animation: cb-mark-bloom 2.6s ease-in-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-tide-wrap .cb-tide-clip {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .cb-mark-tile {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
+
+.cb-btn-tick {
+  animation: cb-btn-tick 2s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-btn-tick {
+    animation: none;
+  }
+}
