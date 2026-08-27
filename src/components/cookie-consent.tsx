@@ -41,7 +41,7 @@ export function CookieConsent() {
       role="dialog"
       aria-modal="false"
       aria-label="Cookie preferences"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface shadow-[0_-10px_34px_rgba(11,32,40,0.10)]"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface shadow-[0_-10px_34px_rgba(11,32,40,0.10)]"
     >
       <div className="mx-auto flex max-w-[1200px] flex-col items-start gap-4 px-4 py-5 sm:flex-row sm:items-center sm:px-8">
         <p className="text-[13.5px] leading-6 text-muted">
