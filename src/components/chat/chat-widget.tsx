@@ -84,6 +84,13 @@ export function ChatWidget() {
   }, [messages, loading]);
 
   useEffect(() => {
+    document.body.dataset.chatOpen = open ? "1" : "0";
+    return () => {
+      delete document.body.dataset.chatOpen;
+    };
+  }, [open]);
+
+  useEffect(() => {
     if (window.innerWidth <= 620) return;
     const t = window.setTimeout(() => setShowTeaser(true), 2600);
     return () => window.clearTimeout(t);
@@ -295,7 +302,7 @@ export function ChatWidget() {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask the concierge…"
                 aria-label="Message"
-                className="w-full rounded-full border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-primary focus:outline-none"
+                className="w-full rounded-full border border-border bg-background px-4 py-2 text-base text-foreground focus:border-primary focus:outline-none"
               />
               <button
                 type="submit"

@@ -91,7 +91,7 @@ const press = [
 export default function Home() {
   return (
     <div className="w-full">
-      <div className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
+      <div id="site-hero" className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
         <Image
           src="/media/coco/video/hero-poster.jpg"
           alt="Coco B Isla poolside, palm trees and the Caribbean Sea"
@@ -104,7 +104,7 @@ export default function Home() {
         <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Quintana Roo · Mexico</p>
-          <h1 className="mt-4 font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Coco B Isla</h1>
+          <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Coco B Isla</h1>
           <p className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[2.5px] text-white/90">
             {["Lola", "Encantada", "Coco", "Cielo"].map((name, i) => (
               <span key={name} className="flex items-center gap-3">

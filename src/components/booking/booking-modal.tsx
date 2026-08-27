@@ -392,7 +392,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${dayClass({ sel, inRange, booked, part: Boolean(part), far, past, peak })}`}
                     >
                       <span>{c.day}</span>
-                      {r ? <span className="text-[9px]">{(r / 1000).toFixed(1)}k</span> : null}
+                      {r ? <span className="max-[360px]:hidden text-[9px]">{(r / 1000).toFixed(1)}k</span> : null}
                     </button>
                   );
                 })}

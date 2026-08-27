@@ -22,14 +22,14 @@ export function FilmCarousel({ films }: { films: Film[] }) {
       <div
         ref={trackRef}
         onScroll={onScroll}
-        className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-2 min-[1001px]:grid min-[1001px]:grid-cols-3 min-[1001px]:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {films.map((film) => {
           const isPlaying = Boolean(film.vimeoId && playing.has(film.vimeoId));
           return (
             <div
               key={film.caption}
-              className="relative flex aspect-[16/9] shrink-0 basis-[87%] snap-center overflow-hidden rounded-2xl bg-[color:var(--cb-color-foreground,#0e2530)] text-white sm:basis-[62%] lg:basis-auto"
+              className="relative flex aspect-[16/9] shrink-0 basis-[87%] snap-center overflow-hidden rounded-2xl bg-[color:var(--cb-color-foreground,#0e2530)] text-white sm:basis-[62%] min-[1001px]:basis-auto"
             >
               {isPlaying ? (
                 <iframe
@@ -41,7 +41,7 @@ export function FilmCarousel({ films }: { films: Film[] }) {
               ) : (
                 <>
                   {film.poster ? (
-                    <Image src={film.poster} alt="" fill sizes="(min-width: 1024px) 33vw, 87vw" className="object-cover opacity-55" />
+                    <Image src={film.poster} alt="" fill sizes="(min-width: 1001px) 33vw, 87vw" className="object-cover opacity-55" />
                   ) : null}
                   <div className="relative z-10 flex h-full w-full flex-col items-center justify-center">
                     <button
@@ -62,7 +62,7 @@ export function FilmCarousel({ films }: { films: Film[] }) {
           );
         })}
       </div>
-      <div className="flex justify-center gap-2 lg:hidden">
+      <div className="flex justify-center gap-2 min-[1001px]:hidden">
         {films.map((film, i) => (
           <span
             key={film.caption}
