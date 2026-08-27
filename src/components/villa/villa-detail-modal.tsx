@@ -81,7 +81,11 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
         className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-2xl bg-surface shadow-2xl min-[621px]:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-border bg-surface/95 px-5 py-4 backdrop-blur">
+        <div className="sticky top-0 z-10 flex flex-col bg-surface/95 backdrop-blur">
+          <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
+            <span className="h-1 w-9 rounded-full bg-border" />
+          </div>
+          <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
           <div>
             <h2 className="text-[18px] font-light uppercase tracking-[2px] text-foreground">{villa.name}</h2>
             <p className="text-[12px] text-muted">
@@ -96,6 +100,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
           >
             &times;
           </button>
+          </div>
         </div>
 
         <div className="space-y-6 p-5">

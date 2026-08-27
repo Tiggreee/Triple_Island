@@ -191,6 +191,9 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
         className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-2xl bg-[#f8f5ef] shadow-2xl min-[621px]:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
+          <span className="h-1 w-9 rounded-full bg-[#ddd3c2]" />
+        </div>
         <div className="flex items-center gap-3 border-b border-[#e6dfd3] bg-white p-5">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
             <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
@@ -258,7 +261,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   type="button"
                   onClick={() => setGuests((g) => Math.max(1, g - 1))}
                   aria-label="Remove guest"
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10"
+                  className="flex h-13 w-13 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10 min-[621px]:h-14 min-[621px]:w-14"
                 >
                   &minus;
                 </button>
@@ -267,7 +270,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   type="button"
                   onClick={() => setGuests((g) => Math.min(28, g + 1))}
                   aria-label="Add guest"
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10"
+                  className="flex h-13 w-13 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10 min-[621px]:h-14 min-[621px]:w-14"
                 >
                   +
                 </button>
