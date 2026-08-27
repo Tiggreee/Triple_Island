@@ -84,6 +84,7 @@ export function ChatWidget() {
   }, [messages, loading]);
 
   useEffect(() => {
+    if (window.innerWidth <= 620) return;
     const t = window.setTimeout(() => setShowTeaser(true), 2600);
     return () => window.clearTimeout(t);
   }, []);
@@ -142,7 +143,7 @@ export function ChatWidget() {
   return (
     <>
       {teaserVisible && (
-        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
+        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-[620px]:hidden max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
           <button
             type="button"
             onClick={() => {
