@@ -145,7 +145,7 @@ body[data-floatbar="1"] .cb-chat-teaser {
   bottom: 11.75rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 621px) {
   body[data-floatbar="1"] .cb-chat-fab {
     bottom: 100px;
   }

@@ -76,12 +76,20 @@ export function ChatWidget() {
   const [online, setOnline] = useState(true);
   const [usedQuickReplies, setUsedQuickReplies] = useState<string[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const composerRef = useRef<HTMLTextAreaElement>(null);
 
   const visibleQuickReplies = QUICK_REPLY_POOL.filter((qr) => !usedQuickReplies.includes(qr)).slice(0, QUICK_REPLIES_VISIBLE);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, loading]);
+
+  useEffect(() => {
+    const el = composerRef.current;
+    if (!el) return;
+    el.style.height = "44px";
+    el.style.height = `${Math.min(110, Math.max(44, el.scrollHeight))}px`;
+  }, [input]);
 
   useEffect(() => {
     document.body.dataset.chatOpen = open ? "1" : "0";
@@ -185,10 +193,13 @@ export function ChatWidget() {
         }}
         aria-expanded={open}
         aria-label={open ? "Close concierge chat" : "Open concierge chat"}
-        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 md:h-[62px] md:w-[62px] ${
+        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 min-[621px]:h-[62px] min-[621px]:w-[62px] ${
           teaserVisible || open ? "" : "cb-fab-bounce"
         }`}
       >
+        {!open && (
+          <span className="pointer-events-none absolute inset-0 rounded-full border-2 border-[#5bcaeb] animate-[cw-ring-pulse_1.8s_ease-out_2]" />
+        )}
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
@@ -198,14 +209,22 @@ export function ChatWidget() {
             <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5Z" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
+        {!open && showTeaser && (
+          <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-surface bg-brand" />
+        )}
       </button>
 
       {open && (
-        <div className="fixed inset-x-0 bottom-0 z-[121] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-[18px] border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(520px,calc(100dvh-120px))] min-[621px]:w-[min(92vw,380px)] min-[621px]:rounded-[20px]">
+        <div className="fixed inset-x-0 bottom-0 z-[121] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-[18px] border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(620px,calc(100svh-140px))] min-[621px]:w-[min(92vw,384px)] min-[621px]:rounded-[20px]">
           <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
             <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
           </div>
-          <header className="flex items-center gap-3 border-b border-border bg-[linear-gradient(140deg,#0e5f6b,#107480,#17879a)] px-4 py-3 text-white">
+          <header className="relative flex items-center gap-3 overflow-hidden border-b border-border bg-[linear-gradient(140deg,#0e5f6b,#107480,#17879a)] px-4 py-3 text-white">
+            <Azulejo
+              tone="white"
+              size={140}
+              className="pointer-events-none absolute -right-6 -top-10 opacity-[0.16] [mask-image:linear-gradient(135deg,#000_35%,transparent_75%)]"
+            />
             <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
               <Azulejo tone="white" size={20} />
               <span className={`absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0e5f6b] ${online ? "bg-green-400" : "bg-amber-400"}`} />
@@ -235,29 +254,29 @@ export function ChatWidget() {
                   <p
                     className={
                       m.role === "user"
-                        ? "max-w-[88%] min-[621px]:max-w-[84%] whitespace-pre-line rounded-2xl rounded-br-sm bg-primary px-3.5 py-2 text-sm text-white"
-                        : "max-w-[88%] min-[621px]:max-w-[84%] whitespace-pre-line rounded-2xl rounded-bl-sm border border-border bg-background px-3.5 py-2 text-sm text-foreground"
+                        ? "max-w-[88%] min-[621px]:max-w-[84%] animate-[cw-msg-pop_.3s_ease-out] whitespace-pre-line rounded-2xl rounded-br-[5px] bg-primary px-3.5 py-2 text-sm text-white"
+                        : "max-w-[88%] min-[621px]:max-w-[84%] animate-[cw-msg-pop_.3s_ease-out] whitespace-pre-line rounded-2xl rounded-bl-[5px] border border-border bg-background px-3.5 py-2 text-sm text-foreground"
                     }
                   >
                     {m.role === "assistant" ? formatReply(m.content) : m.content}
                   </p>
                   {villas.map((v) => (
                     <div key={v.slug} className="w-[84%] overflow-hidden rounded-xl border border-border bg-surface">
-                      <div className="flex gap-3 p-2.5">
-                        <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg">
-                          <Image src={v.photo} alt={v.name} fill sizes="80px" className="object-cover" />
-                        </div>
-                        <div className="min-w-0 flex-1">
+                      <div className="relative h-[110px] w-full">
+                        <Image src={v.photo} alt={v.name} fill sizes="260px" className="object-cover" />
+                      </div>
+                      <div className="space-y-2 p-3">
+                        <div>
                           <p className="text-sm font-semibold text-foreground">{v.name}</p>
                           <p className="mt-0.5 text-xs text-muted">From ${v.priceFrom.toLocaleString()} · {v.suites} suites</p>
-                          <Link
-                            href={`/solicitud?villa=${v.slug}${guestsForHandoff ? `&guests=${guestsForHandoff}` : ""}`}
-                            onClick={() => setOpen(false)}
-                            className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[1px] text-primary hover:underline"
-                          >
-                            See dates &amp; inquire <span aria-hidden>→</span>
-                          </Link>
                         </div>
+                        <Link
+                          href={`/solicitud?villa=${v.slug}${guestsForHandoff ? `&guests=${guestsForHandoff}` : ""}`}
+                          onClick={() => setOpen(false)}
+                          className="flex w-full items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2 text-[11px] font-semibold uppercase tracking-[1px] text-white transition hover:opacity-90"
+                        >
+                          See dates &amp; inquire <span aria-hidden>→</span>
+                        </Link>
                       </div>
                     </div>
                   ))}
@@ -308,14 +327,21 @@ export function ChatWidget() {
           )}
 
           <form onSubmit={onSubmit} className="space-y-2 border-t border-border px-3 py-3">
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
+            <div className="flex items-end gap-2">
+              <textarea
+                ref={composerRef}
+                rows={1}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    void send(input);
+                  }
+                }}
                 placeholder="Ask the concierge…"
                 aria-label="Message"
-                className="w-full rounded-full border border-border bg-background px-4 py-2 text-base text-foreground focus:border-primary focus:outline-none"
+                className="h-11 max-h-[110px] min-h-11 w-full resize-none rounded-2xl border border-border bg-background px-4 py-2.5 text-base leading-normal text-foreground focus:border-primary focus:outline-none"
               />
               <button
                 type="submit"
