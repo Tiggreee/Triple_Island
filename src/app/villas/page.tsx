@@ -56,7 +56,7 @@ export default async function VillasPage() {
         <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Mexico</p>
-          <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Villas</h1>
+          <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-[36px] font-extralight uppercase tracking-[5px] lg:text-[74px]">Villas</h1>
           <p className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[2.5px] text-white/90">
             {["Lola", "Encantada", "Coco", "Cielo"].map((name, i) => (
               <span key={name} className="flex items-center gap-3">

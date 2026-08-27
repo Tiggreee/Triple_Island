@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { PagingDots } from "@/components/ui/paging-dots";
 import { SpecStrip } from "@/components/villa/spec-strip";
 import { peakRatesFor } from "@/lib/availability";
 import type { VillaData } from "@/lib/villas-data";
@@ -30,6 +31,15 @@ const AMENITIES: { label: string; path: ReactNode }[] = [
 
 export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckAvailability }: VillaDetailModalProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const galleryRef = useRef<HTMLDivElement>(null);
+
+  function onGalleryScroll() {
+    const el = galleryRef.current;
+    if (!el || gallery.length === 0) return;
+    const step = el.scrollWidth / gallery.length;
+    setGalleryIndex(Math.max(0, Math.min(gallery.length - 1, Math.round(el.scrollLeft / step))));
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -105,24 +115,42 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
         <div className="space-y-6 p-5">
           {gallery.length > 0 ? (
-            <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {gallery.slice(0, 5).map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setLightboxIndex(i)}
-                  aria-label={`Expand ${villa.name} photo ${i + 1}`}
-                  className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
-                >
-                  <Image
-                    src={src}
-                    alt={`${villa.name} photo ${i + 1}`}
-                    fill
-                    sizes="(min-width: 621px) 25vw, 82vw"
-                    className="object-cover transition group-hover:scale-105"
-                  />
-                </button>
-              ))}
+            <div>
+              <div
+                ref={galleryRef}
+                onScroll={onGalleryScroll}
+                className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {gallery.slice(0, 5).map((src, i) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setLightboxIndex(i)}
+                    aria-label={`Expand ${villa.name} photo ${i + 1}`}
+                    className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
+                  >
+                    <Image
+                      src={src}
+                      alt={`${villa.name} photo ${i + 1}`}
+                      fill
+                      sizes="(min-width: 621px) 25vw, 82vw"
+                      className="object-cover transition group-hover:scale-105"
+                    />
+                  </button>
+                ))}
+              </div>
+              <div className="hidden justify-center max-[620px]:flex">
+                <PagingDots
+                  total={gallery.slice(0, 5).length}
+                  active={galleryIndex}
+                  className="mt-3.5"
+                  onSelect={(i) => {
+                    const el = galleryRef.current;
+                    if (!el) return;
+                    el.scrollTo({ left: (el.scrollWidth / gallery.length) * i, behavior: "smooth" });
+                  }}
+                />
+              </div>
             </div>
           ) : null}
 
@@ -278,19 +306,8 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
             />
           </div>
           {gallery.length > 1 ? (
-            <div className="absolute inset-x-0 bottom-[26px] z-[3] flex justify-center gap-2">
-              {gallery.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setLightboxIndex(i);
-                  }}
-                  aria-label={`Go to photo ${i + 1}`}
-                  className={`h-[7px] rounded-full transition-all ${i === lightboxIndex ? "w-[22px] bg-white" : "w-[7px] bg-white/36"}`}
-                />
-              ))}
+            <div className="absolute inset-x-0 bottom-[26px] z-[3] flex justify-center" onClick={(e) => e.stopPropagation()}>
+              <PagingDots total={gallery.length} active={lightboxIndex} dark onSelect={(i) => setLightboxIndex(i)} />
             </div>
           ) : null}
         </div>

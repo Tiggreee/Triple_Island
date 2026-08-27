@@ -32,20 +32,26 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-[60] transition-colors duration-300 ${
+      className={`sticky top-0 z-[60] transition-[background-color,border-color,box-shadow] duration-[350ms] ${
         transparent
           ? "border-b border-transparent bg-transparent"
           : "border-b border-border bg-[rgba(251,248,243,0.96)] shadow-[0_1px_14px_rgba(28,28,28,0.06)] backdrop-blur-[10px]"
       } ${hasHero ? "-mb-19.5 lg:-mb-29.5" : ""}`}
     >
-      <div className="mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-4 sm:px-6 lg:h-29.5 lg:px-8">
+      <div
+        className={`mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-4 transition-[height] duration-[350ms] sm:px-6 lg:px-8 ${
+          transparent ? "lg:h-29.5" : "lg:h-[74px]"
+        }`}
+      >
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
             src={transparent ? "/media/coco/logo-white.png" : "/media/figma/footer-logo.png"}
             alt="Coco B Isla"
             width={82}
             height={69}
-            className="h-13 w-auto drop-shadow-[0_2px_8px_rgba(11,32,40,0.35)] lg:h-20.5"
+            className={`h-13 w-auto drop-shadow-[0_2px_8px_rgba(11,32,40,0.35)] transition-[height] duration-[350ms] ${
+              transparent ? "lg:h-20.5" : "lg:h-14"
+            }`}
           />
           <span className={`hidden text-sm font-medium uppercase tracking-[1.5px] sm:inline ${transparent ? "text-white" : "text-foreground"}`}>
             Coco B Isla
