@@ -106,13 +106,13 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   }
 
   function dayClass(o: { sel: boolean; inRange: boolean; booked: boolean; part: boolean; far: boolean; past: boolean; peak: boolean }): string {
-    if (o.sel) return "bg-primary text-white";
-    if (o.inRange) return "bg-primary/15 text-foreground";
-    if (o.booked && !o.part) return "cursor-not-allowed text-muted/40 line-through";
-    if (o.part) return "cursor-not-allowed text-muted/60 [background:repeating-linear-gradient(45deg,transparent,transparent_3px,#78787830_3px,#78787830_6px)]";
-    if (o.past || o.far) return "cursor-not-allowed text-muted/30";
-    if (o.peak) return "bg-accent/10 text-foreground hover:bg-accent/20";
-    return "text-foreground hover:bg-primary/10";
+    if (o.sel) return "border-primary bg-primary text-white";
+    if (o.inRange) return "border-[#dceaf2] bg-[#dceaf2] text-primary-dark";
+    if (o.booked && !o.part) return "cursor-not-allowed border-[#f2ede4] bg-[#f2ede4] text-[#8c8579]";
+    if (o.part) return "cursor-not-allowed border-[#f2ede4] text-[#8c8579] [background:repeating-linear-gradient(135deg,#f2ede4_0_5px,#fff_5px_10px)]";
+    if (o.past || o.far) return "cursor-not-allowed border-border bg-white opacity-[.34]";
+    if (o.peak) return "border-[#e4c489] bg-[#fdf6e7] text-foreground";
+    return "border-border bg-white text-foreground hover:border-primary hover:bg-[#eaf2f7]";
   }
 
   const cells = useMemo(() => {
@@ -381,6 +381,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       : far
                         ? `${c.day} ${MONTH_NAMES[month]}, beyond the next booked night`
                         : undefined;
+                  const hidePrice = far || past;
                   return (
                     <button
                       key={c.key}
@@ -389,10 +390,18 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       aria-label={label}
                       title={label}
                       onClick={() => tap(s)}
-                      className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${dayClass({ sel, inRange, booked, part: Boolean(part), far, past, peak })}`}
+                      className={`flex aspect-square flex-col items-center justify-center gap-0.5 rounded-[10px] border text-[15px] leading-none transition-colors ${dayClass({ sel, inRange, booked, part: Boolean(part), far, past, peak })}`}
                     >
-                      <span>{c.day}</span>
-                      {r ? <span className="max-[360px]:hidden text-[9px]">{(r / 1000).toFixed(1)}k</span> : null}
+                      <span className={booked && !part ? "line-through" : ""}>{c.day}</span>
+                      {r && !hidePrice ? (
+                        <span
+                          className={`max-[360px]:hidden text-[10px] tracking-[0.2px] ${
+                            sel ? "text-white/85" : peak ? "text-accent" : "text-muted"
+                          }`}
+                        >
+                          {(r / 1000).toFixed(1)}k
+                        </span>
+                      ) : null}
                     </button>
                   );
                 })}
