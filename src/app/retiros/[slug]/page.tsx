@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { SiteFooter } from "@/components/site-footer";
 import { getRetreat } from "@/lib/wp-fetchers";
 
 function formatDate(value?: string) {
@@ -83,6 +84,8 @@ export default async function RetiroDetailPage({ params }: RetiroDetailPageProps
           </Link>
         </aside>
       </div>
+
+      <SiteFooter />
     </div>
   );
 }

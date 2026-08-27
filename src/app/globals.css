@@ -166,3 +166,81 @@ body[data-floatbar="1"] .cb-chat-teaser {
     animation: none;
   }
 }
+
+@keyframes cb-banner-blob-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleX(1);
+  }
+  50% {
+    transform: translate(38px, 7px) scaleX(1.22);
+  }
+}
+
+@keyframes cb-banner-blob-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleX(1.1);
+  }
+  50% {
+    transform: translate(-44px, -6px) scaleX(0.85);
+  }
+}
+
+@keyframes cb-banner-sweep {
+  0% {
+    background-position: -80% 0;
+  }
+  58%,
+  100% {
+    background-position: 180% 0;
+  }
+}
+
+@keyframes cb-banner-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  45% {
+    opacity: 0.95;
+    transform: scale(1) rotate(38deg);
+  }
+  70% {
+    opacity: 0.35;
+    transform: scale(0.8) rotate(52deg);
+  }
+}
+
+.cb-banner-blob-a {
+  animation: cb-banner-blob-a 13s ease-in-out infinite;
+}
+
+.cb-banner-blob-b {
+  animation: cb-banner-blob-b 17s ease-in-out infinite;
+}
+
+.cb-banner-blob-c {
+  animation: cb-banner-blob-a 15s ease-in-out infinite 2s;
+}
+
+.cb-banner-glow {
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  animation: cb-banner-sweep 9s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.cb-banner-spark {
+  animation: cb-banner-twinkle 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-banner-blob-a,
+  .cb-banner-blob-b,
+  .cb-banner-blob-c,
+  .cb-banner-glow,
+  .cb-banner-spark {
+    animation: none;
+  }
+}

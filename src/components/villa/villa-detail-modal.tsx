@@ -217,7 +217,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
       {lightboxIndex !== null ? (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-[rgba(11,32,40,0.94)] p-4"
           onClick={(e) => {
             e.stopPropagation();
             setLightboxIndex(null);
@@ -226,17 +226,22 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
           aria-modal="true"
           aria-label={`${villa.name} photo ${lightboxIndex + 1}`}
         >
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLightboxIndex(null);
-            }}
-            aria-label="Close photo"
-            className="absolute right-5 top-5 rounded-full p-2 text-3xl leading-none text-white/80 hover:text-white"
-          >
-            &times;
-          </button>
+          <div className="absolute inset-x-0 top-0 z-[3] flex items-center px-[22px] py-[18px]">
+            <span className="text-[13px] tracking-[1.6px] text-white/85">
+              {lightboxIndex + 1} / {gallery.length}
+            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIndex(null);
+              }}
+              aria-label="Close photo"
+              className="ml-auto flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/10 text-xl leading-none text-white"
+            >
+              &times;
+            </button>
+          </div>
           {gallery.length > 1 ? (
             <>
               <button
@@ -246,7 +251,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
                   setLightboxIndex((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length));
                 }}
                 aria-label="Previous photo"
-                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-3 text-3xl leading-none text-white/80 hover:text-white sm:left-6"
+                className="absolute left-2.5 top-1/2 z-[3] flex h-[46px] w-[46px] -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/10 text-2xl leading-none text-white backdrop-blur-[6px] transition hover:bg-white/25 min-[621px]:left-5 min-[621px]:h-[52px] min-[621px]:w-[52px]"
               >
                 &lsaquo;
               </button>
@@ -257,13 +262,13 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
                   setLightboxIndex((i) => (i === null ? i : (i + 1) % gallery.length));
                 }}
                 aria-label="Next photo"
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-3 text-3xl leading-none text-white/80 hover:text-white sm:right-6"
+                className="absolute right-2.5 top-1/2 z-[3] flex h-[46px] w-[46px] -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/10 text-2xl leading-none text-white backdrop-blur-[6px] transition hover:bg-white/25 min-[621px]:right-5 min-[621px]:h-[52px] min-[621px]:w-[52px]"
               >
                 &rsaquo;
               </button>
             </>
           ) : null}
-          <div className="relative h-full max-h-[80vh] w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative h-full max-h-[66vh] w-full max-w-4xl min-[621px]:max-h-[74vh]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={gallery[lightboxIndex]}
               alt={`${villa.name} photo ${lightboxIndex + 1}`}
@@ -272,6 +277,22 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
               className="object-contain"
             />
           </div>
+          {gallery.length > 1 ? (
+            <div className="absolute inset-x-0 bottom-[26px] z-[3] flex justify-center gap-2">
+              {gallery.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex(i);
+                  }}
+                  aria-label={`Go to photo ${i + 1}`}
+                  className={`h-[7px] rounded-full transition-all ${i === lightboxIndex ? "w-[22px] bg-white" : "w-[7px] bg-white/36"}`}
+                />
+              ))}
+            </div>
+          ) : null}
         </div>
       ) : null}
     </div>

@@ -7,6 +7,8 @@ import { FilmCarousel } from "@/components/film-carousel";
 import { FloatingBar } from "@/components/floating-bar";
 import { HeroScrim } from "@/components/hero-scrim";
 import { HeroVideo } from "@/components/hero-video";
+import { SiteFooter } from "@/components/site-footer";
+import { LatticeBackground } from "@/components/ui/lattice-background";
 import { VillaCollectionGrid } from "@/components/villa/villa-collection-grid";
 
 const gatherings = [
@@ -224,62 +226,65 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
-          <div className="text-center">
-            <SectionHeader eyebrow="Destination retreats" title="Full-service planning for your retreat" />
-          </div>
+        <section className="relative isolate overflow-hidden py-6">
+          <LatticeBackground id="retreats" />
+          <div className="relative z-[1] space-y-8">
+            <div className="text-center">
+              <SectionHeader eyebrow="Destination retreats" title="Full-service planning for your retreat" />
+            </div>
 
-          <div className="flex flex-wrap justify-center gap-2">
-            {retreatTags.map((tag) => (
-              <span key={tag} className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[1px] text-muted">
-                {tag}
-              </span>
-            ))}
-          </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              {retreatTags.map((tag) => (
+                <span key={tag} className="rounded-full border border-border px-3 py-1 text-xs uppercase tracking-[1px] text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <figure className="space-y-3">
-              <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
-                <Image
-                  src="/media/coco/dining.jpg"
-                  alt="Outdoor dining set up for a Coco B retreat"
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Retreat in progress · 16:9</figcaption>
-            </figure>
-
-            <figure className="space-y-3">
-              <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
-                <Image
-                  src="/media/coco/retreat-ceremony-palapa.png"
-                  alt="Ceremony setup under the palapa for a destination retreat"
-                  fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Ceremony · 16:9</figcaption>
-            </figure>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {testimonials.map((t) => (
-              <figure key={t.author} className="h-full space-y-3 rounded-2xl border border-border bg-white/70 p-5">
-                <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
-                <figcaption className="text-[10.5px] font-semibold uppercase tracking-[1.8px] text-brand">{t.author}</figcaption>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <figure className="space-y-3">
+                <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src="/media/coco/dining.jpg"
+                    alt="Outdoor dining set up for a Coco B retreat"
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Retreat in progress · 16:9</figcaption>
               </figure>
-            ))}
-          </div>
 
-          <div className="flex justify-center">
-            <Link href="/retiros">
-              <Button variant="secondary" icon>Inquire about a retreat</Button>
-            </Link>
+              <figure className="space-y-3">
+                <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src="/media/coco/retreat-ceremony-palapa.png"
+                    alt="Ceremony setup under the palapa for a destination retreat"
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Ceremony · 16:9</figcaption>
+              </figure>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {testimonials.map((t) => (
+                <figure key={t.author} className="h-full space-y-3 rounded-2xl border border-border bg-white/70 p-5">
+                  <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
+                  <figcaption className="text-[10.5px] font-semibold uppercase tracking-[1.8px] text-brand">{t.author}</figcaption>
+                </figure>
+              ))}
+            </div>
+
+            <div className="flex justify-center">
+              <Link href="/retiros">
+                <Button variant="secondary" icon>Inquire about a retreat</Button>
+              </Link>
+            </div>
           </div>
-        </div>
+        </section>
 
         <div className="space-y-8">
           <div className="text-center">
@@ -391,42 +396,8 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="rounded-2xl border border-border bg-[color:var(--cb-color-foreground,#0e2530)] px-8 py-12 text-white">
-        <div className="mx-auto grid max-w-[1180px] grid-cols-1 gap-8 text-sm sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/coco/logo-white.png" alt="Coco B Isla" className="h-9 w-auto" />
-            <p className="text-white/70">Isla Mujeres, Quintana Roo, Mexico.</p>
-            <p className="text-white/70">Luxury villas on the Sac Bajo peninsula · 3–27 suites.</p>
-          </div>
-          <nav className="space-y-2" aria-label="Footer">
-            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Explore</p>
-            <Link href="/villas" className="block text-white/80 hover:text-white">Villas</Link>
-            <Link href="/retiros" className="block text-white/80 hover:text-white">Retreats</Link>
-            <Link href="/solicitud" className="block text-white/80 hover:text-white">Plan a stay</Link>
-            <Link href="/villas/lola" className="block text-white/80 hover:text-white">Casa Lola</Link>
-            <Link href="/villas/coco" className="block text-white/80 hover:text-white">Casa Coco</Link>
-          </nav>
-          <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Reservations</p>
-            <a href="tel:+18334392626" className="block text-white/80 hover:text-white">US toll-free 833 439 2626</a>
-            <p className="text-white/60">9 a.m. – 5 p.m. Central</p>
-            <a href="mailto:reservations@cocobisla.com" className="block text-white/80 hover:text-white">reservations@cocobisla.com</a>
-          </div>
-          <div className="space-y-2">
-            <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Concierge</p>
-            <p className="text-white/60">7 a.m. – 11 p.m. Central</p>
-            <p className="text-white/80">WhatsApp <a href="https://wa.me/529983154343" className="underline decoration-white/40 underline-offset-2 hover:decoration-white">+52 998 315 4343</a></p>
-            <a href="mailto:jeffrey@cocobisla.com" className="block text-white/80 hover:text-white">jeffrey@cocobisla.com</a>
-          </div>
-        </div>
-        <p className="mx-auto mt-8 max-w-[1180px] border-t border-white/10 pt-6 text-xs leading-6 text-white/40">
-          All rates are per night in US dollars and subject to 21% Mexican tax. Minimum stay requirements apply to
-          each season: 5 nights at Thanksgiving and Spring Break, 7 nights at Christmas and New Year. Rates shown
-          are the published 2026–2028 peak-season starting rates.
-        </p>
-      </footer>
-      <FloatingBar />
+      <SiteFooter />
+      <FloatingBar href="/villas" />
     </div>
   );
 }
