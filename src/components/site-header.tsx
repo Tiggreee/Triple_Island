@@ -6,13 +6,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/villas", label: "Villas" },
-  { href: "/retiros", label: "Retiros" },
-  { href: "/solicitud", label: "Solicitud" },
-];
-
 const HERO_PAGES = ["/", "/villas"];
 
 export function SiteHeader() {
@@ -52,19 +45,6 @@ export function SiteHeader() {
           </span>
         </Link>
         <div className="flex flex-wrap items-center justify-end gap-1 sm:gap-2">
-          <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium uppercase tracking-[1px] transition ${
-                  transparent ? "text-white/85 hover:bg-white/10 hover:text-white" : "text-muted hover:bg-background hover:text-foreground"
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
           <Link href={pathname === "/villas" ? "/solicitud" : "/villas"}>
             <Button
               variant="primary"
@@ -76,24 +56,6 @@ export function SiteHeader() {
           </Link>
         </div>
       </div>
-      <nav
-        aria-label="Main"
-        className={`flex flex-wrap items-center justify-center gap-1 border-t py-2 md:hidden ${
-          transparent ? "border-white/20" : "border-border"
-        }`}
-      >
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={`rounded-full px-3 py-1.5 text-xs font-medium uppercase tracking-[1px] transition ${
-              transparent ? "text-white/85 hover:bg-white/10 hover:text-white" : "text-muted hover:bg-background hover:text-foreground"
-            }`}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
     </header>
   );
 }
