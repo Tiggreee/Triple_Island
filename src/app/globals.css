@@ -244,3 +244,35 @@ body[data-floatbar="1"] .cb-chat-teaser {
     animation: none;
   }
 }
+
+@keyframes cb-btn-tick {
+  0%,
+  12.5% {
+    transform: rotate(0deg);
+  }
+  25%,
+  37.5% {
+    transform: rotate(90deg);
+  }
+  50%,
+  62.5% {
+    transform: rotate(180deg);
+  }
+  75%,
+  87.5% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.cb-btn-tick {
+  animation: cb-btn-tick 2s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-btn-tick {
+    animation: none;
+  }
+}

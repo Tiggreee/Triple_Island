@@ -186,9 +186,9 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[110] flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4" onClick={onClose}>
       <div
-        className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-2xl bg-[#f8f5ef] shadow-2xl min-[621px]:rounded-2xl"
+        className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-[18px] bg-[#f8f5ef] shadow-2xl min-[621px]:rounded-[20px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">

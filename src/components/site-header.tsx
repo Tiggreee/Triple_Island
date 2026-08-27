@@ -32,7 +32,7 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-colors duration-300 ${
+      className={`sticky top-0 z-[60] transition-colors duration-300 ${
         transparent
           ? "border-b border-transparent bg-transparent"
           : "border-b border-border bg-[rgba(251,248,243,0.96)] shadow-[0_1px_14px_rgba(28,28,28,0.06)] backdrop-blur-[10px]"

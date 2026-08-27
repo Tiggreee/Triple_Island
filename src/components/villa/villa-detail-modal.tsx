@@ -71,14 +71,14 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4"
+      className="fixed inset-0 z-[110] flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4"
       onClick={close}
       role="dialog"
       aria-modal="true"
       aria-label={villa.name}
     >
       <div
-        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-2xl bg-surface shadow-2xl min-[621px]:rounded-2xl"
+        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-[18px] bg-surface shadow-2xl min-[621px]:rounded-[20px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10 flex flex-col bg-surface/95 backdrop-blur">
@@ -217,7 +217,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
       {lightboxIndex !== null ? (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-[rgba(11,32,40,0.94)] p-4"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-[rgba(11,32,40,0.94)] p-4"
           onClick={(e) => {
             e.stopPropagation();
             setLightboxIndex(null);

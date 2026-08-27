@@ -1,8 +1,14 @@
 import { augStatus } from "@/lib/availability";
 
-const toneClasses: Record<string, string> = {
+const textClasses: Record<string, string> = {
   open: "text-brand",
-  filling: "text-accent",
+  filling: "text-[#7a4e0a]",
+  almost: "text-danger",
+};
+
+const iconClasses: Record<string, string> = {
+  open: "text-brand",
+  filling: "text-[#c9922b]",
   almost: "text-danger",
 };
 
@@ -10,9 +16,9 @@ export function AvailabilityChip({ unit, className = "" }: { unit: number; class
   const { tone, label } = augStatus(unit);
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full bg-white/95 px-[13px] py-[7px] text-xs font-semibold tracking-[0.4px] ${toneClasses[tone]} ${className}`}
+      className={`inline-flex items-center gap-2 rounded-full bg-white/95 px-[13px] py-[7px] text-xs font-semibold tracking-[0.4px] ${textClasses[tone]} ${className}`}
     >
-      <svg viewBox="0 0 255 254" className="h-3 w-3 shrink-0" fill="currentColor" aria-hidden="true">
+      <svg viewBox="0 0 255 254" className={`h-3 w-3 shrink-0 ${iconClasses[tone]}`} fill="currentColor" aria-hidden="true">
         <path d="M122.518 40.7148C130.85 40.0698 134.844 45.1707 140.435 50.6709C145.632 55.7783 152.196 61.3063 149.065 69.374C143.835 82.8625 128.143 103.778 147.474 113.649C155.732 117.638 173.536 107.146 181.176 103.927C190.709 99.7765 194.194 104.943 200.541 111.134C214.229 124.541 215.906 126.98 202.806 140.407C187.819 155.767 187.854 152.418 168.854 143.699C157.272 138.385 147.08 134.629 139.257 148.376C138.77 160.151 142.25 166.218 147.429 176.559C149.609 180.916 152.23 186.16 150.181 190.979C147.532 197.215 135.382 208.704 129.39 211.616C120.423 212.809 110.398 200.69 104.738 194.03C94.609 182.124 123.806 158.253 111.302 143.912C97.241 127.782 78.5049 149.8 63.7176 149.657C57.9035 149.601 46.1896 135.869 42.2693 131.385C34.3893 123.16 54.2003 106.963 60.2664 102.475C69.2452 95.8288 93.6301 120.143 105.871 111.704C125.745 97.9993 99.6445 77.9009 101.493 62.249C101.935 58.5253 118.787 42.7733 122.518 40.7148Z" />
         <path
           fillRule="evenodd"
