@@ -83,7 +83,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
       >
         <div className="sticky top-0 z-10 flex flex-col bg-surface/95 backdrop-blur">
           <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
-            <span className="h-1 w-9 rounded-full bg-border" />
+            <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
           </div>
           <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
           <div>

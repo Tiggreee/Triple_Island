@@ -192,7 +192,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
-          <span className="h-1 w-9 rounded-full bg-[#ddd3c2]" />
+          <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
         </div>
         <div className="flex items-center gap-3 border-b border-[#e6dfd3] bg-white p-5">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
@@ -229,12 +229,12 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   >
                     <span className="relative flex h-8 w-8 items-center justify-center">
                       <Azulejo
-                        variant="ring"
+                        variant={state === "active" ? "solid" : "ring"}
                         tone={state === "active" ? "action" : state === "done" ? "teal" : "muted"}
                         size={32}
                         className="absolute inset-0 m-auto"
                       />
-                      <b className="relative text-[11px] font-semibold">{s.n}</b>
+                      <b className={`relative text-[11px] font-semibold ${state === "active" ? "text-white" : ""}`}>{s.n}</b>
                     </span>
                     {s.label}
                   </span>
