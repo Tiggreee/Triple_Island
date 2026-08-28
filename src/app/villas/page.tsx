@@ -158,10 +158,14 @@ export default async function VillasPage() {
         </div>
         <div className="mx-auto max-w-3xl divide-y divide-border">
           {faqs.map((item) => (
-            <details key={item.q} className="group py-4">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-foreground">
+            <details key={item.q} className="group py-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[15px] font-medium text-foreground">
                 {item.q}
-                <span className="shrink-0 text-lg leading-none text-brand transition-transform group-open:rotate-45">+</span>
+                <span className="shrink-0 text-brand transition-transform group-open:rotate-45">
+                  <svg viewBox="0 0 24 24" className="h-4.5 w-4.5" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                    <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+                  </svg>
+                </span>
               </summary>
               <p className="mt-3 text-sm leading-7 text-muted">{item.a}</p>
             </details>
