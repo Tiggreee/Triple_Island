@@ -45,7 +45,7 @@ export default async function VillasPage() {
 
   return (
     <div className="w-full">
-      <div id="site-hero" className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
+      <div id="site-hero" className="relative flex h-dvh w-full items-center justify-center overflow-hidden">
         <Image
           src="/media/coco/villas-hero-night.jpg"
           alt="Coco B Isla villa terrace and pool at night"

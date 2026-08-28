@@ -94,7 +94,7 @@ const press = [
 export default function Home() {
   return (
     <div className="w-full">
-      <div id="site-hero" className="relative flex min-h-[620px] w-full items-center justify-center overflow-hidden lg:min-h-[780px]">
+      <div id="site-hero" className="relative flex h-dvh w-full items-center justify-center overflow-hidden">
         <Image
           src="/media/coco/video/hero-poster.jpg"
           alt="Coco B Isla poolside, palm trees and the Caribbean Sea"
