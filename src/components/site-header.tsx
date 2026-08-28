@@ -36,7 +36,7 @@ export function SiteHeader() {
         transparent
           ? "border-b border-transparent bg-transparent"
           : "border-b border-border bg-[rgba(251,248,243,0.96)] shadow-[0_1px_14px_rgba(28,28,28,0.06)] backdrop-blur-[10px]"
-      } ${hasHero ? "-mb-19.5 lg:-mb-29.5" : ""}`}
+      } ${hasHero ? "-mb-[79px] lg:-mb-[119px]" : ""}`}
     >
       <div className="mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-4 sm:px-6 lg:h-29.5 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-2">

@@ -57,7 +57,7 @@ export function FloatingBar({ ctaLabel = "Explore the villas", href, onCta }: Fl
         shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
       }`}
     >
-      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-3 rounded-2xl border border-white/50 bg-white/70 px-6 py-4 shadow-xl [backdrop-filter:blur(22px)_saturate(1.25)] sm:flex-row sm:justify-between">
+      <div className="mx-auto flex max-w-[533px] flex-col items-center gap-3 rounded-2xl border border-white/50 bg-white/70 px-6.5 py-3 shadow-xl [backdrop-filter:blur(22px)_saturate(1.25)] sm:flex-row sm:justify-between">
         <div className="text-center sm:text-left">
           <p className="text-sm font-medium text-foreground">Four private villas · 3 to 27 suites</p>
           <p className="text-xs text-muted">From $1,665 USD / night + 21% tax</p>
