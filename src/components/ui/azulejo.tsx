@@ -5,8 +5,8 @@ type AzulejoVariant = "solid" | "ring" | "ghost";
 
 const TONE: Record<AzulejoTone, string> = {
   brand: "#5bcaeb",
-  action: "var(--cb-color-primary, #246a94)",
-  teal: "var(--cb-color-brand, #107480)",
+  action: "var(--action, #246a94)",
+  teal: "var(--teal, #107480)",
   white: "#ffffff",
   muted: "#b4aca0",
 };
