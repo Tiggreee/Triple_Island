@@ -226,7 +226,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="rounded-full p-1.5 text-[#8f96a0] hover:bg-[#f3efe7] hover:text-foreground"
+            className="rounded-full p-2 text-[26px] leading-none text-[#8f96a0] hover:bg-[#f3efe7] hover:text-foreground"
           >
             &times;
           </button>

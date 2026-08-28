@@ -96,7 +96,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
             type="button"
             onClick={close}
             aria-label="Close"
-            className="rounded-full p-1.5 text-2xl leading-none text-muted hover:bg-background hover:text-foreground"
+            className="rounded-full p-2 text-[26px] leading-none text-muted hover:bg-background hover:text-foreground"
           >
             &times;
           </button>
