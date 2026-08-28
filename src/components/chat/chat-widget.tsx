@@ -207,7 +207,7 @@ export function ChatWidget() {
       </button>
 
       {open && (
-        <div className="fixed inset-x-0 bottom-0 z-[37] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(520px,calc(100dvh-120px))] min-[621px]:w-[min(92vw,380px)] min-[621px]:rounded-2xl">
+        <div className="fixed inset-x-0 bottom-0 z-[45] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(520px,calc(100dvh-120px))] min-[621px]:w-[min(92vw,380px)] min-[621px]:rounded-2xl">
           <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
             <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
           </div>
