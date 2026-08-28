@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SiteFooter } from "@/components/site-footer";
 import { getRetreats } from "@/lib/wp-fetchers";
 
 type RetreatCardData = {
@@ -122,6 +123,8 @@ export default async function RetirosPage() {
           })}
         </div>
       )}
+
+      <SiteFooter />
     </div>
   );
 }

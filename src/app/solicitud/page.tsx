@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useBookingModal } from "@/components/booking/booking-modal";
+import { SiteFooter } from "@/components/site-footer";
 import { REAL_VILLAS } from "@/lib/villas-data";
 
 type LeadType = "retiro" | "waitlist";
@@ -180,8 +181,13 @@ function SolicitudInner() {
 
 export default function SolicitudPage() {
   return (
-    <Suspense fallback={null}>
-      <SolicitudInner />
-    </Suspense>
+    <>
+      <Suspense fallback={null}>
+        <SolicitudInner />
+      </Suspense>
+      <div className="mx-auto w-full max-w-[1180px] px-4 pb-8 sm:px-6 lg:px-8">
+        <SiteFooter />
+      </div>
+    </>
   );
 }

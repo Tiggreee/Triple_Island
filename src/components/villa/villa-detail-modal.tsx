@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { PagingDots } from "@/components/ui/paging-dots";
 import { SpecStrip } from "@/components/villa/spec-strip";
 import { peakRatesFor } from "@/lib/availability";
 import type { VillaData } from "@/lib/villas-data";
@@ -30,6 +31,15 @@ const AMENITIES: { label: string; path: ReactNode }[] = [
 
 export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckAvailability }: VillaDetailModalProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const galleryRef = useRef<HTMLDivElement>(null);
+
+  function onGalleryScroll() {
+    const el = galleryRef.current;
+    if (!el || gallery.length === 0) return;
+    const step = el.scrollWidth / gallery.length;
+    setGalleryIndex(Math.max(0, Math.min(gallery.length - 1, Math.round(el.scrollLeft / step))));
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -71,17 +81,21 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4"
+      className="fixed inset-0 z-[110] flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4"
       onClick={close}
       role="dialog"
       aria-modal="true"
       aria-label={villa.name}
     >
       <div
-        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-2xl bg-surface shadow-2xl min-[621px]:rounded-2xl"
+        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-[18px] bg-surface shadow-2xl min-[621px]:rounded-[20px]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-border bg-surface/95 px-5 py-4 backdrop-blur">
+        <div className="sticky top-0 z-10 flex flex-col bg-surface/95 backdrop-blur">
+          <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
+            <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
+          </div>
+          <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4">
           <div>
             <h2 className="text-[18px] font-light uppercase tracking-[2px] text-foreground">{villa.name}</h2>
             <p className="text-[12px] text-muted">
@@ -96,28 +110,47 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
           >
             &times;
           </button>
+          </div>
         </div>
 
         <div className="space-y-6 p-5">
           {gallery.length > 0 ? (
-            <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {gallery.slice(0, 5).map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setLightboxIndex(i)}
-                  aria-label={`Expand ${villa.name} photo ${i + 1}`}
-                  className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
-                >
-                  <Image
-                    src={src}
-                    alt={`${villa.name} photo ${i + 1}`}
-                    fill
-                    sizes="(min-width: 621px) 25vw, 82vw"
-                    className="object-cover transition group-hover:scale-105"
-                  />
-                </button>
-              ))}
+            <div>
+              <div
+                ref={galleryRef}
+                onScroll={onGalleryScroll}
+                className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {gallery.slice(0, 5).map((src, i) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setLightboxIndex(i)}
+                    aria-label={`Expand ${villa.name} photo ${i + 1}`}
+                    className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
+                  >
+                    <Image
+                      src={src}
+                      alt={`${villa.name} photo ${i + 1}`}
+                      fill
+                      sizes="(min-width: 621px) 25vw, 82vw"
+                      className="object-cover transition group-hover:scale-105"
+                    />
+                  </button>
+                ))}
+              </div>
+              <div className="hidden justify-center max-[620px]:flex">
+                <PagingDots
+                  total={gallery.slice(0, 5).length}
+                  active={galleryIndex}
+                  className="mt-3.5"
+                  onSelect={(i) => {
+                    const el = galleryRef.current;
+                    if (!el) return;
+                    el.scrollTo({ left: (el.scrollWidth / gallery.length) * i, behavior: "smooth" });
+                  }}
+                />
+              </div>
             </div>
           ) : null}
 
@@ -212,7 +245,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
       {lightboxIndex !== null ? (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-[rgba(11,32,40,0.94)] p-4"
           onClick={(e) => {
             e.stopPropagation();
             setLightboxIndex(null);
@@ -221,17 +254,22 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
           aria-modal="true"
           aria-label={`${villa.name} photo ${lightboxIndex + 1}`}
         >
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setLightboxIndex(null);
-            }}
-            aria-label="Close photo"
-            className="absolute right-5 top-5 rounded-full p-2 text-3xl leading-none text-white/80 hover:text-white"
-          >
-            &times;
-          </button>
+          <div className="absolute inset-x-0 top-0 z-[3] flex items-center px-[22px] py-[18px]">
+            <span className="text-[13px] tracking-[1.6px] text-white/85">
+              {lightboxIndex + 1} / {gallery.length}
+            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIndex(null);
+              }}
+              aria-label="Close photo"
+              className="ml-auto flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/10 text-xl leading-none text-white"
+            >
+              &times;
+            </button>
+          </div>
           {gallery.length > 1 ? (
             <>
               <button
@@ -241,7 +279,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
                   setLightboxIndex((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length));
                 }}
                 aria-label="Previous photo"
-                className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full p-3 text-3xl leading-none text-white/80 hover:text-white sm:left-6"
+                className="absolute left-2.5 top-1/2 z-[3] flex h-[46px] w-[46px] -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/10 text-2xl leading-none text-white backdrop-blur-[6px] transition hover:bg-white/25 min-[621px]:left-5 min-[621px]:h-[52px] min-[621px]:w-[52px]"
               >
                 &lsaquo;
               </button>
@@ -252,13 +290,13 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
                   setLightboxIndex((i) => (i === null ? i : (i + 1) % gallery.length));
                 }}
                 aria-label="Next photo"
-                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-3 text-3xl leading-none text-white/80 hover:text-white sm:right-6"
+                className="absolute right-2.5 top-1/2 z-[3] flex h-[46px] w-[46px] -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/10 text-2xl leading-none text-white backdrop-blur-[6px] transition hover:bg-white/25 min-[621px]:right-5 min-[621px]:h-[52px] min-[621px]:w-[52px]"
               >
                 &rsaquo;
               </button>
             </>
           ) : null}
-          <div className="relative h-full max-h-[80vh] w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative h-full max-h-[66vh] w-full max-w-4xl min-[621px]:max-h-[74vh]" onClick={(e) => e.stopPropagation()}>
             <Image
               src={gallery[lightboxIndex]}
               alt={`${villa.name} photo ${lightboxIndex + 1}`}
@@ -267,6 +305,11 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
               className="object-contain"
             />
           </div>
+          {gallery.length > 1 ? (
+            <div className="absolute inset-x-0 bottom-[26px] z-[3] flex justify-center" onClick={(e) => e.stopPropagation()}>
+              <PagingDots total={gallery.length} active={lightboxIndex} dark onSelect={(i) => setLightboxIndex(i)} />
+            </div>
+          ) : null}
         </div>
       ) : null}
     </div>

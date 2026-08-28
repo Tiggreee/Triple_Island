@@ -23,11 +23,11 @@ export function VillaCard({ villa }: { villa: VillaData }) {
     <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
       <div className="relative aspect-[4/3] w-full">
         <Image src={villa.photo} alt={`${villa.name} exterior`} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
-        <AvailabilityChip unit={unit} className="absolute left-3 top-3 bg-surface/90 shadow-sm backdrop-blur-sm" />
+        <AvailabilityChip unit={unit} className="absolute left-4 top-4 shadow-sm" />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <h2 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">{villa.name}</h2>
-        <p className="line-clamp-2 text-[13px] font-light leading-[24px] text-muted">{shortDescription}</p>
+        <h2 className="min-h-[29px] text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground max-[620px]:min-h-0">{villa.name}</h2>
+        <p className="line-clamp-2 min-h-[50px] text-[13px] font-light leading-[24px] text-muted max-[620px]:line-clamp-3 max-[620px]:min-h-0">{shortDescription}</p>
 
         <SpecStrip guests={villa.guests} bedrooms={villa.bedrooms} bathrooms={villa.bathrooms} className="border-t border-border pt-3" />
 
