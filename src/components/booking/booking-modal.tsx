@@ -293,7 +293,9 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
               </div>
               <p className="text-center text-xs text-muted">guests · {UNITS.filter((v) => !v.pair && v.guests >= guests).length} of the 4 houses fit</p>
               {!guestsValid ? (
-                <p className="text-center text-xs text-danger">{active.name} sleeps up to {active.guests} guests — lower the count or pick a larger villa.</p>
+                <p className="rounded-xl border border-danger/30 bg-danger/5 px-4 py-3 text-center text-xs text-danger">
+                  {active.name} sleeps up to {active.guests} guests — lower the count, or pick a villa (or combined pair) that fits {guests}.
+                </p>
               ) : null}
 
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
