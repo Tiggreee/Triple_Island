@@ -95,6 +95,7 @@ export async function POST(request: Request) {
   }
 
   const endpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`;
+  const referer = request.headers.get("referer") ?? "";
 
   const response = await fetch(endpoint, {
     method: "POST",
@@ -109,11 +110,14 @@ export async function POST(request: Request) {
         { objectTypeId: "0-1", name: "message", value: message },
       ],
       context: {
-        pageUri: request.headers.get("referer") ?? "",
+        pageUri: referer,
         pageName: getPageNameByLeadType(payload.leadType),
       },
     }),
   });
+
+  const responseText = await response.text();
+  console.log("[api/lead] hubspot diagnostic", JSON.stringify({ portalId, formId, referer, status: response.status, body: responseText }));
 
   if (!response.ok) {
     return NextResponse.json(
