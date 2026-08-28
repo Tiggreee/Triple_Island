@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SPARKS = [
   { top: "22%", left: "26%", size: 11 },
@@ -11,11 +11,23 @@ const SPARKS = [
 
 export function AnnouncementBanner() {
   const [dismissed, setDismissed] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    function onScroll() {
+      if (window.scrollY > 10) {
+        setHasScrolled(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div
       className={`grid overflow-hidden transition-[grid-template-rows] duration-500 ease-[cubic-bezier(.22,.9,.24,1)] motion-reduce:transition-none ${
-        dismissed ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
+        dismissed || !hasScrolled ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
       }`}
     >
       <div className="relative isolate min-h-0 overflow-hidden bg-[linear-gradient(120deg,#f7fcfe,#eaf7fb_52%,#e4f5fb)]">

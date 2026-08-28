@@ -9,6 +9,7 @@ const STORAGE_KEY = "cocob_consent";
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
@@ -24,6 +25,17 @@ export function CookieConsent() {
     setVisible(!hasSavedConsent);
   }, []);
 
+  useEffect(() => {
+    function onScroll() {
+      if (window.scrollY > 10) {
+        setHasScrolled(true);
+        window.removeEventListener("scroll", onScroll);
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   function save(consent: Consent) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
@@ -34,7 +46,7 @@ export function CookieConsent() {
     setVisible(false);
   }
 
-  if (!visible) return null;
+  if (!visible || !hasScrolled) return null;
 
   return (
     <aside

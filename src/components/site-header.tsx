@@ -52,7 +52,7 @@ export function SiteHeader() {
           <Link href={pathname === "/villas" ? "/solicitud" : "/villas"}>
             <Button
               variant="primary"
-              icon="nav"
+              icon
               className={`px-5! py-2.5! text-[11px] ${transparent ? "border-white/55! bg-white/15! backdrop-blur-sm hover:bg-white/25!" : ""}`}
             >
               {pathname === "/villas" ? "Check Availability" : "Explore the Villas"}
