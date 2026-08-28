@@ -53,7 +53,7 @@ export function FloatingBar({ ctaLabel = "Explore the villas", href, onCta }: Fl
     <div
       aria-hidden={!shown}
       style={{ bottom: "16px" }}
-      className={`fixed inset-x-4 z-[38] transition-all duration-500 ease-[cubic-bezier(.2,.9,.3,1)] motion-reduce:transition-none ${
+      className={`fixed inset-x-4 z-[30] transition-all duration-500 ease-[cubic-bezier(.2,.9,.3,1)] motion-reduce:transition-none ${
         shown ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"
       }`}
     >
