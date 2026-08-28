@@ -16,6 +16,11 @@ Reserva
 
 El flujo es un stepper de tres pasos (huéspedes → fechas → datos) que sale del detalle de villa y de `/solicitud`. El calendario trabaja con fechas reales, mínimos de noches por temporada e impuesto del 21% a la vista. Para grupos grandes ofrece villas combinadas (Lola & Encantada, Coco & Cielo): una noche está libre solo si ambas casas lo están, y las que tienen una sola ocupada se marcan aparte. Todo termina en `/api/lead` → HubSpot. Retiros y waitlist entran por el mismo `/solicitud` con un formulario contextual.
 
+Decisiones y mejoras futuras
+
+- **Disponibilidad no es en tiempo real.** El calendario del stepper lee un set de fechas fijo en `src/lib/availability.ts`, no un PMS en vivo — está fuera de alcance de este sprint. Enviar una solicitud no bloquea la fecha para otros visitantes: "reservar" aquí significa capturar un lead calificado en HubSpot para que una persona confirme por fuera. Integrar un PMS real (Sirvoy) queda documentado como mejora de una fase posterior.
+- HubSpot recibe las solicitudes por el Forms API público (sin autenticación, portal + form ID). Si un envío no aparece en la lista de contactos, revisa Marketing → Forms → Submissions: HubSpot registra el envío ahí incluso cuando no crea el contacto (por ejemplo si el correo no pasa su validación).
+
 Despliegue
 
 Staging (frontend): https://cocob-web.whitetree-e39b7f21.eastus2.azurecontainerapps.io/
