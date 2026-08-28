@@ -80,7 +80,7 @@ export default async function VillasPage() {
             The Collection
             <span className="relative flex h-11 w-11 items-center justify-center">
               <Azulejo tone="white" variant="ring" size={44} className="scroll-cue-ring" />
-              <svg viewBox="0 0 24 24" className="absolute h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <svg viewBox="0 0 24 24" className="absolute h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden="true">
                 <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>

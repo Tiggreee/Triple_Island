@@ -47,9 +47,6 @@ export function SiteHeader() {
             height={69}
             className="h-13 w-auto drop-shadow-[0_2px_8px_rgba(11,32,40,0.35)] lg:h-20.5"
           />
-          <span className={`hidden text-sm font-medium uppercase tracking-[1.5px] sm:inline ${transparent ? "text-white" : "text-foreground"}`}>
-            Coco B Isla
-          </span>
         </Link>
         <div className="flex flex-wrap items-center justify-end gap-1 sm:gap-2">
           <Link href={pathname === "/villas" ? "/solicitud" : "/villas"}>
