@@ -77,23 +77,10 @@ body {
 }
 
 @keyframes cb-cue-ring {
-  0%,
-  20% {
+  from {
     transform: rotate(0deg);
   }
-  25%,
-  45% {
-    transform: rotate(90deg);
-  }
-  50%,
-  70% {
-    transform: rotate(180deg);
-  }
-  75%,
-  95% {
-    transform: rotate(270deg);
-  }
-  100% {
+  to {
     transform: rotate(360deg);
   }
 }
@@ -104,7 +91,7 @@ body {
 
 .scroll-cue-ring {
   transform-origin: center;
-  animation: cb-cue-ring 36s ease-in-out infinite;
+  animation: cb-cue-ring 36s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

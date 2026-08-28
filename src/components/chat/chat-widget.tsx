@@ -150,7 +150,7 @@ export function ChatWidget() {
   return (
     <>
       {teaserVisible && (
-        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[119] flex max-[620px]:hidden max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
+        <div className="cb-chat-teaser fixed bottom-[88px] right-5 z-[35] flex max-[620px]:hidden max-w-[260px] items-start gap-2 rounded-2xl rounded-br-[4px] border border-border bg-surface px-4 py-3 shadow-lg animate-[cw-msg-pop_.35s_ease-out]">
           <button
             type="button"
             onClick={() => {
@@ -185,10 +185,13 @@ export function ChatWidget() {
         }}
         aria-expanded={open}
         aria-label={open ? "Close concierge chat" : "Open concierge chat"}
-        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 md:h-[62px] md:w-[62px] ${
+        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[36] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 min-[621px]:h-[62px] min-[621px]:w-[62px] ${
           teaserVisible || open ? "" : "cb-fab-bounce"
         }`}
       >
+        {!open && (
+          <span className="pointer-events-none absolute inset-0 rounded-full border-2 border-[#5bcaeb] animate-[cw-ring-pulse_1.8s_ease-out_2]" />
+        )}
         {open ? (
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
@@ -198,10 +201,13 @@ export function ChatWidget() {
             <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.9-.9L3 21l1.9-5.6A8.5 8.5 0 1 1 21 11.5Z" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         )}
+        {!open && showTeaser && (
+          <span className="absolute -right-0.5 -top-0.5 h-3 w-3 rounded-full border-2 border-surface bg-brand" />
+        )}
       </button>
 
       {open && (
-        <div className="fixed inset-x-0 bottom-0 z-[121] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(520px,calc(100dvh-120px))] min-[621px]:w-[min(92vw,380px)] min-[621px]:rounded-2xl">
+        <div className="fixed inset-x-0 bottom-0 z-[37] flex h-[88svh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface shadow-2xl min-[621px]:inset-x-auto min-[621px]:bottom-24 min-[621px]:right-5 min-[621px]:h-[min(520px,calc(100dvh-120px))] min-[621px]:w-[min(92vw,380px)] min-[621px]:rounded-2xl">
           <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
             <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
           </div>
