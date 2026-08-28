@@ -29,7 +29,7 @@ const faqs = [
 export default async function VillasPage() {
   const villas = await getVillas();
   const items = REAL_VILLAS.map((real) => {
-    const wp = villas.find((v) => v.slug === real.slug);
+    const wp = villas.find((v) => v.slug.replace(/^villa-/, "") === real.slug);
     return {
       ...real,
       name: wp?.title.rendered ?? real.name,

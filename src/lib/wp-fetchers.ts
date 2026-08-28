@@ -7,7 +7,8 @@ export async function getVillas() {
 }
 
 export async function getVilla(slug: string) {
-  const result = await wpFetch<Villa[]>(`villa?slug=${encodeURIComponent(slug)}&_embed=1`);
+  const wpSlug = slug.startsWith("villa-") ? slug : `villa-${slug}`;
+  const result = await wpFetch<Villa[]>(`villa?slug=${encodeURIComponent(wpSlug)}&_embed=1`);
   return result?.[0] ?? null;
 }
 
