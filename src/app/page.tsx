@@ -138,7 +138,7 @@ export default function Home() {
         </a>
       </div>
 
-      <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-24 px-4 pb-24 pt-16 sm:px-6 lg:px-8">
+      <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-24 px-5 pb-24 pt-16 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-2xl space-y-3 text-center">
           <SectionHeader
             eyebrow="Luxury villas · Boutique hotels · Destination retreats"
