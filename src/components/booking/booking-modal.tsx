@@ -54,6 +54,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
     lastName: "",
     email: "",
     phone: "",
+    countryCode: "+1 US",
     flexible: "",
     heard: "",
     trip: "",
@@ -147,25 +148,27 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
     lastName: touched.lastName && !form.lastName.trim() ? "Please enter your last name." : null,
     email: touched.email && !emailValid ? "Check the address — the @ or the domain is missing." : null,
     phone: touched.phone && !phoneValid ? "Please enter at least 10 digits." : null,
+    consent: touched.consent && !form.consent ? "We need your permission in order to reply." : null,
   };
   const formValid = form.firstName.trim() && form.lastName.trim() && emailValid && phoneValid && form.consent;
 
   async function submitInquiry(event: FormEvent) {
     event.preventDefault();
-    setTouched({ firstName: true, lastName: true, email: true, phone: true });
+    setTouched({ firstName: true, lastName: true, email: true, phone: true, consent: true });
     if (!formValid) return;
     setSubmitting(true);
     setSubmitError(null);
     try {
       const dateSummary =
         ci && co ? `${fmtDate(ci)} → ${fmtDate(co)}, ${ci.slice(0, 4)} (${nightCount} nights)` : "Dates flexible / to confirm";
+      const dialCode = form.countryCode.split(" ")[0];
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
-          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
+          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${dialCode} ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
           leadType: "solicitud",
           website: "",
           startedAt: openedAt.current,
@@ -200,6 +203,68 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
     { n: 2, label: "Dates" },
     { n: 3, label: "Details" },
   ];
+
+  function renderRecap() {
+    if (!ci || !co) return null;
+    const tax = Math.round(estimatedTotal * 0.21);
+    return (
+      <div className="overflow-hidden rounded-xl bg-[#f2ede4] text-[14.5px] text-muted sm:flex">
+        <div className="relative min-h-[150px] w-full shrink-0 bg-[#e6dfd3] sm:w-[168px]">
+          {active.pair ? (
+            <>
+              <div className="absolute inset-0 [clip-path:polygon(0_0,59%_0,39%_100%,0_100%)]">
+                <Image src={UNITS[active.pair[0]].photo} alt={UNITS[active.pair[0]].name} fill sizes="168px" className="object-cover" />
+              </div>
+              <div className="absolute inset-0 [clip-path:polygon(61%_0,100%_0,100%_100%,41%_100%)]">
+                <Image src={UNITS[active.pair[1]].photo} alt={UNITS[active.pair[1]].name} fill sizes="168px" className="object-cover" />
+              </div>
+            </>
+          ) : (
+            <Image src={active.photo} alt={active.name} fill sizes="168px" className="object-cover" />
+          )}
+        </div>
+        <div className="flex flex-col px-5 py-4 sm:flex-1">
+          <div className="flex flex-col gap-0.5 border-b border-[#e6dfd3] pb-[11px]">
+            <b className="text-base font-semibold tracking-[0.3px] text-foreground">{active.name}</b>
+            <span className="text-[12.5px] text-muted">
+              {guests} guests · {active.suites} suites
+            </span>
+          </div>
+          <div className="flex flex-col gap-px border-b border-[#e6dfd3] py-[11px]">
+            <b className="text-[14.5px] font-semibold tracking-[0.2px] text-foreground">
+              {fmtDate(ci)} → {fmtDate(co)}
+            </b>
+            <span className="text-[12.5px] text-muted">
+              {nightCount} night{nightCount > 1 ? "s" : ""} · {ci.slice(0, 4)}
+            </span>
+          </div>
+          <div className="flex justify-between gap-3.5 border-b border-[#e6dfd3] pt-[11px] pb-[7px] text-[13.5px]">
+            <span>
+              {money(nightlyRate)} × {nightCount} night{nightCount > 1 ? "s" : ""}
+            </span>
+            <span>{money(estimatedTotal)}</span>
+          </div>
+          <div className="flex justify-between gap-3.5 py-[7px] text-[13.5px]">
+            <span>21% Mexican tax</span>
+            <span>{money(tax)}</span>
+          </div>
+          <div className="flex items-baseline justify-between gap-3.5 border-t border-[#e6dfd3] pt-[11px]">
+            <span className="text-[10.5px] font-semibold uppercase tracking-[2.24px] text-primary">Estimated total</span>
+            <b className="text-[21px] font-semibold tracking-[0.2px] text-foreground">{money(estimatedTotal + tax)} USD</b>
+          </div>
+          <div className="mt-3 flex items-start gap-2 border-t border-[#e6dfd3] pt-[11px] text-xs text-muted">
+            <Azulejo tone="muted" variant="ring" size={11} className="mt-0.5 shrink-0" />
+            <span>
+              <b className="font-semibold text-muted">Estimate.</b> Peak-season rates can shift; your concierge confirms
+              the final figure in writing. A booking is 60% up front, 40% ninety days before check-in (120 for
+              holidays). Nothing is charged now.
+            </span>
+          </div>
+          {active.quote ? <span className="mt-2 text-xs text-accent">Combined rate confirmed on reply.</span> : null}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4" onClick={onClose}>
@@ -304,6 +369,33 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                 </button>
               </div>
               <p className="text-center text-xs text-muted">guests · {UNITS.filter((v) => !v.pair && v.guests >= guests).length} of the 4 houses fit</p>
+              <div
+                className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left text-[13.5px] leading-[1.5] ${
+                  guests >= 15
+                    ? "border-teal/30 bg-teal/10 text-[#0B4A52]"
+                    : "border-primary/20 bg-primary/10 text-[#123B52]"
+                }`}
+              >
+                <Azulejo tone={guests >= 15 ? "teal" : "action"} variant="ring" size={20} className="shrink-0" />
+                {guests >= 15 ? (
+                  (() => {
+                    const combos = UNITS.filter((v) => v.pair && guests <= v.guests).map((v) => v.name);
+                    return combos.length ? (
+                      <span>
+                        <b>{guests} guests</b> — two villas combine: {combos.join(" or ")}.
+                      </span>
+                    ) : (
+                      <span>
+                        <b>{guests} guests</b> — the largest combination is Coco &amp; Cielo, up to 28.
+                      </span>
+                    );
+                  })()
+                ) : (
+                  <span>
+                    <b>Groups of 15+</b> — we combine two side-by-side villas under a single contract.
+                  </span>
+                )}
+              </div>
               {!guestsValid ? (
                 <p className="rounded-xl border border-danger/30 bg-danger/5 px-4 py-3 text-center text-xs text-danger">
                   {active.name} sleeps up to {active.guests} guests — lower the count, or pick a villa (or combined pair) that fits {guests}.
@@ -440,6 +532,25 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   );
                 })}
               </div>
+              <div className="grid grid-cols-2 gap-x-[18px] gap-y-2 text-[13px] text-muted sm:grid-cols-3">
+                {[
+                  { label: "Available", swatch: "border-border bg-white" },
+                  { label: "Booked", swatch: "border-[#f2ede4] bg-[#f2ede4]" },
+                  { label: "Peak season", swatch: "border-[#e4c489] bg-[#fdf6e7]" },
+                  { label: "Selected", swatch: "border-primary bg-primary" },
+                  { label: "Your stay", swatch: "border-[#dceaf2] bg-[#dceaf2]" },
+                  {
+                    label: "One of the two booked",
+                    swatch:
+                      "border-[#f2ede4] [background:repeating-linear-gradient(135deg,#f2ede4_0_3px,#fff_3px_6px)]",
+                  },
+                ].map((item) => (
+                  <span key={item.label} className="flex items-center gap-2.5">
+                    <i className={`inline-block h-[15px] w-[15px] shrink-0 rounded-[5px] border ${item.swatch}`} />
+                    {item.label}
+                  </span>
+                ))}
+              </div>
               <p className={`text-[11px] ${warn ? "text-danger" : "text-muted"}`}>
                 {warn ? (
                   warn
@@ -495,14 +606,27 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
               </label>
               <label className="grid gap-1 text-xs text-foreground">
                 Phone *
-                <input
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                  onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
-                  placeholder="33 1234 5678"
-                  className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
-                />
+                <div className="flex gap-2.5">
+                  <select
+                    value={form.countryCode}
+                    onChange={(e) => setForm((f) => ({ ...f, countryCode: e.target.value }))}
+                    aria-label="Country code"
+                    className="w-[110px] shrink-0 rounded-lg border border-border bg-surface px-2 py-2 text-base text-foreground"
+                  >
+                    <option>+1 US</option>
+                    <option>+52 MX</option>
+                    <option>+44 UK</option>
+                    <option>+34 ES</option>
+                  </select>
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                    onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+                    placeholder="206 579 0798"
+                    className="flex-1 rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                  />
+                </div>
                 {errors.phone ? <span className="text-[11px] text-danger">{errors.phone}</span> : null}
               </label>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -545,15 +669,23 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                 />
                 <span className="text-[11px] text-muted">Optional, but it lets us send a full quote in the first reply.</span>
               </label>
-              <label className="flex items-start gap-2 text-xs text-muted">
-                <input
-                  type="checkbox"
-                  checked={form.consent}
-                  onChange={(e) => setForm((f) => ({ ...f, consent: e.target.checked }))}
-                  className="mt-0.5"
-                />
-                I agree to be contacted by Coco B Isla by email or WhatsApp about this inquiry. *
-              </label>
+              <div>
+                <label className="flex items-start gap-2 text-xs text-muted">
+                  <input
+                    type="checkbox"
+                    checked={form.consent}
+                    onChange={(e) => setForm((f) => ({ ...f, consent: e.target.checked }))}
+                    onBlur={() => setTouched((t) => ({ ...t, consent: true }))}
+                    className="mt-0.5"
+                  />
+                  I agree to be contacted by Coco B Isla by email or WhatsApp about this inquiry. *
+                </label>
+                {errors.consent ? <p className="mt-1.5 text-[11px] text-danger">{errors.consent}</p> : null}
+              </div>
+
+              <p className="mt-6 text-[11px] font-semibold uppercase tracking-[2.24px] text-primary">Confirm your stay</p>
+              {renderRecap()}
+
               {submitError ? <p className="text-xs text-danger">{submitError}</p> : null}
               <div className="flex items-center gap-3">
                 <button
