@@ -23,7 +23,7 @@ export function LocationSection({ defaultSlug }: { defaultSlug: string }) {
           Check availability
         </Button>
       </div>
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[14px] border border-border">
         <iframe
           title="Map of Sac Bajo, Isla Mujeres"
           src="https://www.openstreetmap.org/export/embed.html?bbox=-86.78%2C21.20%2C-86.70%2C21.27&layer=mapnik&marker=21.238%2C-86.744"
