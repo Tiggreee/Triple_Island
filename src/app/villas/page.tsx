@@ -88,7 +88,7 @@ export default async function VillasPage() {
         </a>
       </div>
 
-      <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-16 sm:px-6 lg:px-8">
+      <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-10 px-5 py-16 sm:px-8 lg:px-12">
       <SectionHeader
         eyebrow="Welcome"
         title="Our Villa Collection"
@@ -176,7 +176,7 @@ export default async function VillasPage() {
       <LocationSection defaultSlug={items[0].slug} />
       </div>
 
-      <div className="mx-auto w-full max-w-[1180px] px-4 pb-16 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1180px] px-5 pb-16 sm:px-8 lg:px-12">
         <SiteFooter />
       </div>
     </div>
