@@ -78,7 +78,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
       aria-label={villa.name}
     >
       <div
-        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-2xl bg-surface shadow-2xl min-[621px]:rounded-2xl"
+        className="max-h-[92vh] w-full max-w-[980px] overflow-y-auto rounded-t-[20px] bg-surface shadow-2xl min-[621px]:rounded-[20px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 z-10 flex flex-col bg-surface/95 backdrop-blur">
@@ -128,7 +128,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
           <SpecStrip guests={villa.guests} bedrooms={villa.bedrooms} bathrooms={villa.bathrooms} className="border-y border-border py-4" />
 
-          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-background/40 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 rounded-[14px] border border-border bg-background/40 p-5 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-md text-[13.5px] font-light leading-relaxed text-muted">{villa.description}</p>
             <div className="shrink-0 rounded-xl border border-border bg-surface p-4 text-center sm:min-w-[220px] sm:text-right">
               <span className="text-[11px] uppercase tracking-[1.6px] text-muted">From</span>
