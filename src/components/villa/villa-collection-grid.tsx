@@ -26,7 +26,7 @@ export function VillaCollectionGrid({ villas }: { villas: Tile[] }) {
               setSelectedSlug(villa.slug);
               setOpen(true);
             }}
-            className={`group relative aspect-[4/3] overflow-hidden rounded-2xl text-left min-[901px]:aspect-auto ${
+            className={`group relative aspect-[4/3] overflow-hidden rounded-[14px] text-left min-[901px]:aspect-auto ${
               i === 0 ? "min-[901px]:row-span-2" : ""
             } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
           >
