@@ -38,7 +38,7 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
         &larr; Back to villas
       </Link>
 
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl lg:aspect-[16/7]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[14px] lg:aspect-[16/7]">
         <Image src={gallery[0] ?? "/media/coco/villas/coco-01.webp"} alt={`${name} exterior`} fill sizes="100vw" priority className="object-cover" />
       </div>
 
@@ -72,7 +72,7 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
           </div>
         </div>
 
-        <aside className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-5">
+        <aside className="flex flex-col gap-4 rounded-[14px] border border-border bg-surface p-5">
           {priceFrom ? (
             <p className="text-[13px] text-foreground">
               From <span className="text-[22px] font-medium">${priceFrom.toLocaleString("en-US")}</span> / night
