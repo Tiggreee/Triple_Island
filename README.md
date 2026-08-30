@@ -1,8 +1,12 @@
 Triple Island
 
-**Demo (staging QA):** https://cocob-web.whitetree-e39b7f21.eastus2.azurecontainerapps.io/
+**Sitio:** https://www.cocobisland.site/
 
 Experiencia web unificada de Coco B Isla (villas) y Coco B Wellness (retiros) en Isla Mujeres: descubrir villas, explorar retiros y enviar solicitudes de reserva que llegan a HubSpot, con un chatbot que responde dudas sobre las villas. El foco del sprint es el flujo de rentar una villa.
+
+Estado del proyecto
+
+Repo listo para entrega. Sobre la base funcional del sprint se aplicó una ronda de hot fixes y un detallado final de fidelidad visual (tipografía, espaciados, radios de esquina, header, formularios) para dejar el sitio en estado de producción — desplegado en Azure Container Apps, con dominio propio y certificado válido. Este dominio es el entregable final; los materiales usados durante la demo (incluido el prototipo estático) quedan como referencia de diseño, no como el producto que se entrega.
 
 Stack
 
@@ -23,9 +27,9 @@ Decisiones y mejoras futuras
 
 Despliegue
 
-Staging (frontend): https://cocob-web.whitetree-e39b7f21.eastus2.azurecontainerapps.io/
+Producción: https://www.cocobisland.site/
 
-Frontend y WordPress corren como contenedores en Azure Container Apps (staging para QA). Un push o merge a `main` despliega; `develop` solo corre los checks (lint + build), no despliega.
+Frontend y WordPress corren como contenedores en Azure Container Apps, con dominio propio y certificado administrado. Un push o merge a `main` despliega; `develop` solo corre los checks (lint + build), no despliega.
 
 Getting Started
 
