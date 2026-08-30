@@ -281,7 +281,19 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                 >
                   &minus;
                 </button>
-                <span className="text-3xl font-light text-foreground">{guests}</span>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  aria-label="Number of guests"
+                  value={guests}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "");
+                    if (digits === "") return;
+                    setGuests(Math.min(28, Math.max(1, Number(digits))));
+                  }}
+                  onBlur={() => setGuests((g) => Math.min(28, Math.max(1, g)))}
+                  className="w-14 border-0 bg-transparent text-center text-3xl font-light text-foreground focus:outline-none"
+                />
                 <button
                   type="button"
                   onClick={() => setGuests((g) => Math.min(28, g + 1))}
