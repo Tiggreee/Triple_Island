@@ -26,7 +26,7 @@ export function VillaCard({ villa }: { villa: VillaData }) {
         <AvailabilityChip unit={unit} className="absolute left-4 top-4 shadow-sm" />
       </div>
       <div className="flex flex-1 flex-col gap-3 p-5">
-        <h2 className="text-[16.8px] font-light uppercase leading-[16.87px] tracking-[1.863px] text-foreground">{villa.name}</h2>
+        <h2 className="text-[24px] font-light uppercase leading-[1.2] tracking-[1.85px] text-foreground">{villa.name}</h2>
         <p className="line-clamp-2 text-[13px] font-light leading-[24px] text-muted">{shortDescription}</p>
 
         <SpecStrip guests={villa.guests} bedrooms={villa.bedrooms} bathrooms={villa.bathrooms} className="border-t border-border pt-3" />
