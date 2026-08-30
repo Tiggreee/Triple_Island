@@ -20,7 +20,7 @@ export function VillaCard({ villa }: { villa: VillaData }) {
   const shortDescription = villa.description.split(". ")[0];
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
+    <article className="flex flex-col overflow-hidden rounded-[14px] border border-border bg-surface">
       <div className="relative aspect-[4/3] w-full">
         <Image src={villa.photo} alt={`${villa.name} exterior`} fill sizes="(min-width: 640px) 50vw, 100vw" className="object-cover" />
         <AvailabilityChip unit={unit} className="absolute left-4 top-4 shadow-sm" />
