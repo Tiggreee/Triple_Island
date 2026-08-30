@@ -33,6 +33,7 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
   const gallery = Array.from({ length: galleryCount }, (_, i) => `/media/coco/villas/${slug}-0${i + 1}.webp`);
 
   return (
+    <>
     <div className="mx-auto w-full max-w-[1180px] space-y-8 px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
       <Link href="/villas" className="text-[12px] uppercase tracking-[1.8px] text-muted hover:text-foreground">
         &larr; Back to villas
@@ -88,7 +89,8 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
         </aside>
       </div>
 
-      <SiteFooter />
     </div>
+    <SiteFooter />
+    </>
   );
 }

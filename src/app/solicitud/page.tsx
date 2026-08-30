@@ -185,9 +185,7 @@ export default function SolicitudPage() {
       <Suspense fallback={null}>
         <SolicitudInner />
       </Suspense>
-      <div className="mx-auto w-full max-w-[1180px] px-5 pb-8 sm:px-8 lg:px-12">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
     </>
   );
 }

@@ -48,6 +48,7 @@ export default async function RetirosPage() {
   const list = selectUpcoming(items);
 
   return (
+    <>
     <div className="mx-auto w-full max-w-[1180px] space-y-10 px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
       <div className="text-center">
         <h1 className="text-[23.5px] font-light uppercase leading-[22.74px] tracking-[2.584px] text-foreground lg:text-[30.8px] lg:leading-[29.84px] lg:tracking-[3.391px]">
@@ -124,7 +125,8 @@ export default async function RetirosPage() {
         </div>
       )}
 
-      <SiteFooter />
     </div>
+    <SiteFooter />
+    </>
   );
 }

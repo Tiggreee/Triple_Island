@@ -176,9 +176,7 @@ export default async function VillasPage() {
       <LocationSection defaultSlug={items[0].slug} />
       </div>
 
-      <div className="mx-auto w-full max-w-[1180px] px-5 pb-16 sm:px-8 lg:px-12">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
     </div>
   );
 }
