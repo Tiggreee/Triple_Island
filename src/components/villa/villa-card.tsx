@@ -41,7 +41,7 @@ export function VillaCard({ villa }: { villa: VillaData }) {
           <Button variant="secondary" className="h-11 w-full" onClick={() => setOpen(true)}>
             Details
           </Button>
-          <CheckAvailabilityButton villaSlug={villa.slug} label="Check Dates" icon={false} className="h-11 w-full" />
+          <CheckAvailabilityButton villaSlug={villa.slug} label="Check Availability" icon={false} className="h-11 w-full" />
         </div>
       </div>
       <VillaDetailModal
