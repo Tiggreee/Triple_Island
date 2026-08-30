@@ -56,8 +56,8 @@ const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Cor
 
 const films = [
   { caption: "Coco by Coco B Isla · 16:9", vimeoId: "418219424", poster: "/media/coco/guest-pool-sunset.webp" },
-  { caption: "Lola by Coco B Isla · 16:9", vimeoId: "507749458" },
-  { caption: "Casa Coco · 16:9", vimeoId: "509998460" },
+  { caption: "Lola by Coco B Isla · 16:9", vimeoId: "507749458", poster: "/media/coco/film/lola-poster.jpg" },
+  { caption: "Casa Coco · 16:9", vimeoId: "509998460", poster: "/media/coco/film/coco-poster.jpg" },
 ];
 
 const testimonials = [
