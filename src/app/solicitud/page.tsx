@@ -84,7 +84,7 @@ function LeadForm({ leadType }: { leadType: LeadType }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1180px] px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[1180px] px-5 py-16 sm:px-8 lg:px-12">
       <section className="mx-auto max-w-3xl space-y-8">
         <div className="text-center">
           <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">{copy.eyebrow}</p>
@@ -185,7 +185,7 @@ export default function SolicitudPage() {
       <Suspense fallback={null}>
         <SolicitudInner />
       </Suspense>
-      <div className="mx-auto w-full max-w-[1180px] px-4 pb-8 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1180px] px-5 pb-8 sm:px-8 lg:px-12">
         <SiteFooter />
       </div>
     </>
