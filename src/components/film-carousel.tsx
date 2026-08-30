@@ -29,7 +29,7 @@ export function FilmCarousel({ films }: { films: Film[] }) {
           return (
             <div
               key={film.caption}
-              className="relative flex aspect-[16/9] shrink-0 basis-[87%] snap-center overflow-hidden rounded-2xl bg-[color:var(--cb-color-foreground,#0e2530)] text-white sm:basis-[62%] min-[1001px]:basis-auto"
+              className="relative flex aspect-[16/9] shrink-0 basis-[87%] snap-center overflow-hidden rounded-[14px] bg-[color:var(--cb-color-foreground,#0e2530)] text-white sm:basis-[62%] min-[1001px]:basis-auto"
             >
               {isPlaying ? (
                 <iframe
