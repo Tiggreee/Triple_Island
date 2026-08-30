@@ -92,7 +92,7 @@ function LeadForm({ leadType }: { leadType: LeadType }) {
           <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-muted">{copy.intro}</p>
         </div>
 
-      <form onSubmit={onSubmit} className="grid gap-4 rounded-2xl border border-border bg-surface p-6 sm:grid-cols-2">
+      <form onSubmit={onSubmit} className="grid gap-4 rounded-[14px] border border-border bg-surface p-6 sm:grid-cols-2">
         <input type="hidden" name="startedAt" value={startedAt} />
         <input type="hidden" name="leadType" value={leadType} />
         <div className="absolute left-[-9999px] h-0 overflow-hidden opacity-0" aria-hidden="true">
