@@ -108,15 +108,15 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Isla Mujeres · Quintana Roo · Mexico</p>
           <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-[36px] font-extralight uppercase leading-[1.1] tracking-[2.5px] min-[621px]:text-[52px] min-[621px]:leading-[1.04] min-[621px]:tracking-[3px] min-[901px]:text-[74px] min-[901px]:tracking-[5px]">Coco B Isla</h1>
-          <p className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[2.5px] text-white/90">
+          <p className="mt-4 flex items-center gap-2.5 text-[10px] uppercase tracking-[1.6px] text-white/90 min-[621px]:gap-4 min-[621px]:text-xs min-[621px]:tracking-[2.6px]">
             {["Lola", "Encantada", "Coco", "Cielo"].map((name, i) => (
-              <span key={name} className="flex items-center gap-3">
+              <span key={name} className="flex items-center gap-2.5 min-[621px]:gap-4">
                 {i > 0 ? <span className="h-1 w-1 rounded-full bg-brand" /> : null}
                 {name}
               </span>
             ))}
           </p>
-          <p className="mx-auto mt-6 max-w-lg text-sm leading-7 text-white/90">
+          <p className="mx-auto mt-6 max-w-[560px] text-[15px] leading-[1.7] text-[#F7F4EF] min-[621px]:text-[17px]">
             Luxury villas, boutique hotels and destination retreats, set on the shores of Isla Mujeres — one of
             Mexico and the Caribbean&rsquo;s most idyllic settings.
           </p>
