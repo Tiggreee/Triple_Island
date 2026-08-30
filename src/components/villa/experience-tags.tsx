@@ -105,7 +105,7 @@ export function ExperienceTags({ onInquire }: { onInquire: () => void }) {
           key={x.key}
           type="button"
           onClick={onInquire}
-          className="group flex flex-col items-center gap-2.5 rounded-2xl px-2 py-4 text-center text-foreground transition hover:bg-white min-[621px]:gap-3.5 min-[621px]:px-3.5 min-[621px]:py-[22px]"
+          className="group flex flex-col items-center gap-2.5 rounded-[14px] px-2 py-4 text-center text-foreground transition hover:bg-white min-[621px]:gap-3.5 min-[621px]:px-3.5 min-[621px]:py-[22px]"
         >
           <span className="[&_.cb-fl]:transition-opacity [&_.cb-fl]:duration-300 group-hover:[&_.cb-fl]:opacity-[.42]">{x.icon}</span>
           <b className="text-[11px] font-semibold uppercase leading-[1.5] tracking-[1.2px] min-[621px]:text-[12.5px] min-[621px]:tracking-[1.85px]">
