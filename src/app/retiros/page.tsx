@@ -61,7 +61,7 @@ export default async function RetirosPage() {
       <hr className="border-t border-primary" />
 
       {list.length === 0 ? (
-        <div className="mx-auto max-w-md space-y-4 rounded-2xl border border-border bg-surface p-8 text-center">
+        <div className="mx-auto max-w-md space-y-4 rounded-[14px] border border-border bg-surface p-8 text-center">
           <p className="text-[13.5px] leading-7 text-muted">
             No retreats are open for booking right now. Reach out and we&rsquo;ll let you know what&rsquo;s next.
           </p>
@@ -74,7 +74,7 @@ export default async function RetirosPage() {
           {list.map((retreat) => {
             const isFull = typeof retreat.spotsLeft === "number" && retreat.spotsLeft <= 0;
             return (
-              <article key={retreat.slug} className="flex flex-col overflow-hidden rounded-2xl border border-border bg-surface">
+              <article key={retreat.slug} className="flex flex-col overflow-hidden rounded-[14px] border border-border bg-surface">
                 {retreat.photo ? (
                   <div className="relative aspect-[4/3] w-full">
                     <Image src={retreat.photo} alt={retreat.name} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
