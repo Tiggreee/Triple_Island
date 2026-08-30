@@ -285,6 +285,24 @@ body[data-floatbar="1"] .cb-chat-teaser {
   }
 }
 
+body[data-cookie-visible="1"] .cb-chat-fab {
+  bottom: calc(var(--cookie-h, 0px) + 16px);
+}
+
+body[data-cookie-visible="1"] .cb-chat-teaser {
+  bottom: calc(var(--cookie-h, 0px) + 84px);
+}
+
+body[data-cookie-visible="1"][data-floatbar="1"] .cb-chat-fab {
+  bottom: calc(var(--cookie-h, 0px) + 190px);
+}
+
+@media (min-width: 621px) {
+  body[data-cookie-visible="1"][data-floatbar="1"] .cb-chat-fab {
+    bottom: calc(var(--cookie-h, 0px) + 100px);
+  }
+}
+
 /* ============================================================================
    REDUCED MOTION (Accesibilidad)
    Desactiva todas las animaciones si el usuario prefiere movimiento reducido

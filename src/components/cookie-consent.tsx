@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CONSENT_CHANGED_EVENT } from "@/lib/analytics";
 
 type Consent = { analytics: boolean; marketing: boolean };
@@ -13,6 +13,7 @@ export function CookieConsent() {
   const [expanded, setExpanded] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
+  const asideRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let hasSavedConsent = false;
@@ -46,10 +47,30 @@ export function CookieConsent() {
     setVisible(false);
   }
 
+  useEffect(() => {
+    const el = asideRef.current;
+    if (!el || !visible || !hasScrolled) {
+      document.body.style.removeProperty("--cookie-h");
+      delete document.body.dataset.cookieVisible;
+      return;
+    }
+    document.body.dataset.cookieVisible = "1";
+    const sync = () => document.body.style.setProperty("--cookie-h", `${el.offsetHeight}px`);
+    sync();
+    const observer = new ResizeObserver(sync);
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      document.body.style.removeProperty("--cookie-h");
+      delete document.body.dataset.cookieVisible;
+    };
+  }, [visible, hasScrolled, expanded]);
+
   if (!visible || !hasScrolled) return null;
 
   return (
     <aside
+      ref={asideRef}
       role="dialog"
       aria-modal="false"
       aria-label="Cookie preferences"
