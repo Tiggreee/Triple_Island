@@ -34,12 +34,17 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key !== "Escape") return;
       if (lightboxIndex !== null) {
-        setLightboxIndex(null);
+        if (e.key === "Escape") {
+          setLightboxIndex(null);
+        } else if (e.key === "ArrowRight") {
+          setLightboxIndex((i) => (i === null ? i : (i + 1) % gallery.length));
+        } else if (e.key === "ArrowLeft") {
+          setLightboxIndex((i) => (i === null ? i : (i - 1 + gallery.length) % gallery.length));
+        }
         return;
       }
-      onClose();
+      if (e.key === "Escape") onClose();
     }
     window.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -47,7 +52,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
       window.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [open, onClose, lightboxIndex]);
+  }, [open, onClose, lightboxIndex, gallery.length]);
 
   if (!open) return null;
 
