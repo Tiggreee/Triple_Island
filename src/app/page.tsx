@@ -153,7 +153,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {gatherings.map((item) => (
-              <article key={item.title} className="group overflow-hidden rounded-2xl border border-border bg-surface">
+              <article key={item.title} className="group overflow-hidden rounded-[14px] border border-border bg-surface">
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image src={item.photo} alt={item.title} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105" />
                 </div>
@@ -172,7 +172,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {experiences.map((x) => (
-              <article key={x.title} className="group overflow-hidden rounded-2xl border border-border bg-surface">
+              <article key={x.title} className="group overflow-hidden rounded-[14px] border border-border bg-surface">
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <Image src={x.photo} alt={x.title} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-105" />
                 </div>
@@ -210,7 +210,7 @@ export default function Home() {
             {sacBajo.map((shot, i) => (
               <div
                 key={shot.src}
-                className={`group relative aspect-[4/3] overflow-hidden rounded-2xl min-[901px]:aspect-auto ${
+                className={`group relative aspect-[4/3] overflow-hidden rounded-[14px] min-[901px]:aspect-auto ${
                   i === 0 ? "min-[901px]:row-span-2" : ""
                 } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
               >
@@ -243,7 +243,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <figure className="space-y-3">
-                <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+                <div className="relative aspect-video w-full overflow-hidden rounded-[14px]">
                   <Image
                     src="/media/coco/dining.jpg"
                     alt="Outdoor dining set up for a Coco B retreat"
@@ -256,7 +256,7 @@ export default function Home() {
               </figure>
 
               <figure className="space-y-3">
-                <div className="relative aspect-video w-full overflow-hidden rounded-2xl">
+                <div className="relative aspect-video w-full overflow-hidden rounded-[14px]">
                   <Image
                     src="/media/coco/retreat-ceremony-palapa.png"
                     alt="Ceremony setup under the palapa for a destination retreat"
@@ -271,7 +271,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {testimonials.map((t) => (
-                <figure key={t.author} className="h-full space-y-3 rounded-2xl border border-border bg-white/70 p-5">
+                <figure key={t.author} className="h-full space-y-3 rounded-[14px] border border-border bg-white/70 p-5">
                   <blockquote className="text-sm italic leading-7 text-muted">&ldquo;{t.quote}&rdquo;</blockquote>
                   <figcaption className="text-[10.5px] font-semibold uppercase tracking-[1.8px] text-brand">{t.author}</figcaption>
                 </figure>
@@ -299,7 +299,7 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 gap-4 min-[621px]:grid-cols-3">
             {reviews.map((r) => (
-              <div key={r.count} className="flex items-center gap-4 rounded-2xl border border-border bg-surface px-4 py-5 text-left">
+              <div key={r.count} className="flex items-center gap-4 rounded-[14px] border border-border bg-surface px-4 py-5 text-left">
                 <Image
                   src={r.logo}
                   alt={r.platform}
@@ -336,7 +336,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative h-[340px] overflow-hidden rounded-2xl min-[621px]:h-[380px] min-[901px]:h-[430px]">
+        <div className="relative h-[340px] overflow-hidden rounded-[14px] min-[621px]:h-[380px] min-[901px]:h-[430px]">
           <Image
             src="/media/coco/sunset-pool.jpg"
             alt="Oceanfront pool at sunset"
@@ -380,7 +380,7 @@ export default function Home() {
               <Button variant="primary" icon>Explore the villas</Button>
             </Link>
           </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-border">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[14px] border border-border">
             <iframe
               title="Map of Sac Bajo, Isla Mujeres"
               src="https://www.openstreetmap.org/export/embed.html?bbox=-86.78%2C21.20%2C-86.70%2C21.27&layer=mapnik&marker=21.238%2C-86.744"
