@@ -27,7 +27,7 @@ export default async function RetiroDetailPage({ params }: RetiroDetailPageProps
   const isFull = typeof retreat.meta?.spots_left === "number" && retreat.meta.spots_left <= 0;
 
   return (
-    <div className="mx-auto w-full max-w-[1180px] space-y-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+    <div className="mx-auto w-full max-w-[1180px] space-y-8 px-5 py-10 sm:px-8 lg:px-12 lg:py-14">
       <Link href="/retiros" className="text-[12px] uppercase tracking-[1.8px] text-muted hover:text-foreground">
         &larr; Back to retreats
       </Link>
