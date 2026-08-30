@@ -2,7 +2,7 @@ export function HeroScrim() {
   return (
     <div
       aria-hidden
-      className="absolute inset-0 [background:radial-gradient(62%_55%_at_50%_42%,rgba(28,28,28,0.5),transparent_70%),linear-gradient(to_bottom,rgba(28,28,28,0.55),rgba(28,28,28,0.28)_45%,rgba(28,28,28,0.7))]"
+      className="absolute inset-0 [background:radial-gradient(62%_46%_at_50%_48%,rgba(11,32,40,0.62)_0%,rgba(11,32,40,0.34)_58%,rgba(11,32,40,0.06)_88%,transparent_100%),linear-gradient(180deg,rgba(11,32,40,0.64)_0%,rgba(11,32,40,0.30)_26%,rgba(11,32,40,0.22)_56%,rgba(11,32,40,0.58)_100%)]"
     />
   );
 }
