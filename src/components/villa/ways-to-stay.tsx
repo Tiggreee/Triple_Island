@@ -61,7 +61,7 @@ export function WaysToStay({ defaultSlug }: { defaultSlug: string }) {
         {WAYS.map((w) => (
           <div
             key={w.key}
-            className="flex flex-col gap-3 rounded-2xl border border-border bg-surface px-5 py-[18px] transition hover:border-[#cfc7b9] hover:shadow-[0_10px_30px_rgba(11,32,40,0.06)] min-[761px]:px-6.5 min-[761px]:py-5.5"
+            className="flex flex-col gap-3 rounded-[14px] border border-border bg-surface px-5 py-[18px] transition hover:border-[#cfc7b9] hover:shadow-[0_10px_30px_rgba(11,32,40,0.06)] min-[761px]:px-6.5 min-[761px]:py-5.5"
           >
             <div className="flex items-center gap-4">
               <span className="relative h-[60px] w-[60px] shrink-0 overflow-hidden rounded-full border border-border shadow-[0_6px_18px_rgba(11,32,40,0.1)] min-[761px]:h-[74px] min-[761px]:w-[74px]">
