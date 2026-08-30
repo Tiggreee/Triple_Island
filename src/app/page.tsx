@@ -95,15 +95,7 @@ export default function Home() {
   return (
     <div className="w-full">
       <div id="site-hero" className="relative flex h-dvh w-full items-center justify-center overflow-hidden">
-        <Image
-          src="/media/coco/video/hero-poster.jpg"
-          alt="Coco B Isla poolside, palm trees and the Caribbean Sea"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <HeroVideo />
+        <HeroVideo poster="/media/coco/video/hero-poster.jpg" posterAlt="Coco B Isla poolside, palm trees and the Caribbean Sea" />
         <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Isla Mujeres · Quintana Roo · Mexico</p>

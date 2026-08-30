@@ -219,6 +219,33 @@ body {
   }
 }
 
+/* Hero: Ken Burns lento sobre el poster, para que nunca haya un hueco estatico
+   mientras el video real carga y hace fade-in encima. Se detiene con .paused
+   para no competir con el movimiento del video ya reproduciendo. */
+@keyframes cb-hero-ken {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1.14) translate(-2%, -1.5%);
+  }
+}
+
+.cb-hero-ken {
+  transform-origin: 56% 60%;
+  animation: cb-hero-ken 28s ease-in-out infinite alternate;
+}
+
+.cb-hero-ken.paused {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-hero-ken {
+    animation: none;
+  }
+}
+
 /* Scroll cue: Anillo gira 90° (ciclo lento, se lee como guiño) */
 @keyframes cb-cue-ring {
   from {

@@ -52,7 +52,7 @@ export default async function VillasPage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="cb-hero-ken object-cover"
         />
         <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
