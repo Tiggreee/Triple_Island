@@ -11,6 +11,7 @@ const HERO_PAGES = ["/", "/villas"];
 export function SiteHeader() {
   const pathname = usePathname();
   const hasHero = HERO_PAGES.includes(pathname);
+  const isVillasPage = pathname === "/villas";
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -36,21 +37,38 @@ export function SiteHeader() {
         transparent
           ? "border-b border-transparent bg-transparent"
           : "border-b border-border bg-[rgba(251,248,243,0.96)] shadow-[0_1px_14px_rgba(28,28,28,0.06)] backdrop-blur-[10px]"
-      } ${hasHero ? "-mb-[79px] lg:-mb-[119px]" : ""}`}
+      } ${
+        hasHero
+          ? isVillasPage
+            ? "-mb-[79px] lg:-mb-[141px]"
+            : "-mb-[79px] lg:-mb-[119px]"
+          : ""
+      }`}
     >
       <div
-        className={`mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-5 transition-[height] duration-[350ms] sm:px-8 lg:px-12 ${
-          transparent ? "lg:h-29.5" : "lg:h-[74px]"
+        className={`relative mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-5 transition-[height] duration-[350ms] sm:px-8 lg:px-12 ${
+          isVillasPage ? (transparent ? "lg:h-[140px]" : "lg:h-[82px]") : transparent ? "lg:h-29.5" : "lg:h-[74px]"
         }`}
       >
-        <Link href="/" className="flex shrink-0 items-center gap-2">
+        <Link
+          href="/"
+          className={`flex shrink-0 items-center gap-2 ${
+            isVillasPage ? "lg:absolute lg:left-1/2 lg:top-1/2 lg:[transform:translate(-50%,-44%)]" : ""
+          }`}
+        >
           <Image
             src={transparent ? "/media/coco/logo-white.png" : "/media/figma/footer-logo.png"}
             alt="Coco B Isla"
             width={82}
             height={69}
             className={`h-13 w-auto drop-shadow-[0_2px_8px_rgba(11,32,40,0.35)] transition-[height] duration-[350ms] ${
-              transparent ? "lg:h-20.5" : "lg:h-14"
+              isVillasPage
+                ? transparent
+                  ? "lg:h-28"
+                  : "lg:h-[74px]"
+                : transparent
+                  ? "lg:h-20.5"
+                  : "lg:h-14"
             }`}
           />
         </Link>

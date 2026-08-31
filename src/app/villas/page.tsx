@@ -54,7 +54,7 @@ export default async function VillasPage() {
           sizes="100vw"
           className="cb-hero-ken object-cover"
         />
-        <HeroScrim />
+        <HeroScrim variant="villas" />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Isla Mujeres · Mexico</p>
           <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-[36px] font-extralight uppercase leading-[1.1] tracking-[2.5px] min-[621px]:text-[52px] min-[621px]:leading-[1.04] min-[621px]:tracking-[3px] min-[901px]:text-[74px] min-[901px]:tracking-[5px]">Villas</h1>
