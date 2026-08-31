@@ -55,9 +55,9 @@ const sacBajo = [
 const retreatTags = ["Weddings", "Yoga", "Wellness", "Culinary", "Fitness", "Corporate"];
 
 const films = [
-  { caption: "Coco B Yoga & Wellness · Punta Sur · 16:9", vimeoId: "509998460", poster: "/media/coco/film/coco-poster.jpg" },
-  { caption: "Coco B Wellness & Casa Coco · 16:9", vimeoId: "418219424", poster: "/media/coco/film/wellness-casa-coco-poster.jpg" },
-  { caption: "Isla Mujeres, from the water · 16:9", vimeoId: "507749458", poster: "/media/coco/film/lola-poster.jpg" },
+  { caption: "Coco B Yoga & Wellness · Punta Sur · 16:9", vimeoId: "509998460" },
+  { caption: "Coco B Wellness & Casa Coco · 16:9", vimeoId: "418219424" },
+  { caption: "Isla Mujeres, from the water · 16:9", vimeoId: "507749458" },
 ];
 
 const testimonials = [
