@@ -51,6 +51,7 @@ export default async function VillasPage() {
           alt="Coco B Isla villa terrace and pool at night"
           fill
           priority
+          unoptimized
           sizes="100vw"
           className="cb-hero-ken object-cover"
         />

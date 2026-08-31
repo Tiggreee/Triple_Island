@@ -47,7 +47,7 @@ export function VillaCard({ villa }: { villa: VillaData }) {
           alt={`${villa.name} exterior`}
           fill
           sizes="(min-width: 640px) 50vw, 100vw"
-          className="object-cover"
+          className="object-cover transition-transform duration-[600ms] group-hover:scale-[1.04]"
         />
         <AvailabilityChip unit={unit} className="absolute left-4 top-4 shadow-sm" />
         {isPair ? (

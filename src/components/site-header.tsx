@@ -47,6 +47,8 @@ export function SiteHeader() {
     >
       <div
         className={`relative mx-auto flex h-19.5 max-w-295 items-center justify-between gap-3 px-5 transition-[height] duration-[350ms] sm:px-8 lg:px-12 ${
+          isVillasPage ? "lg:justify-end" : ""
+        } ${
           isVillasPage ? (transparent ? "lg:h-[140px]" : "lg:h-[82px]") : transparent ? "lg:h-29.5" : "lg:h-[74px]"
         }`}
       >

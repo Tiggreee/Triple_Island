@@ -61,11 +61,17 @@ export function WaysToStay({ defaultSlug }: { defaultSlug: string }) {
         {WAYS.map((w) => (
           <div
             key={w.key}
-            className="flex flex-col gap-3 rounded-[14px] border border-border bg-surface px-5 py-[18px] transition hover:border-[#cfc7b9] hover:shadow-[0_10px_30px_rgba(11,32,40,0.06)] min-[761px]:px-6.5 min-[761px]:py-5.5"
+            className="group flex flex-col gap-3 rounded-[14px] border border-border bg-surface px-5 py-[18px] transition hover:border-[#cfc7b9] hover:shadow-[0_10px_30px_rgba(11,32,40,0.06)] min-[761px]:px-6.5 min-[761px]:py-5.5"
           >
             <div className="flex items-center gap-4">
               <span className="relative h-[60px] w-[60px] shrink-0 overflow-hidden rounded-full border border-border shadow-[0_6px_18px_rgba(11,32,40,0.1)] min-[761px]:h-[74px] min-[761px]:w-[74px]">
-                <Image src={w.photo} alt="" fill sizes="74px" className="object-cover" />
+                <Image
+                  src={w.photo}
+                  alt=""
+                  fill
+                  sizes="74px"
+                  className="object-cover transition-transform duration-[800ms] ease-[cubic-bezier(.2,.8,.2,1)] group-hover:scale-[1.08]"
+                />
               </span>
               <div className="min-w-0 flex-1">
                 <span className="mb-1 block text-[10px] font-semibold uppercase tracking-[2.24px] text-primary">{w.tag}</span>
