@@ -111,24 +111,36 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
 
         <div className="space-y-6 p-5">
           {gallery.length > 0 ? (
-            <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {gallery.slice(0, 5).map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  onClick={() => setLightboxIndex(i)}
-                  aria-label={`Expand ${villa.name} photo ${i + 1}`}
-                  className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
-                >
-                  <Image
-                    src={src}
-                    alt={`${villa.name} photo ${i + 1}`}
-                    fill
-                    sizes="(min-width: 621px) 25vw, 82vw"
-                    className="object-cover transition group-hover:scale-105"
-                  />
-                </button>
-              ))}
+            <div className="relative">
+              <div className="flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1 min-[621px]:grid min-[621px]:grid-cols-4 min-[621px]:overflow-visible min-[621px]:pb-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {gallery.slice(0, 5).map((src, i) => (
+                  <button
+                    key={src}
+                    type="button"
+                    onClick={() => setLightboxIndex(i)}
+                    aria-label={`Expand ${villa.name} photo ${i + 1}`}
+                    className={`group relative aspect-[4/3] shrink-0 basis-[82%] snap-center overflow-hidden rounded-xl min-[621px]:basis-auto ${i === 0 ? "min-[621px]:col-span-2" : ""}`}
+                  >
+                    <Image
+                      src={src}
+                      alt={`${villa.name} photo ${i + 1}`}
+                      fill
+                      sizes="(min-width: 621px) 25vw, 82vw"
+                      className="object-cover transition group-hover:scale-105"
+                    />
+                  </button>
+                ))}
+              </div>
+              <button
+                type="button"
+                onClick={() => setLightboxIndex(0)}
+                className="absolute bottom-3.5 right-3.5 z-[3] inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-white/92 px-[15px] py-2.5 text-[11.5px] font-semibold uppercase tracking-[1.4px] text-foreground shadow-[0_4px_16px_rgba(11,32,40,0.14)] backdrop-blur-[10px] transition hover:-translate-y-px hover:bg-white"
+              >
+                <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 text-primary" fill="currentColor" aria-hidden="true">
+                  <path d="M3 5h8v6H3V5Zm10 0h8v6h-8V5ZM3 13h8v6H3v-6Zm10 0h8v6h-8v-6Z" />
+                </svg>
+                See all {gallery.length} photos
+              </button>
             </div>
           ) : null}
 
