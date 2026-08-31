@@ -333,7 +333,7 @@ export function ChatWidget() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask the concierge…"
+                placeholder="Ask me anything…"
                 aria-label="Message"
                 className="w-full rounded-full border border-border bg-background px-4 py-2 text-base text-foreground focus:border-primary focus:outline-none"
               />

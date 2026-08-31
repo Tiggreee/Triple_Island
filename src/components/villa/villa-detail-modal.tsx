@@ -3,9 +3,10 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { Azulejo } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 import { SpecStrip } from "@/components/villa/spec-strip";
-import { peakRatesFor } from "@/lib/availability";
+import { peakRatesFor, UNITS } from "@/lib/availability";
 import type { VillaData } from "@/lib/villas-data";
 
 type VillaDetailModalProps = {
@@ -134,7 +135,23 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
           <SpecStrip guests={villa.guests} bedrooms={villa.bedrooms} bathrooms={villa.bathrooms} className="border-y border-border py-4" />
 
           <div className="flex flex-col gap-4 rounded-[14px] border border-border bg-background/40 p-5 sm:flex-row sm:items-center sm:justify-between">
-            <p className="max-w-md text-[13.5px] font-light leading-relaxed text-muted">{villa.description}</p>
+            <div className="max-w-md space-y-3">
+              <p className="text-[13.5px] font-light leading-relaxed text-muted">{villa.description}</p>
+              {villa.pairUnit !== undefined && UNITS[villa.pairUnit].pair ? (
+                <div className="flex items-start gap-2.5 rounded-xl border border-primary/[0.16] bg-primary/[0.07] px-3.5 py-3 text-[13px] leading-[1.6] text-[#123B52]">
+                  <span className="relative mt-0.5 h-[15px] w-[22px] shrink-0" aria-hidden="true">
+                    <Azulejo tone="action" size={15} className="absolute left-0 top-0" />
+                    <Azulejo tone="action" size={12.5} className="absolute left-[9px] top-0.5 opacity-55" />
+                  </span>
+                  <span>
+                    Availability for a pair is the <b className="font-semibold">intersection</b> of both calendars: a
+                    night is open only when{" "}
+                    <b className="font-semibold">{UNITS[UNITS[villa.pairUnit].pair![0]].name}</b> and{" "}
+                    <b className="font-semibold">{UNITS[UNITS[villa.pairUnit].pair![1]].name}</b> are both free.
+                  </span>
+                </div>
+              ) : null}
+            </div>
             <div className="shrink-0 rounded-xl border border-border bg-surface p-4 text-center sm:min-w-[220px] sm:text-right">
               <span className="text-[11px] uppercase tracking-[1.6px] text-muted">From</span>
               <div className="text-[26px] font-medium leading-tight text-foreground">{money(villa.priceFrom)}</div>
