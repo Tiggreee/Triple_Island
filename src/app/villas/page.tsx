@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Azulejo } from "@/components/ui/azulejo";
 import { HeroScrim } from "@/components/hero-scrim";
 import { LatticeBackground } from "@/components/ui/lattice-background";
@@ -9,7 +8,7 @@ import { LocationSection } from "@/components/villa/location-section";
 import { VillaCard } from "@/components/villa/villa-card";
 import { VillasPageActions } from "@/components/villa/villas-page-actions";
 import { WaysToStay } from "@/components/villa/ways-to-stay";
-import { REAL_VILLAS } from "@/lib/villas-data";
+import { PAIR_VILLAS, REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
 const faqs = [
@@ -42,6 +41,7 @@ export default async function VillasPage() {
       description: wp?.meta?.short_description ?? wp?.excerpt?.rendered ?? real.description,
     };
   });
+  const allCards = [...items, ...PAIR_VILLAS];
 
   return (
     <div className="w-full">
@@ -96,15 +96,23 @@ export default async function VillasPage() {
       />
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-        {items.map((villa) => (
+        {allCards.map((villa) => (
           <VillaCard key={villa.slug} villa={villa} />
         ))}
       </div>
 
-      <p className="text-center text-[12px] text-muted">
-        Lola &amp; Encantada or Coco &amp; Cielo can be combined for larger groups — one calendar, one contract, one
-        quote. <Link href="/solicitud" className="text-primary underline underline-offset-2">Ask about combined stays</Link>.
-      </p>
+      <div className="flex items-start gap-3 rounded-xl border border-primary/[0.16] bg-primary/[0.07] p-4.5 text-[14px] leading-[1.7] text-[#123B52] sm:p-[18px]">
+        <span className="relative mt-0.5 h-[18px] w-[26px] shrink-0" aria-hidden="true">
+          <Azulejo tone="action" size={18} className="absolute left-0 top-px" />
+          <Azulejo tone="action" size={15} className="absolute left-[11px] top-1 opacity-55" />
+        </span>
+        <span>
+          <b className="font-semibold text-foreground">Mix &amp; match.</b> Side-by-side villas can be booked together
+          as one contract: <b className="font-semibold text-foreground">Lola &amp; Encantada</b> (13 suites) and{" "}
+          <b className="font-semibold text-foreground">Coco &amp; Cielo</b> (14 suites). Only neighbouring pairs
+          work — a combined stay is available only when both houses are free on the same nights.
+        </span>
+      </div>
 
       <div className="text-center">
         <SectionHeader

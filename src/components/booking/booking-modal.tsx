@@ -27,6 +27,7 @@ type Step = 1 | 2 | 3 | 4;
 
 type BookingModalProps = {
   initialVillaSlug: string;
+  initialUnit?: number;
   initialGuests?: number;
   onClose: () => void;
 };
@@ -35,8 +36,8 @@ function money(n: number): string {
   return `$${n.toLocaleString("en-US")}`;
 }
 
-export function BookingModal({ initialVillaSlug, initialGuests, onClose }: BookingModalProps) {
-  const initialUnit = Math.max(0, REAL_VILLAS.findIndex((v) => v.slug === initialVillaSlug));
+export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, initialGuests, onClose }: BookingModalProps) {
+  const initialUnit = initialUnitProp ?? Math.max(0, REAL_VILLAS.findIndex((v) => v.slug === initialVillaSlug));
   const [step, setStep] = useState<Step>(initialGuests ? 2 : 1);
   const [guests, setGuests] = useState(initialGuests ?? 2);
   const [unit, setUnit] = useState(initialUnit);
@@ -797,14 +798,19 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   );
 }
 
-export function useBookingModal(initialVillaSlug: string, initialOpen = false, initialGuests?: number) {
+export function useBookingModal(initialVillaSlug: string, initialOpen = false, initialGuests?: number, initialUnit?: number) {
   const [open, setOpen] = useState(initialOpen);
   const modal = useMemo(
     () =>
       open ? (
-        <BookingModal initialVillaSlug={initialVillaSlug} initialGuests={initialGuests} onClose={() => setOpen(false)} />
+        <BookingModal
+          initialVillaSlug={initialVillaSlug}
+          initialUnit={initialUnit}
+          initialGuests={initialGuests}
+          onClose={() => setOpen(false)}
+        />
       ) : null,
-    [open, initialVillaSlug, initialGuests],
+    [open, initialVillaSlug, initialGuests, initialUnit],
   );
   return { open: () => setOpen(true), modal };
 }

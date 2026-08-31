@@ -9,6 +9,11 @@ export type VillaData = {
   photo: string;
   description: string;
   extra?: string;
+  /** Set only for the two combined-villa cards — index into availability.ts's UNITS. */
+  pairUnit?: number;
+  /** The two individual villa slugs a combined card is made of, for the interleaved gallery. */
+  pairSlugs?: [string, string];
+  quote?: boolean;
 };
 
 export const REAL_VILLAS: VillaData[] = [
@@ -64,3 +69,35 @@ export const REAL_VILLAS: VillaData[] = [
 ];
 
 export const SLUG_TO_UNIT: Record<string, number> = { coco: 0, encantada: 1, lola: 2, cielo: 3 };
+
+export const PAIR_VILLAS: VillaData[] = [
+  {
+    slug: "lola-encantada",
+    name: "Lola & Encantada",
+    suites: 13,
+    guests: 26,
+    bedrooms: 13,
+    bathrooms: 14,
+    priceFrom: 6670,
+    photo: "/media/coco/villas/lola-01.webp",
+    description:
+      "Casa Lola and Villa Encantada share a wall and are booked together as a single 13-suite compound — one calendar, one contract, one quote. Listed in the rate card as Lola 13.",
+    pairUnit: 4,
+    pairSlugs: ["lola", "encantada"],
+  },
+  {
+    slug: "coco-cielo",
+    name: "Coco & Cielo",
+    suites: 14,
+    guests: 28,
+    bedrooms: 14,
+    bathrooms: 15,
+    priceFrom: 6505,
+    photo: "/media/coco/villas/coco-01.webp",
+    description:
+      "Casa Coco and Casa Cielo, side by side, for the largest groups the collection can host — 14 suites in total. Combined rate on request.",
+    pairUnit: 5,
+    pairSlugs: ["coco", "cielo"],
+    quote: true,
+  },
+];
