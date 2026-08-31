@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import type { MouseEvent } from "react";
 import { useState } from "react";
 import { useBookingModal } from "@/components/booking/booking-modal";
 import { VillaDetailModal } from "@/components/villa/villa-detail-modal";
@@ -19,14 +20,16 @@ export function VillaCollectionGrid({ villas }: { villas: Tile[] }) {
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 min-[901px]:auto-rows-[300px]">
         {villas.map((villa, i) => (
-          <button
+          <a
             key={villa.slug}
-            type="button"
-            onClick={() => {
+            href={`/villas?from=home#${villa.slug}`}
+            onClick={(e: MouseEvent<HTMLAnchorElement>) => {
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+              e.preventDefault();
               setSelectedSlug(villa.slug);
               setOpen(true);
             }}
-            className={`group relative aspect-[4/3] overflow-hidden rounded-[14px] text-left min-[901px]:aspect-auto ${
+            className={`group relative block aspect-[4/3] overflow-hidden rounded-[14px] text-left min-[901px]:aspect-auto ${
               i === 0 ? "min-[901px]:row-span-2" : ""
             } ${i === 3 ? "min-[901px]:col-span-2" : ""}`}
           >
@@ -43,7 +46,7 @@ export function VillaCollectionGrid({ villas }: { villas: Tile[] }) {
               <h3 className="mt-1 text-lg font-light uppercase tracking-[1.5px]">{villa.name}</h3>
               {villa.note ? <p className="mt-1 text-xs leading-5 text-white/75">{villa.note}</p> : null}
             </div>
-          </button>
+          </a>
         ))}
       </div>
       <VillaDetailModal

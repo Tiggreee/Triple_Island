@@ -135,7 +135,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Luxury villas · Boutique hotels · Destination retreats"
             title="A collection, not a hotel"
-            lead="Four private villas, a retreat centre and a pop-up boutique hotel on the Sac Bajo peninsula. Direct access to calm water, breathtaking sunsets over the Mexican Caribbean, and exceptional service for exceptional experiences."
+            lead="Four private villas on the Sac Bajo peninsula, on the island the Maya named for Ixchel. Three to twenty-seven suites, steps from water calm enough to swim at dawn."
           />
         </div>
 
