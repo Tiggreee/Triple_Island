@@ -369,7 +369,12 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                   +
                 </button>
               </div>
-              <p className="text-center text-xs text-muted">guests · {UNITS.filter((v) => !v.pair && v.guests >= guests).length} of the 4 houses fit</p>
+              <p className="text-center text-xs text-muted">
+                guests ·{" "}
+                {UNITS.filter((v) => !v.pair && v.guests >= guests).length > 0
+                  ? `${UNITS.filter((v) => !v.pair && v.guests >= guests).length} of the 4 houses fit`
+                  : "two villas need to be combined"}
+              </p>
               <div
                 className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left text-[13.5px] leading-[1.5] ${
                   guests >= 15
@@ -403,53 +408,53 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                 </p>
               ) : null}
 
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {UNITS.map((v, i) =>
-                  v.pair ? null : (
-                    <button
-                      key={v.name}
-                      type="button"
-                      onClick={() => setUnit(i)}
-                      className={`flex items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-[#eaf3fb]" : "border-[#ded6c9] bg-white hover:bg-[#f3efe7]"}`}
-                    >
-                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                        <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
-                      </div>
-                      <span>
-                        <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
-                        <span className="block text-[11px] text-muted">
-                          {v.suites} suites · up to {v.guests} guests · from {money(v.from)}/night
-                        </span>
-                      </span>
-                    </button>
-                  ),
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <p className="text-[11px] uppercase tracking-[1px] text-muted">Combined villas · two houses, one contract</p>
-                {UNITS.map((v, i) =>
-                  v.pair ? (
-                    <button
-                      key={v.name}
-                      type="button"
-                      onClick={() => setUnit(i)}
-                      className={`flex w-full items-center gap-3 rounded-xl border p-3 text-left transition ${unit === i ? "border-primary bg-[#eaf3fb]" : "border-[#ded6c9] bg-white hover:bg-[#f3efe7]"}`}
-                    >
-                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                        <Image src={v.photo} alt={v.name} fill sizes="48px" className="object-cover" />
-                      </div>
-                      <span>
-                        <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
-                        <span className="block text-[11px] text-muted">
-                          {v.suites} suites · up to {v.guests} guests · from {money(v.from)}/night
-                          {v.quote ? " · combined rate on request" : ""}
-                        </span>
-                      </span>
-                    </button>
-                  ) : null,
-                )}
-              </div>
+              {(() => {
+                const fromPair = Boolean(UNITS[initialUnit]?.pair);
+                let list = UNITS.map((v, i) => ({ v, i })).filter(({ v }) => !v.pair || guests > 14 || fromPair);
+                if (fromPair) {
+                  list = [...list.filter(({ v }) => v.pair), ...list.filter(({ v }) => !v.pair)];
+                }
+                return (
+                  <div className="grid gap-2.5 text-left">
+                    {list.map(({ v, i }) => {
+                      const fits = guests <= v.guests;
+                      return (
+                        <button
+                          key={v.name}
+                          type="button"
+                          onClick={() => fits && setUnit(i)}
+                          disabled={!fits}
+                          className={`flex min-h-[74px] w-full items-center gap-3.5 rounded-xl border p-3 text-left transition disabled:cursor-not-allowed disabled:opacity-45 ${
+                            unit === i
+                              ? "border-primary bg-[#eaf3fb] shadow-[0_0_0_3px_rgba(36,106,148,0.1)]"
+                              : "border-[#ded6c9] bg-white hover:bg-[#f3efe7]"
+                          }`}
+                        >
+                          <div className="relative h-12 w-14 shrink-0 overflow-hidden rounded-lg">
+                            <Image src={v.photo} alt={v.name} fill sizes="56px" className="object-cover" />
+                          </div>
+                          <span className="flex-1">
+                            <span className="block text-xs font-semibold uppercase tracking-[0.5px] text-foreground">{v.name}</span>
+                            <span className="block text-[11px] text-muted">
+                              {v.suites} suites · up to {v.guests} guests · from {money(v.from)}/night
+                              {v.quote ? " · combined rate on request" : ""}
+                            </span>
+                          </span>
+                          {v.pair ? (
+                            <span className="ml-auto shrink-0 rounded-full bg-primary/10 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[1.2px] text-primary">
+                              Two villas
+                            </span>
+                          ) : !fits ? (
+                            <span className="ml-auto shrink-0 rounded-full bg-background px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[1.2px] text-muted">
+                              Too small
+                            </span>
+                          ) : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </div>
           ) : null}
 
