@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Fragment, FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { trackEvent } from "@/lib/analytics";
 import { Azulejo } from "@/components/ui/azulejo";
@@ -810,14 +811,17 @@ export function useBookingModal(initialVillaSlug: string, initialOpen = false, i
   const [open, setOpen] = useState(initialOpen);
   const modal = useMemo(
     () =>
-      open ? (
-        <BookingModal
-          initialVillaSlug={initialVillaSlug}
-          initialUnit={initialUnit}
-          initialGuests={initialGuests}
-          onClose={() => setOpen(false)}
-        />
-      ) : null,
+      open
+        ? createPortal(
+            <BookingModal
+              initialVillaSlug={initialVillaSlug}
+              initialUnit={initialUnit}
+              initialGuests={initialGuests}
+              onClose={() => setOpen(false)}
+            />,
+            document.body,
+          )
+        : null,
     [open, initialVillaSlug, initialGuests, initialUnit],
   );
   return { open: () => setOpen(true), modal };

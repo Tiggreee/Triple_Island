@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Azulejo } from "@/components/ui/azulejo";
 import { Button } from "@/components/ui/button";
 import { SpecStrip } from "@/components/villa/spec-strip";
@@ -75,7 +76,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
     ["Capacity", `Up to ${villa.guests} guests`],
   ];
 
-  return (
+  return createPortal(
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4"
       onClick={close}
@@ -329,6 +330,7 @@ export function VillaDetailModal({ villa, unit, gallery, open, onClose, onCheckA
           ) : null}
         </div>
       ) : null}
-    </div>
+    </div>,
+    document.body,
   );
 }
