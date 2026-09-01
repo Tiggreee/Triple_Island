@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { trackEvent } from "@/lib/analytics";
 import { Azulejo } from "@/components/ui/azulejo";
@@ -99,6 +99,7 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
   const datesValid = Boolean(ci && co && nightCount >= min);
   const guestsValid = guests <= active.guests;
   const limit = ci && !co ? nextBusyAfter(unit, ci, year, month) : null;
+  const ciSeason = ci ? seasonOf(ci) : undefined;
 
   function tap(s: string) {
     setWarn(null);
@@ -298,11 +299,11 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
         </div>
 
         {step < 4 ? (
-          <div className="flex items-center justify-center gap-2 border-b border-[#e6dfd3] bg-[#f3eee5] px-5 py-3">
+          <div className="flex items-center gap-2 border-b border-[#e6dfd3] bg-[#f3eee5] px-5 py-3">
             {steps.map((s, i) => {
               const state = step === s.n ? "active" : step > s.n ? "done" : "pending";
               return (
-                <div key={s.n} className="flex items-center gap-2">
+                <Fragment key={s.n}>
                   <span
                     className={`flex items-center gap-2 text-[11px] uppercase tracking-[1px] ${
                       state === "active" ? "text-primary" : state === "done" ? "text-brand" : "text-[#9f978a]"
@@ -315,12 +316,12 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                         size={32}
                         className="absolute inset-0 m-auto"
                       />
-                      <b className={`relative text-[11px] font-semibold ${state === "active" ? "text-white" : ""}`}>{s.n}</b>
+                      <b className={`relative text-xs font-bold ${state === "active" ? "text-white" : ""}`}>{s.n}</b>
                     </span>
                     {s.label}
                   </span>
-                  {i < steps.length - 1 ? <span className="h-px w-6 bg-[#ddd3c2]" /> : null}
-                </div>
+                  {i < steps.length - 1 ? <span className="h-px min-w-3.5 flex-1 bg-[#ddd3c2]" /> : null}
+                </Fragment>
               );
             })}
           </div>
@@ -559,7 +560,13 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                   </span>
                 ))}
               </div>
-              <p className={`text-[11px] ${warn ? "text-danger" : "text-muted"}`}>
+              <div
+                className={
+                  warn
+                    ? "rounded-xl border border-[#e8c79b] bg-[#fdf1e4] px-3.5 py-3 text-[13px] leading-[1.55] text-[#8a4b14] [&_b]:text-[#7a3f0e]"
+                    : "rounded-r-[10px] border-l-[3px] border-[#8a5a12] bg-[#fdf6e7] px-4 py-[13px] text-[13.5px] leading-[1.65] text-[#5b4310] max-[620px]:px-[13px] max-[620px]:py-[11px] max-[620px]:text-[12.5px]"
+                }
+              >
                 {warn ? (
                   warn
                 ) : active.pair ? (
@@ -568,11 +575,18 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                     both free. Striped nights are booked at one of the two.
                   </>
                 ) : ci && !co && limit ? (
-                  `Check-in ${fmtDate(ci)}. ${active.name} is booked from ${fmtDate(limit)}, so your check-out must be before then.`
+                  <>
+                    Check-in <b>{fmtDate(ci)}</b>. {active.name} is booked from <b>{fmtDate(limit)}</b>, so your check-out
+                    has to be on or before then.
+                  </>
+                ) : ciSeason ? (
+                  <>
+                    <b>{ciSeason.key}</b> · {ciSeason.min}-night minimum. Nightly rates shown in each cell, before 21% tax.
+                  </>
                 ) : (
-                  "Struck-through dates are already booked. Amber dates carry a peak-season rate."
+                  "Prices appear on peak-season nights. August 2026 shows real occupancy from the property calendar. Rates for regular season are quoted on request."
                 )}
-              </p>
+              </div>
             </div>
           ) : null}
 
@@ -796,7 +810,7 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
               onClick={advance}
               className="shrink-0 rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark disabled:opacity-40"
             >
-              {step === 1 ? "See available dates" : "Continue"}
+              {step === 1 ? "See available dates" : "Continue to details"}
             </button>
           </div>
         ) : null}
