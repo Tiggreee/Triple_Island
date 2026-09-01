@@ -253,13 +253,12 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
             <span className="text-[10.5px] font-semibold uppercase tracking-[2.24px] text-primary">Estimated total</span>
             <b className="text-[21px] font-semibold tracking-[0.2px] text-foreground">{money(estimatedTotal + tax)} USD</b>
           </div>
-          <div className="mt-3 flex items-start gap-2 border-t border-[#e6dfd3] pt-[11px] text-xs text-muted">
-            <Azulejo tone="muted" variant="ring" size={11} className="mt-0.5 shrink-0" />
-            <span>
-              <b className="font-semibold text-muted">Estimate.</b> Peak-season rates can shift; your concierge confirms
-              the final figure in writing. A booking is 60% up front, 40% ninety days before check-in (120 for
-              holidays). Nothing is charged now.
-            </span>
+          <div className="mt-3 space-y-1.5 border-t border-[#e6dfd3] pt-[11px] text-xs leading-[1.5] text-muted">
+            <p>This is an estimate. Peak-season rates can shift, so the figure your concierge confirms in writing is the one that counts.</p>
+            <p>
+              If you go ahead, a confirmed booking is 60% at booking and 40% ninety days before check-in — a hundred
+              and twenty days for holiday periods. Nothing is charged for this inquiry.
+            </p>
           </div>
           {active.quote ? <span className="mt-2 text-xs text-accent">Combined rate confirmed on reply.</span> : null}
         </div>
