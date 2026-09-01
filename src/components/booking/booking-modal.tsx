@@ -382,7 +382,10 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                     : "border-primary/20 bg-primary/10 text-[#123B52]"
                 }`}
               >
-                <Azulejo tone={guests >= 15 ? "teal" : "action"} variant="ring" size={20} className="shrink-0" />
+                <span className="relative h-[18px] w-[26px] shrink-0" aria-hidden="true">
+                  <Azulejo tone={guests >= 15 ? "teal" : "action"} size={18} className="absolute left-0 top-px" />
+                  <Azulejo tone={guests >= 15 ? "teal" : "action"} size={15} className="absolute left-[11px] top-1 opacity-55" />
+                </span>
                 {guests >= 15 ? (
                   (() => {
                     const combos = UNITS.filter((v) => v.pair && guests <= v.guests).map((v) => v.name);
