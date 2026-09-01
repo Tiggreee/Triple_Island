@@ -12,7 +12,7 @@ export function SiteFooter() {
           </div>
           <div>
             <h5 className="mb-3.5 text-[11px] font-semibold uppercase tracking-[2.24px] text-white">Villa groups</h5>
-            3&ndash;27 suites
+            3 &ndash; 27 suites
             <br />
             <a href="tel:+12065790798" className="text-[#9FD4EC] no-underline hover:underline">
               +1 206 579 0798

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SPARKS = [
@@ -10,6 +11,7 @@ const SPARKS = [
 ] as const;
 
 export function AnnouncementBanner() {
+  const pathname = usePathname();
   const [dismissed, setDismissed] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
 
@@ -23,6 +25,8 @@ export function AnnouncementBanner() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (pathname !== "/" && pathname !== "/styleguide") return null;
 
   return (
     <div

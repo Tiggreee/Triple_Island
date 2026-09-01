@@ -5,6 +5,7 @@ import { LatticeBackground } from "@/components/ui/lattice-background";
 import { SectionHeader } from "@/components/ui/section-header";
 import { SiteFooter } from "@/components/site-footer";
 import { LocationSection } from "@/components/villa/location-section";
+import { FaqContactNote } from "@/components/villa/faq-contact-note";
 import { VillaCard } from "@/components/villa/villa-card";
 import { VillasPageActions } from "@/components/villa/villas-page-actions";
 import { WaysToStay } from "@/components/villa/ways-to-stay";
@@ -16,13 +17,13 @@ const faqs = [
   { q: "What does the 21% tax add to the price I see?", a: "The 21% is 16% VAT (IVA) plus 5% lodging tax (ISH), as Mexican law requires. Casa Cielo at $1,665 comes to $2,015 per night; Casa Coco at $4,840 comes to $5,856. Each villa card shows the total, so there is no surprise at the end." },
   { q: "Is there a minimum stay?", a: "Three nights in low season, five at Thanksgiving and Spring Break, and seven at Christmas and New Year — the calendar shows the minimum for the nights you pick, before you fill anything in." },
   { q: "My group is larger than one villa. What then?", a: "Each pair of houses sits side by side and is sold as one compound under a single contract: Casa Lola & Villa Encantada (13 suites, up to 26 guests) and Casa Coco & Casa Cielo (14 suites, up to 28). For larger groups still, all four villas can be taken together." },
-  { q: "What is already included, and what costs extra?", a: "Included: daily housekeeping, concierge service, the breakfast chef's service and use of the paddle boards and kayaks. Billed separately: food and groceries, private chef service, transport and any other arrangements the concierge makes for you." },
+  { q: "What is already included, and what costs extra?", a: "Included: daily housekeeping, concierge service (transfers, boat charters and reservations), the breakfast chef's service and use of the paddle boards and kayaks. Billed separately: food and groceries, and any private chef service you book." },
   { q: "Can we eat at the villa instead of going out?", a: "Yes. Our in-house chefs cook at the villa subject to availability, and we can bring in trusted outside chefs when they are booked. There is also a pre-stock service so the kitchen is ready with your groceries and drinks when you arrive." },
   { q: "How do the chef services work?", a: "Breakfast is coffee, tea, fresh juice, fruit, homemade granola and an egg dish of your choice. Lunch is a starter, a main and sides; dinner is a starter, a main with two sides and dessert. Everything is served family-style — breakfast 7–11 AM, lunch 12–4 PM, dinner 5–9 PM." },
   { q: "How do I know if my dates are free?", a: "Availability is on this page. Pick your dates and group size and the calendar shows which houses are open — no email needed to find out." },
   { q: "What happens after I send an inquiry?", a: "No payment and no card at this stage. A person replies within 24 hours with a formal quote for your dates. To hold them, a 60% deposit is due at booking and the remaining 40% ninety days before check-in — a hundred and twenty days for holiday periods." },
-  { q: "How do we get there from Cancun airport?", a: "We arrange private transport from the airport to the ferry terminal, or straight to a private boat, and the drivers track your flight. The public ferry runs about MX$620 round trip per person; private boat transfers are available too. Send us your flight numbers and the concierge takes it from there." },
-  { q: "Will there be sargassum on the beach?", a: "The houses face west, towards Cancun, on the sheltered side of the island. That shore has historically stayed essentially free of sargassum — trace amounts on a handful of days a year, no more. It is why the collection is on this side." },
+  { q: "How do we get there from Cancún airport?", a: "We arrange private transport from the airport to the ferry terminal, or straight to a private boat, and the drivers track your flight. The public ferry runs about MX$620 round trip per person; private boat transfers are available too. Send us your flight numbers and the concierge takes it from there." },
+  { q: "Will there be sargassum on the beach?", a: "The houses face west, towards Cancún, on the sheltered side of the island. That shore has historically stayed essentially free of sargassum — trace amounts on a handful of days a year, no more. It is why the collection is on this side." },
 ];
 
 export default async function VillasPage() {
@@ -130,14 +131,14 @@ export default async function VillasPage() {
           <SectionHeader
             eyebrow="Included"
             title="Concierge Services"
-            lead="Breathe, nourish, flow — the island does most of the work. Already in the rate: daily housekeeping, a 24-hour concierge, our in-house chef's breakfast service and the paddle boards and kayaks. Food, groceries and transport are quoted separately, so you only pay for what you actually use."
+            lead="Breathe, nourish, flow — the island does most of the work. Already in the rate: daily housekeeping, a 24-hour concierge, our in-house chef's breakfast service and the paddle boards and kayaks. Food and groceries are quoted separately, so you only pay for what you actually use."
           />
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {[
               { title: "Daily housekeeping", body: "Rooms reset while you are at the beach — fresh linens, fresh flowers, and purified water in glass carafes on every nightstand." },
-              { title: "Gourmet breakfast", body: "Cooked each morning by our in-house chef and served wherever you want it — roof deck, terrace, or the shade beside the pool." },
+              { title: "Gourmet breakfast", body: "Our chef cooks it each morning and serves it wherever you want — roof deck, terrace, or the shade beside the pool. The chef's service is included; the food is billed separately." },
               { title: "Paddle boards & kayaks", body: "Flat, clear water straight off the deck. Bicycles too, for when the island starts calling." },
-              { title: "Pre-stock service", body: "Send us your list. Fridge, pantry and bar are filled with local, seasonal produce before you land." },
+              { title: "Pre-stock service", body: "Send us your list and we fill fridge, pantry and bar with local, seasonal produce before you land — groceries billed at cost." },
               { title: "24-hour concierge", body: "Transfers, boat charters and dinner reservations, handled before you have to ask twice — included in every villa rental, at no extra cost." },
             ].map((item) => (
               <div key={item.title} className="space-y-2">
@@ -180,6 +181,7 @@ export default async function VillasPage() {
             </details>
           ))}
         </div>
+        <FaqContactNote defaultSlug={items[0].slug} />
       </div>
 
       <LocationSection defaultSlug={items[0].slug} />

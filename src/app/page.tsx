@@ -194,7 +194,16 @@ export default function Home() {
           <LatticeBackground id="retreats" />
           <div className="relative z-[1] space-y-8">
             <div className="text-center">
-              <SectionHeader eyebrow="Destination retreats" title="Full-service planning for your retreat" />
+              <SectionHeader
+                eyebrow="Destination retreats"
+                title={
+                  <>
+                    Full-service planning
+                    <br />
+                    for your retreat
+                  </>
+                }
+              />
             </div>
 
             <div className="flex flex-wrap justify-center gap-2">
@@ -216,7 +225,6 @@ export default function Home() {
                     className="object-cover"
                   />
                 </div>
-                <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Retreat in progress · 16:9</figcaption>
               </figure>
 
               <figure className="space-y-3">
@@ -229,7 +237,6 @@ export default function Home() {
                     className="object-cover"
                   />
                 </div>
-                <figcaption className="text-center text-[11px] uppercase tracking-[1px] text-muted">Ceremony · 16:9</figcaption>
               </figure>
             </div>
 

@@ -20,7 +20,7 @@ const WAYS: Way[] = [
     tag: "The usual way",
     title: "The whole villa",
     body: "You book an entire house — every suite, the pool, the kitchen and the staff are yours alone. Nobody else is on the property.",
-    who: "Families and groups of 8 to 27 · 5–7 night minimum in peak season",
+    who: "families and groups of 8 to 27 · 5–7 night minimum in peak season",
     cta: "See the four houses and their rates",
   },
   {
@@ -29,7 +29,7 @@ const WAYS: Way[] = [
     tag: "Coco B Wellness",
     title: "Hosted retreats",
     body: "The same houses, run as a programme: yoga, culinary, fitness or corporate. Studio, instructors, menus and schedule are arranged for you.",
-    who: "Retreat leaders and teams · dates built around your programme",
+    who: "retreat leaders and teams · dates built around your programme",
     cta: "Tell us about your retreat",
   },
   {
@@ -38,16 +38,16 @@ const WAYS: Way[] = [
     tag: "Coco & Lola",
     title: "By the room",
     body: "When a house is not booked whole, single suites open as a small oceanfront hotel. Availability appears inside 30 days of arrival.",
-    who: "Couples and pairs travelling on short notice",
+    who: "couples and pairs travelling on short notice",
     cta: "Ask about last-minute suites",
   },
   {
     key: "weddings",
-    photo: "/media/coco/villas/lola-05.webp",
+    photo: "/media/coco/villas/lola-06.webp",
     tag: "Celebrations",
     title: "Weddings & events",
     body: "Ceremonies on the sand and dinners under the palapa, with the villa as the venue and the guest rooms in the same place.",
-    who: "Weddings, anniversaries and milestone gatherings",
+    who: "weddings, anniversaries and milestone gatherings",
     cta: "Start a celebration inquiry",
   },
 ];

@@ -27,7 +27,8 @@ export function VillaCard({ villa }: { villa: VillaData }) {
         return `/media/coco/villas/${slug}-0${photoNum}.webp`;
       })
     : Array.from({ length: 5 }, (_, i) => `/media/coco/villas/${villa.slug}-0${i + 1}.webp`);
-  const shortDescription = villa.description.split(". ")[0];
+  const firstSentence = villa.description.split(". ")[0];
+  const shortDescription = firstSentence.endsWith(".") ? firstSentence : `${firstSentence}.`;
 
   function movePhoto(e: ReactMouseEvent, delta: number) {
     e.preventDefault();
