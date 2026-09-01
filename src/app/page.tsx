@@ -360,7 +360,7 @@ export default function Home() {
               className="h-full w-full border-0"
             />
             <span className="pointer-events-none absolute bottom-3.5 left-3.5 flex items-center gap-2.5 rounded-full bg-white/90 px-3.5 py-2 text-xs font-medium uppercase tracking-[1.5px] text-foreground shadow-lg [backdrop-filter:blur(6px)]">
-              <Azulejo tone="action" variant="ring" size={13} />
+              <Azulejo tone="action" size={13} />
               Sac Bajo, Isla Mujeres
             </span>
           </div>
