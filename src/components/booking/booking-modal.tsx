@@ -56,8 +56,8 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
     email: "",
     phone: "",
     countryCode: "+1 US",
-    flexible: "",
-    heard: "",
+    flexible: "No, these are exact",
+    heard: "Google",
     trip: "",
     consent: false,
   });
@@ -600,6 +600,7 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                     value={form.firstName}
                     onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
                     onBlur={() => setTouched((t) => ({ ...t, firstName: true }))}
+                    autoComplete="given-name"
                     className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
                   />
                   {errors.firstName ? <span className="text-[11px] text-danger">{errors.firstName}</span> : null}
@@ -610,6 +611,7 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                     value={form.lastName}
                     onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
                     onBlur={() => setTouched((t) => ({ ...t, lastName: true }))}
+                    autoComplete="family-name"
                     className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
                   />
                   {errors.lastName ? <span className="text-[11px] text-danger">{errors.lastName}</span> : null}
@@ -622,6 +624,8 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   onBlur={() => setTouched((t) => ({ ...t, email: true }))}
+                  placeholder="you@email.com"
+                  autoComplete="email"
                   className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
                 />
                 {errors.email ? <span className="text-[11px] text-danger">{errors.email}</span> : null}
@@ -659,10 +663,9 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                     onChange={(e) => setForm((f) => ({ ...f, flexible: e.target.value }))}
                     className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
                   >
-                    <option value="">Select one</option>
-                    <option>Dates are firm</option>
-                    <option>Can shift a few days</option>
-                    <option>Fully flexible</option>
+                    <option>No, these are exact</option>
+                    <option>Yes, ± 3 days</option>
+                    <option>Yes, any week that month</option>
                   </select>
                 </label>
                 <label className="grid gap-1 text-xs text-foreground">
@@ -672,11 +675,10 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                     onChange={(e) => setForm((f) => ({ ...f, heard: e.target.value }))}
                     className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
                   >
-                    <option value="">Select one</option>
-                    <option>Instagram</option>
                     <option>Google</option>
-                    <option>Friend or past guest</option>
-                    <option>Travel agent</option>
+                    <option>Instagram</option>
+                    <option>Referral</option>
+                    <option>I&rsquo;ve stayed before</option>
                     <option>Other</option>
                   </select>
                 </label>
@@ -689,7 +691,7 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
                   placeholder="My mother's birthday — 6 adults and 4 children, we'd love a private chef."
                   className="min-h-20 rounded-lg border border-border px-3 py-2 text-base text-foreground"
                 />
-                <span className="text-[11px] text-muted">Optional, but it lets us send a full quote in the first reply.</span>
+                <span className="text-[11px] text-muted">Optional, but it&rsquo;s what lets us send a full quote in the first reply.</span>
               </label>
               <div>
                 <label className="flex items-start gap-2 text-xs text-muted">
@@ -731,28 +733,11 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
           {step === 4 ? (
             <div className="space-y-5 text-center">
               <ConfirmationMark />
-              <h3 className="text-xl font-light uppercase tracking-[2px] text-foreground">Inquiry received</h3>
-              <p className="mx-auto max-w-xs text-sm text-muted">
+              <h3 className="text-[26px] font-light uppercase tracking-[2px] text-foreground">Inquiry received</h3>
+              <p className="mx-auto max-w-[420px] text-sm text-muted">
                 We&rsquo;ll get back to you within 24 hours, to the email and WhatsApp you gave us.
               </p>
-              <div className="mx-auto flex max-w-sm items-center gap-3 rounded-xl border border-border p-4 text-left">
-                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
-                  <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
-                </div>
-                <div className="text-xs">
-                  <p className="font-semibold text-foreground">
-                    {active.name} <span className="font-normal text-muted">· {guests} guests</span>
-                  </p>
-                  {ci && co ? (
-                    <p className="text-muted">
-                      {fmtDate(ci)} &rarr; {fmtDate(co)} · {nightCount} nights · {ci.slice(0, 4)}
-                    </p>
-                  ) : null}
-                  {estimatedTotal > 0 ? (
-                    <p className="mt-1 font-semibold text-foreground">from {money(estimatedTotal)} + 21% tax</p>
-                  ) : null}
-                </div>
-              </div>
+              <div className="mx-auto max-w-[440px] text-left">{renderRecap()}</div>
               <button
                 type="button"
                 onClick={onClose}
@@ -780,26 +765,28 @@ export function BookingModal({ initialVillaSlug, initialUnit: initialUnitProp, i
               {step === 2 && ci && co ? (
                 nightCount < min ? (
                   <>
-                    <b>
+                    <b className="block text-[15px] font-semibold text-foreground">
                       {nightCount} night{nightCount > 1 ? "s" : ""} selected
-                    </b>{" "}
-                    · {min}-night minimum this season — extend your check-out
+                    </b>
+                    {min}-night minimum this season — extend your check-out
                   </>
                 ) : (
                   <>
-                    <b className="text-foreground">
+                    <b className="block text-[15px] font-semibold text-foreground">
                       {fmtDate(ci)} → {fmtDate(co)} · {nightCount} nights
-                    </b>{" "}
-                    · {active.name} · from {money(nightlyRate * nightCount)} + 21% tax
+                    </b>
+                    {active.name} · from {money(nightlyRate * nightCount)} + 21% tax
                   </>
                 )
               ) : step === 2 && ci ? (
                 <>
-                  <b className="text-foreground">Check-in {fmtDate(ci)}</b> · now pick your check-out
+                  <b className="block text-[15px] font-semibold text-foreground">Check-in {fmtDate(ci)}</b>
+                  Now pick your check-out date
                 </>
               ) : (
                 <>
-                  <b className="text-foreground">{active.name}</b> · {guests} guests{step === 1 ? " · pick your nights" : ""}
+                  <b className="block text-[15px] font-semibold text-foreground">{active.name}</b>
+                  {guests} guests · pick your nights
                 </>
               )}
             </p>
