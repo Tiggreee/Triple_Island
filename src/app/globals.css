@@ -124,7 +124,8 @@
   --color-peak-border: var(--peak-border);
   --color-range: var(--range);
   --color-hover-soft: var(--hover-soft);
-  --color-muted: var(--muted);
+  --color-tile-disabled: var(--muted);
+  --color-muted: var(--body);
   --color-warn-tile: var(--warn-tile);
   --color-warn-text: var(--warn-text);
   --color-chat-online: var(--chat-online);

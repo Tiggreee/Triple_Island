@@ -358,7 +358,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     onClick={() => setMi((v) => Math.max(0, v - 1))}
                     disabled={mi <= 0}
                     aria-label="Previous month"
-                    className="rounded-full border border-border px-2 py-1 text-xs text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-base text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
                   >
                     &lsaquo;
                   </button>
@@ -367,7 +367,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     onClick={() => setMi((v) => Math.min(CALENDAR_MONTHS.length - 1, v + 1))}
                     disabled={mi >= CALENDAR_MONTHS.length - 1}
                     aria-label="Next month"
-                    className="rounded-full border border-border px-2 py-1 text-xs text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-base text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
                   >
                     &rsaquo;
                   </button>
