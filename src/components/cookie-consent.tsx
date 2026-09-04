@@ -53,25 +53,25 @@ export function CookieConsent() {
           </a>
           .
         </p>
-        <div className="flex shrink-0 flex-wrap items-center gap-3 sm:ml-auto">
+        <div className="flex w-full shrink-0 flex-col-reverse items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:ml-auto">
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="text-[12.5px] text-muted underline underline-offset-2 hover:text-primary"
+            className="self-center text-[12.5px] text-muted underline underline-offset-2 hover:text-primary"
           >
             {expanded ? "Hide options" : "Manage cookies"}
           </button>
           <button
             type="button"
             onClick={() => save({ analytics: false, marketing: false })}
-            className="rounded-full border border-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-primary hover:bg-primary/5"
+            className="w-full rounded-full border border-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-primary hover:bg-primary/5 sm:w-auto"
           >
             Essential only
           </button>
           <button
             type="button"
             onClick={() => save({ analytics: true, marketing: true })}
-            className="rounded-full bg-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark"
+            className="w-full rounded-full bg-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark sm:w-auto"
           >
             Accept all
           </button>

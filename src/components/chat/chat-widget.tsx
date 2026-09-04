@@ -75,6 +75,7 @@ export function ChatWidget() {
   const [teaserGone, setTeaserGone] = useState(false);
   const [online, setOnline] = useState(true);
   const [usedQuickReplies, setUsedQuickReplies] = useState<string[]>([]);
+  const [nearFooter, setNearFooter] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
 
@@ -97,6 +98,22 @@ export function ChatWidget() {
       delete document.body.dataset.chatOpen;
     };
   }, [open]);
+
+  // The FAB is fixed to the viewport, so near the end of the page it sits on
+  // top of the footer's own text (same 780px clearance FloatingBar uses).
+  useEffect(() => {
+    function onScroll() {
+      const nearBottom = window.scrollY + window.innerHeight > document.documentElement.scrollHeight - 780;
+      setNearFooter(nearBottom);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth <= 620) return;
@@ -193,9 +210,10 @@ export function ChatWidget() {
         }}
         aria-expanded={open}
         aria-label={open ? "Close concierge chat" : "Open concierge chat"}
-        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 min-[621px]:h-[62px] min-[621px]:w-[62px] ${
-          teaserVisible || open ? "" : "cb-fab-bounce"
-        }`}
+        aria-hidden={nearFooter && !open}
+        className={`${open ? "" : "cb-chat-fab"} fixed bottom-5 right-5 z-[120] flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary/40 min-[621px]:h-[62px] min-[621px]:w-[62px] ${
+          nearFooter && !open ? "pointer-events-none translate-y-6 opacity-0" : "translate-y-0 opacity-100"
+        } ${teaserVisible || open ? "" : "cb-fab-bounce"}`}
       >
         {!open && (
           <span className="pointer-events-none absolute inset-0 rounded-full border-2 border-[#5bcaeb] animate-[cw-ring-pulse_1.8s_ease-out_2]" />
