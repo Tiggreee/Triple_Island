@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export function FloatingBar() {
+type FloatingBarProps = {
+  ctaLabel?: string;
+  href?: string;
+  onCta?: () => void;
+};
+
+export function FloatingBar({ ctaLabel = "Explore the villas", href, onCta }: FloatingBarProps) {
   const [visible, setVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
 
@@ -54,11 +60,17 @@ export function FloatingBar() {
           <p className="text-sm font-medium text-foreground">Four private villas · 3 to 27 suites</p>
           <p className="text-xs text-muted">From $1,665 USD / night + 21% tax</p>
         </div>
-        <Link href="/villas">
-          <Button variant="primary" icon>
-            Explore the villas
+        {href ? (
+          <Link href={href}>
+            <Button variant="primary" icon>
+              {ctaLabel}
+            </Button>
+          </Link>
+        ) : (
+          <Button variant="primary" icon onClick={onCta}>
+            {ctaLabel}
           </Button>
-        </Link>
+        )}
       </div>
     </div>
   );

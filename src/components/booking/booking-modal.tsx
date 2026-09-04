@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { trackEvent } from "@/lib/analytics";
 import { Azulejo } from "@/components/ui/azulejo";
+import { ConfirmationMark } from "@/components/ui/confirmation-mark";
+import { TideLoader } from "@/components/ui/tide-loader";
 import {
   UNITS,
   CALENDAR_MONTHS,
@@ -39,6 +41,8 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   const [guests, setGuests] = useState(initialGuests ?? 2);
   const [unit, setUnit] = useState(initialUnit);
   const [mi, setMi] = useState(0);
+  const [calLoading, setCalLoading] = useState(false);
+  const miMounted = useRef(false);
   const [ci, setCi] = useState<string | null>(null);
   const [co, setCo] = useState<string | null>(null);
   const [warn, setWarn] = useState<string | null>(null);
@@ -49,6 +53,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
     firstName: "",
     lastName: "",
     email: "",
+    phoneCode: "+52",
     phone: "",
     flexible: "",
     heard: "",
@@ -65,6 +70,16 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   useEffect(() => {
     trackEvent("stepper_inicio", { unit: UNITS[initialUnit].name });
   }, [initialUnit]);
+
+  useEffect(() => {
+    if (!miMounted.current) {
+      miMounted.current = true;
+      return;
+    }
+    setCalLoading(true);
+    const t = window.setTimeout(() => setCalLoading(false), 1400);
+    return () => window.clearTimeout(t);
+  }, [mi]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -106,13 +121,13 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   }
 
   function dayClass(o: { sel: boolean; inRange: boolean; booked: boolean; part: boolean; far: boolean; past: boolean; peak: boolean }): string {
-    if (o.sel) return "bg-primary text-white";
-    if (o.inRange) return "bg-primary/15 text-foreground";
-    if (o.booked && !o.part) return "cursor-not-allowed text-muted/40 line-through";
-    if (o.part) return "cursor-not-allowed text-muted/60 [background:repeating-linear-gradient(45deg,transparent,transparent_3px,#78787830_3px,#78787830_6px)]";
-    if (o.past || o.far) return "cursor-not-allowed text-muted/30";
-    if (o.peak) return "bg-accent/10 text-foreground hover:bg-accent/20";
-    return "text-foreground hover:bg-primary/10";
+    if (o.sel) return "border-primary bg-primary text-white";
+    if (o.inRange) return "border-[#dceaf2] bg-[#dceaf2] text-primary-dark";
+    if (o.booked && !o.part) return "cursor-not-allowed border-[#f2ede4] bg-[#f2ede4] text-[#8c8579]";
+    if (o.part) return "cursor-not-allowed border-[#f2ede4] text-[#8c8579] [background:repeating-linear-gradient(135deg,#f2ede4_0_5px,#fff_5px_10px)]";
+    if (o.past || o.far) return "cursor-not-allowed border-border bg-white opacity-[.34]";
+    if (o.peak) return "border-[#e4c489] bg-[#fdf6e7] text-foreground";
+    return "border-border bg-white text-foreground hover:border-primary hover:bg-[#eaf2f7]";
   }
 
   const cells = useMemo(() => {
@@ -149,7 +164,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
         body: JSON.stringify({
           name: `${form.firstName} ${form.lastName}`.trim(),
           email: form.email,
-          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
+          message: `Villa: ${active.name}\nGuests: ${guests}\nDates: ${dateSummary}\nPhone: ${form.phoneCode} ${form.phone}${form.flexible ? `\nDates flexible: ${form.flexible}` : ""}${form.heard ? `\nHeard about us: ${form.heard}` : ""}\n\n${form.trip}`,
           leadType: "solicitud",
           website: "",
           startedAt: Date.now(),
@@ -186,11 +201,14 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[110] flex items-end justify-center bg-foreground/50 min-[621px]:items-center min-[621px]:p-4" onClick={onClose}>
       <div
-        className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-2xl bg-[#f8f5ef] shadow-2xl min-[621px]:rounded-2xl"
+        className="flex max-h-[90vh] w-full max-w-[640px] flex-col overflow-hidden rounded-t-[18px] bg-[#f8f5ef] shadow-2xl min-[621px]:rounded-[20px]"
         onClick={(e) => e.stopPropagation()}
       >
+        <div className="flex justify-center pt-2.5 pb-1 min-[621px]:hidden" aria-hidden="true">
+          <span className="h-[5px] w-11 rounded-[3px] bg-[#d8d0c4]" />
+        </div>
         <div className="flex items-center gap-3 border-b border-[#e6dfd3] bg-white p-5">
           <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg">
             <Image src={active.photo} alt={active.name} fill sizes="48px" className="object-cover" />
@@ -226,12 +244,12 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   >
                     <span className="relative flex h-8 w-8 items-center justify-center">
                       <Azulejo
-                        variant="ring"
+                        variant={state === "active" ? "solid" : "ring"}
                         tone={state === "active" ? "action" : state === "done" ? "teal" : "muted"}
                         size={32}
                         className="absolute inset-0 m-auto"
                       />
-                      <b className="relative text-[11px] font-semibold">{s.n}</b>
+                      <b className={`relative text-[11px] font-semibold ${state === "active" ? "text-white" : ""}`}>{s.n}</b>
                     </span>
                     {s.label}
                   </span>
@@ -258,7 +276,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   type="button"
                   onClick={() => setGuests((g) => Math.max(1, g - 1))}
                   aria-label="Remove guest"
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10"
+                  className="flex h-13 w-13 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10 min-[621px]:h-14 min-[621px]:w-14"
                 >
                   &minus;
                 </button>
@@ -267,7 +285,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   type="button"
                   onClick={() => setGuests((g) => Math.min(28, g + 1))}
                   aria-label="Add guest"
-                  className="flex h-12 w-12 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10"
+                  className="flex h-13 w-13 items-center justify-center rounded-full border border-primary text-lg text-primary hover:bg-primary/10 min-[621px]:h-14 min-[621px]:w-14"
                 >
                   +
                 </button>
@@ -328,7 +346,8 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
           ) : null}
 
           {step === 2 ? (
-            <div className="space-y-4">
+            <div className="relative space-y-4">
+              <TideLoader active={calLoading} />
               <div className="flex items-center justify-between">
                 <strong className="text-sm text-foreground">
                   {MONTH_NAMES[month]} {year}
@@ -339,7 +358,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     onClick={() => setMi((v) => Math.max(0, v - 1))}
                     disabled={mi <= 0}
                     aria-label="Previous month"
-                    className="rounded-full border border-border px-2 py-1 text-xs text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-base text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
                   >
                     &lsaquo;
                   </button>
@@ -348,7 +367,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     onClick={() => setMi((v) => Math.min(CALENDAR_MONTHS.length - 1, v + 1))}
                     disabled={mi >= CALENDAR_MONTHS.length - 1}
                     aria-label="Next month"
-                    className="rounded-full border border-border px-2 py-1 text-xs text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-border text-base text-foreground hover:bg-background disabled:text-muted/40 disabled:hover:bg-transparent"
                   >
                     &rsaquo;
                   </button>
@@ -381,6 +400,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       : far
                         ? `${c.day} ${MONTH_NAMES[month]}, beyond the next booked night`
                         : undefined;
+                  const hidePrice = far || past;
                   return (
                     <button
                       key={c.key}
@@ -389,10 +409,18 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                       aria-label={label}
                       title={label}
                       onClick={() => tap(s)}
-                      className={`flex aspect-square flex-col items-center justify-center rounded-lg text-xs transition ${dayClass({ sel, inRange, booked, part: Boolean(part), far, past, peak })}`}
+                      className={`flex aspect-square flex-col items-center justify-center gap-0.5 rounded-[10px] border text-[15px] leading-none transition-colors ${dayClass({ sel, inRange, booked, part: Boolean(part), far, past, peak })}`}
                     >
-                      <span>{c.day}</span>
-                      {r ? <span className="max-[360px]:hidden text-[9px]">{(r / 1000).toFixed(1)}k</span> : null}
+                      <span className={booked && !part ? "line-through" : ""}>{c.day}</span>
+                      {r && !hidePrice ? (
+                        <span
+                          className={`max-[360px]:hidden text-[10px] tracking-[0.2px] ${
+                            sel ? "text-white/85" : peak ? "text-accent" : "text-muted"
+                          }`}
+                        >
+                          {(r / 1000).toFixed(1)}k
+                        </span>
+                      ) : null}
                     </button>
                   );
                 })}
@@ -424,7 +452,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     value={form.firstName}
                     onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
                     onBlur={() => setTouched((t) => ({ ...t, firstName: true }))}
-                    className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                    className={`min-h-12 rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.firstName ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
                   />
                   {errors.firstName ? <span className="text-[11px] text-danger">{errors.firstName}</span> : null}
                 </label>
@@ -434,7 +462,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                     value={form.lastName}
                     onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
                     onBlur={() => setTouched((t) => ({ ...t, lastName: true }))}
-                    className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                    className={`min-h-12 rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.lastName ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
                   />
                   {errors.lastName ? <span className="text-[11px] text-danger">{errors.lastName}</span> : null}
                 </label>
@@ -446,29 +474,48 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   value={form.email}
                   onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                   onBlur={() => setTouched((t) => ({ ...t, email: true }))}
-                  className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                  className={`min-h-12 rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.email ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
                 />
                 {errors.email ? <span className="text-[11px] text-danger">{errors.email}</span> : null}
               </label>
-              <label className="grid gap-1 text-xs text-foreground">
-                Phone *
-                <input
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-                  onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
-                  placeholder="33 1234 5678"
-                  className="rounded-lg border border-border px-3 py-2 text-base text-foreground"
-                />
+              <div className="grid gap-1 text-xs text-foreground">
+                <span>Phone *</span>
+                <div className="flex gap-2">
+                  <select
+                    value={form.phoneCode}
+                    onChange={(e) => setForm((f) => ({ ...f, phoneCode: e.target.value }))}
+                    aria-label="Country code"
+                    className="w-[120px] shrink-0 rounded-[11px] border border-border bg-surface px-2 py-2 text-base text-foreground min-[621px]:w-[130px]"
+                  >
+                    <option value="+52">🇲🇽 +52</option>
+                    <option value="+1">🇺🇸 +1</option>
+                    <option value="+44">🇬🇧 +44</option>
+                    <option value="+34">🇪🇸 +34</option>
+                    <option value="+33">🇫🇷 +33</option>
+                    <option value="+49">🇩🇪 +49</option>
+                    <option value="+55">🇧🇷 +55</option>
+                    <option value="+54">🇦🇷 +54</option>
+                    <option value="+57">🇨🇴 +57</option>
+                    <option value="+56">🇨🇱 +56</option>
+                  </select>
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                    onBlur={() => setTouched((t) => ({ ...t, phone: true }))}
+                    placeholder="33 1234 5678"
+                    className={`min-h-12 w-full rounded-[11px] border px-3 py-2 text-base text-foreground ${errors.phone ? "border-danger bg-[#fdf7f6]" : "border-border"}`}
+                  />
+                </div>
                 {errors.phone ? <span className="text-[11px] text-danger">{errors.phone}</span> : null}
-              </label>
+              </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <label className="grid gap-1 text-xs text-foreground">
                   Are your dates flexible?
                   <select
                     value={form.flexible}
                     onChange={(e) => setForm((f) => ({ ...f, flexible: e.target.value }))}
-                    className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
+                    className="min-h-12 rounded-[11px] border border-border bg-surface px-3 py-2 text-base text-foreground"
                   >
                     <option value="">Select one</option>
                     <option>Dates are firm</option>
@@ -481,7 +528,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   <select
                     value={form.heard}
                     onChange={(e) => setForm((f) => ({ ...f, heard: e.target.value }))}
-                    className="rounded-lg border border-border bg-surface px-3 py-2 text-base text-foreground"
+                    className="min-h-12 rounded-[11px] border border-border bg-surface px-3 py-2 text-base text-foreground"
                   >
                     <option value="">Select one</option>
                     <option>Instagram</option>
@@ -498,7 +545,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   value={form.trip}
                   onChange={(e) => setForm((f) => ({ ...f, trip: e.target.value }))}
                   placeholder="My mother's birthday — 6 adults and 4 children, we'd love a private chef."
-                  className="min-h-20 rounded-lg border border-border px-3 py-2 text-base text-foreground"
+                  className="min-h-20 rounded-[11px] border border-border px-3 py-2 text-base text-foreground"
                 />
                 <span className="text-[11px] text-muted">Optional, but it lets us send a full quote in the first reply.</span>
               </label>
@@ -507,7 +554,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
                   type="checkbox"
                   checked={form.consent}
                   onChange={(e) => setForm((f) => ({ ...f, consent: e.target.checked }))}
-                  className="mt-0.5"
+                  className="mt-0.5 h-[22px] w-[22px] shrink-0 accent-primary"
                 />
                 I agree to be contacted by Coco B Isla by email or WhatsApp about this inquiry. *
               </label>
@@ -533,6 +580,7 @@ export function BookingModal({ initialVillaSlug, initialGuests, onClose }: Booki
 
           {step === 4 ? (
             <div className="space-y-5 text-center">
+              <ConfirmationMark />
               <h3 className="text-xl font-light uppercase tracking-[2px] text-foreground">Inquiry received</h3>
               <p className="mx-auto max-w-xs text-sm text-muted">
                 We&rsquo;ll get back to you within 24 hours, to the email and WhatsApp you gave us.

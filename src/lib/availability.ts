@@ -84,7 +84,7 @@ export function nights(ci: string | null, co: string | null): number {
 
 export function minNights(ci: string | null): number {
   const se = ci ? seasonOf(ci) : undefined;
-  return se ? se.min : 4;
+  return se ? se.min : 3;
 }
 
 export function nextBusyAfter(unit: number, after: string, year: number, month: number): string | null {
