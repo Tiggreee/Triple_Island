@@ -41,7 +41,7 @@ export function CookieConsent() {
       role="dialog"
       aria-modal="false"
       aria-label="Cookie preferences"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-surface shadow-[0_-10px_34px_rgba(11,32,40,0.10)]"
+      className="fixed inset-x-0 bottom-0 z-[400] border-t border-border bg-surface shadow-[0_-10px_34px_rgba(11,32,40,0.10)]"
     >
       <div className="mx-auto flex max-w-[1200px] flex-col items-start gap-4 px-4 py-5 sm:flex-row sm:items-center sm:px-8">
         <p className="text-[13.5px] leading-6 text-muted">
@@ -53,25 +53,25 @@ export function CookieConsent() {
           </a>
           .
         </p>
-        <div className="flex shrink-0 flex-wrap items-center gap-3 sm:ml-auto">
+        <div className="flex w-full shrink-0 flex-col-reverse items-stretch gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:ml-auto">
           <button
             type="button"
             onClick={() => setExpanded((v) => !v)}
-            className="text-[12.5px] text-muted underline underline-offset-2 hover:text-primary"
+            className="self-center text-[12.5px] text-muted underline underline-offset-2 hover:text-primary"
           >
             {expanded ? "Hide options" : "Manage cookies"}
           </button>
           <button
             type="button"
             onClick={() => save({ analytics: false, marketing: false })}
-            className="rounded-full border border-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-primary hover:bg-primary/5"
+            className="w-full rounded-full border border-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-primary hover:bg-primary/5 sm:w-auto"
           >
             Essential only
           </button>
           <button
             type="button"
             onClick={() => save({ analytics: true, marketing: true })}
-            className="rounded-full bg-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark"
+            className="w-full rounded-full bg-primary px-4 py-2 text-[11.5px] font-semibold uppercase tracking-[1.6px] text-white hover:bg-primary-dark sm:w-auto"
           >
             Accept all
           </button>

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckAvailabilityButton } from "@/components/booking/check-availability-button";
+import { SiteFooter } from "@/components/site-footer";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVilla } from "@/lib/wp-fetchers";
 
@@ -86,6 +87,8 @@ export default async function VillaDetailPage({ params }: VillaDetailPageProps) 
           <CheckAvailabilityButton villaSlug={slug} className="w-full" />
         </aside>
       </div>
+
+      <SiteFooter />
     </div>
   );
 }

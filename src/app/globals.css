@@ -1,40 +1,177 @@
 @import "tailwindcss";
 
+/* ============================================================================
+   COCO B ISLA — SISTEMA DE DISEÑO
+   Tokens extraídos de: docs/design/CocoB-Design-Tokens.json
+   Alineación: Agosto 2026
+   ============================================================================ */
+
 :root {
-  --cb-color-background: #fbf8f3;
-  --cb-color-foreground: #1c1c1c;
-  --cb-color-primary: #246a94;
-  --cb-color-primary-dark: #1b5273;
-  --cb-color-brand: #107480;
+  /* ---- COLORES PRINCIPALES (de guía visual) ---- */
+  --brand: #5bcaeb;           /* Caribbean Blue · Decoración, logo, celosía */
+  --action: #246a94;          /* Ocean Blue · Botones, enlaces, iconos */
+  --action-dark: #1b5273;     /* Ocean Dark · Hover/active del botón */
+  --teal: #107480;            /* Deep Teal · Eyebrows, disponibilidad, chat */
+  --ink: #1c1c1c;             /* Charcoal · Títulos, alto contraste */
+  --body: #4a4a4a;            /* Body text · Párrafos (reemplaza #797979) */
+  --sand: #fbf8f3;            /* Fondo base de página */
+  --sand-2: #f2ede4;          /* Fondos secundarios, barra pasos, recap */
+  --line: #e3dbce;            /* Todos los bordes de 1px */
+  --danger: #a32b1c;          /* Errores de validación */
+  --high: #8a5a12;            /* Nota de impuesto 21%, temporada alta */
+
+  /* ---- COLORES DE SOPORTE (usos específicos) ---- */
+  --peak-bg: #fdf6e7;         /* Fondo de celda en temporada alta */
+  --peak-border: #e4c489;     /* Borde de celda en temporada alta */
+  --range: #dceaf2;           /* Noches dentro de la estancia seleccionada */
+  --hover-soft: #eaf2f7;      /* Hover de ghost y celda disponible */
+  --muted: #b4aca0;           /* Azulejo deshabilitado, tachado ocupada */
+  --warn-tile: #c9922b;       /* Azulejo del chip 'filling up' */
+  --warn-text: #7a4e0a;       /* Texto del chip 'filling up' */
+  --chat-online: #4ade80;     /* Punto de estado en horario (online) */
+  --chat-away: #e4b24f;       /* Punto de estado fuera de horario (away) */
+  --whatsapp: #25d366;        /* WhatsApp · Solo icono a 14px, no como fondo */
+
+  /* ---- ALIAS DE COMPATIBILIDAD (referencias heredadas) ---- */
+  --cb-color-background: var(--sand);
+  --cb-color-foreground: var(--ink);
+  --cb-color-primary: var(--action);
+  --cb-color-primary-dark: var(--action-dark);
+  --cb-color-brand: var(--teal);
   --cb-color-surface: #ffffff;
-  --cb-color-muted: #4a4a4a;
-  --cb-color-accent: #8a5a12;
-  --cb-color-border: #e3dbce;
-  --cb-color-danger: #a32b1c;
-  --background: var(--cb-color-background);
-  --foreground: var(--cb-color-foreground);
+  --cb-color-muted: var(--body);
+  --cb-color-accent: var(--high);
+  --cb-color-border: var(--line);
+  --cb-color-danger: var(--danger);
+  --background: var(--sand);
+  --foreground: var(--ink);
+
+  /* ---- TIPOGRAFÍA (familia y tamaños base) ---- */
+  --font-family-primary: "Brandon Grotesque", sans-serif;  /* Requiere licencia */
+  --font-family-fallback: "Raleway", sans-serif;           /* Google Fonts (prototipo actual) */
+
+  /* ---- TAMAÑOS RESPONSIVOS ---- */
+  /* Navigation */
+  --navH-desktop: 118px;      /* Baja a 74px al hacerse sólido */
+  --navH-solid-desktop: 74px;
+  --navH-tablet: 96px;
+  --navH-solid-tablet: 74px;
+  --navH-mobile: 78px;
+  --navH-solid-mobile: 64px;
+
+  /* Logo */
+  --logoH-desktop: 82px;      /* Baja a 56px al hacerse sólido */
+  --logoH-solid-desktop: 56px;
+  --logoH-tablet: 56px;
+  --logoH-mobile: 52px;
+  --logoH-solid-mobile: 42px;
+
+  /* Chat y componentes */
+  --touch-min: 44px;          /* Mínimo táctil */
+  --chat-panel-width: 384px;  /* Ancho del panel (88svh como hoja inferior móvil) */
+  --chat-fab-size: 62px;      /* 56px en móvil */
+  --modal-wide: 980px;        /* min(980px, 100vw − 56px) */
+  --modal-narrow: 760px;
+
+  /* ---- SPACING (márgenes y padding) ---- */
+  /* Padding lateral */
+  --wrap-desktop: 48px;       /* Máximo contenido 1200px */
+  --wrap-tablet: 32px;
+  --wrap-mobile: 20px;
+
+  /* Padding superior de sección */
+  --section-desktop: 104px;
+  --section-tablet: 76px;
+  --section-mobile: 56px;
+
+  /* ---- BORDER RADIUS (redondeado) ---- */
+  --r-card: 14px;    /* Cards, slots, tiles, mapa */
+  --r-modal: 20px;   /* 18px en hoja inferior móvil, solo arriba */
+  --r-input: 11px;   /* Inputs */
+  --r-cell: 10px;    /* Celdas calendario (9px móvil) */
+  --r-inner: 12px;   /* Bloques dentro de modal */
+  --r-pill: 999px;   /* Botones, chips, tags, switch, barra flotante */
+
+  /* ---- TIEMPO Y MOVIMIENTO (base, más animaciones abajo) ---- */
+  --duration-micro: 200ms;
+  --duration-short: 280ms;
+  --duration-modal: 350ms;
+  --duration-nav-transition: 350ms;
+  --easing-out: cubic-bezier(0.2, 0.9, 0.3, 1);
+  --easing-tick: cubic-bezier(0.7, 0, 0.2, 1);
 }
+
+/* ============================================================================
+   TAILWIND THEME MAPPING
+   ============================================================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--cb-color-primary);
-  --color-primary-dark: var(--cb-color-primary-dark);
-  --color-brand: var(--cb-color-brand);
-  --color-surface: var(--cb-color-surface);
-  --color-muted: var(--cb-color-muted);
-  --color-accent: var(--cb-color-accent);
-  --color-border: var(--cb-color-border);
-  --color-danger: var(--cb-color-danger);
-  --font-sans: var(--font-raleway);
+  /* Colors */
+  --color-brand: var(--brand);
+  --color-action: var(--action);
+  --color-action-dark: var(--action-dark);
+  --color-teal: var(--teal);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-sand: var(--sand);
+  --color-sand-2: var(--sand-2);
+  --color-line: var(--line);
+  --color-danger: var(--danger);
+  --color-high: var(--high);
+  
+  /* Support colors */
+  --color-peak-bg: var(--peak-bg);
+  --color-peak-border: var(--peak-border);
+  --color-range: var(--range);
+  --color-hover-soft: var(--hover-soft);
+  --color-tile-disabled: var(--muted);
+  --color-muted: var(--body);
+  --color-warn-tile: var(--warn-tile);
+  --color-warn-text: var(--warn-text);
+  --color-chat-online: var(--chat-online);
+  --color-chat-away: var(--chat-away);
+  --color-whatsapp: var(--whatsapp);
+
+  /* Aliases for backward compatibility */
+  --color-background: var(--sand);
+  --color-foreground: var(--ink);
+  --color-primary: var(--action);
+  --color-primary-dark: var(--action-dark);
+  --color-surface: #ffffff;
+  --color-accent: var(--high);
+  --color-border: var(--line);
+
+  /* Font family */
+  --font-sans: var(--font-family-fallback);
+
+  /* Border radius */
+  --radius-card: var(--r-card);
+  --radius-modal: var(--r-modal);
+  --radius-input: var(--r-input);
+  --radius-cell: var(--r-cell);
+  --radius-inner: var(--r-inner);
+  --radius-pill: var(--r-pill);
 }
+
+/* ============================================================================
+   BASE STYLES
+   ============================================================================ */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-raleway), sans-serif;
+  background: var(--sand);
+  color: var(--ink);
+  font-family: var(--font-family-fallback), sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
+/* ============================================================================
+   KEYFRAME ANIMATIONS
+   Documentados en guía visual: docs/design/CocoB-Guia-Completa.md § 15 · PATRONES
+   ============================================================================ */
+
+/* Chat: Ring pulse (FAB y estado badge) */
 @keyframes cw-ring-pulse {
   0% {
     transform: scale(0.85);
@@ -46,13 +183,19 @@ body {
   }
 }
 
+/* Chat: Mensaje pop-in */
 @keyframes cw-msg-pop {
   from {
     opacity: 0;
     transform: translateY(8px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* Chat: Typing indicator (tres azulejos que saltan) */
 @keyframes cw-typing-dot {
   0%,
   60%,
@@ -66,6 +209,7 @@ body {
   }
 }
 
+/* Scroll cue: Botón bob hacia arriba/abajo */
 @keyframes cb-cue-bob {
   0%,
   100% {
@@ -76,6 +220,7 @@ body {
   }
 }
 
+/* Scroll cue: Anillo gira 90° (ciclo lento, se lee como guiño) */
 @keyframes cb-cue-ring {
   0%,
   20% {
@@ -98,22 +243,7 @@ body {
   }
 }
 
-.scroll-cue-bob {
-  animation: cb-cue-bob 2.8s ease-in-out infinite;
-}
-
-.scroll-cue-ring {
-  transform-origin: center;
-  animation: cb-cue-ring 36s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scroll-cue-bob,
-  .scroll-cue-ring {
-    animation: none;
-  }
-}
-
+/* FAB: Bounce elástico al entrar */
 @keyframes cb-fab-bounce {
   0%,
   78%,
@@ -128,13 +258,31 @@ body {
   }
 }
 
+/* ============================================================================
+   ANIMATION UTILITY CLASSES (Chat + Scroll cue)
+   ============================================================================ */
+
+.scroll-cue-bob {
+  animation: cb-cue-bob 2.8s ease-in-out infinite;
+}
+
+.scroll-cue-ring {
+  transform-origin: center;
+  animation: cb-cue-ring 36s ease-in-out infinite;
+}
+
 .cb-fab-bounce {
   animation: cb-fab-bounce 5s cubic-bezier(0.5, 0, 0.2, 1) infinite;
 }
 
+.cw-typing {
+  animation: cw-typing-dot 1.25s ease-in-out infinite;
+}
+
+/* Chat FAB y teaser: Transición suave con barra flotante */
 .cb-chat-fab,
 .cb-chat-teaser {
-  transition: bottom 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: bottom var(--duration-modal) var(--easing-out);
 }
 
 body[data-floatbar="1"] .cb-chat-fab {
@@ -145,24 +293,207 @@ body[data-floatbar="1"] .cb-chat-teaser {
   bottom: 11.75rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 621px) {
   body[data-floatbar="1"] .cb-chat-fab {
     bottom: 100px;
   }
 }
 
+/* ============================================================================
+   REDUCED MOTION (Accesibilidad)
+   Desactiva todas las animaciones si el usuario prefiere movimiento reducido
+   ============================================================================ */
+
 @media (prefers-reduced-motion: reduce) {
+  /* Scroll cue */
+  .scroll-cue-bob,
+  .scroll-cue-ring {
+    animation: none;
+  }
+
+  /* FAB */
   .cb-fab-bounce {
+    animation: none;
+  }
+
+  /* Chat typing */
+  .cw-typing {
+    animation: none;
+  }
+
+  /* Global transitions */
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes cb-banner-blob-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleX(1);
+  }
+  50% {
+    transform: translate(38px, 7px) scaleX(1.22);
+  }
+}
+
+@keyframes cb-banner-blob-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scaleX(1.1);
+  }
+  50% {
+    transform: translate(-44px, -6px) scaleX(0.85);
+  }
+}
+
+@keyframes cb-banner-sweep {
+  0% {
+    background-position: -80% 0;
+  }
+  58%,
+  100% {
+    background-position: 180% 0;
+  }
+}
+
+@keyframes cb-banner-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+  45% {
+    opacity: 0.95;
+    transform: scale(1) rotate(38deg);
+  }
+  70% {
+    opacity: 0.35;
+    transform: scale(0.8) rotate(52deg);
+  }
+}
+
+.cb-banner-blob-a {
+  animation: cb-banner-blob-a 13s ease-in-out infinite;
+}
+
+.cb-banner-blob-b {
+  animation: cb-banner-blob-b 17s ease-in-out infinite;
+}
+
+.cb-banner-blob-c {
+  animation: cb-banner-blob-a 15s ease-in-out infinite 2s;
+}
+
+.cb-banner-glow {
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  animation: cb-banner-sweep 9s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.cb-banner-spark {
+  animation: cb-banner-twinkle 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-banner-blob-a,
+  .cb-banner-blob-b,
+  .cb-banner-blob-c,
+  .cb-banner-glow,
+  .cb-banner-spark {
     animation: none;
   }
 }
 
-.cw-typing {
-  animation: cw-typing-dot 1.25s ease-in-out infinite;
+@keyframes cb-btn-tick {
+  0%,
+  18% {
+    transform: rotate(0deg);
+  }
+  25%,
+  43% {
+    transform: rotate(90deg);
+  }
+  50%,
+  68% {
+    transform: rotate(180deg);
+  }
+  75%,
+  93% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cb-tide {
+  0% {
+    clip-path: inset(100% 0 0 0);
+  }
+  70% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 0.2;
+  }
+}
+
+.cb-tide-wrap {
+  position: relative;
+  width: 74px;
+  height: 74px;
+}
+
+.cb-tide-wrap .cb-tide-clip {
+  position: absolute;
+  inset: 0;
+  animation: cb-tide 1.5s ease-in-out infinite;
+}
+
+@keyframes cb-mark-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-30deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.08) rotate(0deg);
+  }
+  40%,
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.cb-mark-tile {
+  opacity: 0;
+  animation: cb-mark-bloom 2.6s ease-in-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cw-typing {
+  .cb-tide-wrap .cb-tide-clip {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .cb-mark-tile {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
+
+.cb-btn-tick {
+  animation: cb-btn-tick 2s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-btn-tick {
     animation: none;
   }
 }

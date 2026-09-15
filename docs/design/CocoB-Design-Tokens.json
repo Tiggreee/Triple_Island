@@ -1,0 +1,132 @@
+{
+  "$description": "Coco B Isla — design tokens extraídos del código de producción (index.html / villas.html). Formato Tokens Studio for Figma. Importar antes de construir cualquier componente.",
+  "color": {
+    "brand": {
+      "value": "#5BCAEB",
+      "type": "color",
+      "description": "Caribbean Blue. 1.9:1 sobre blanco. SOLO decoración, logo, celosía y marcas de agua. Nunca texto ni fondo de botón."
+    },
+    "action": {
+      "value": "#246A94",
+      "type": "color",
+      "description": "Ocean Blue. 5.96:1 · AA. Botones primarios, enlaces, iconos de línea, estado seleccionado."
+    },
+    "action-dark": {
+      "value": "#1B5273",
+      "type": "color",
+      "description": "7.9:1 · AAA. Hover y active del botón primario."
+    },
+    "teal": {
+      "value": "#107480",
+      "type": "color",
+      "description": "Deep Teal. 5.50:1 · AA. Eyebrows, disponibilidad, cabecera del chat, cifras de reseñas."
+    },
+    "ink": {
+      "value": "#1C1C1C",
+      "type": "color",
+      "description": "16.9:1 · AAA. Títulos y texto de alto contraste."
+    },
+    "body": {
+      "value": "#4A4A4A",
+      "type": "color",
+      "description": "8.6:1 · AA. Todo el cuerpo de texto. Sustituye al gris oficial #797979, que da 4.42:1 y falla AA."
+    },
+    "sand": { "value": "#FBF8F3", "type": "color", "description": "Fondo base de página." },
+    "sand-2": { "value": "#F2EDE4", "type": "color", "description": "Fondos secundarios, barra de pasos, recap, celda ocupada." },
+    "line": { "value": "#E3DBCE", "type": "color", "description": "Todos los bordes de 1 px." },
+    "danger": { "value": "#A32B1C", "type": "color", "description": "7.4:1 · AA. Errores de validación." },
+    "high": { "value": "#8A5A12", "type": "color", "description": "5.9:1 · AA. Nota de impuesto 21 %, temporada alta." },
+    "support": {
+      "peak-bg": { "value": "#FDF6E7", "type": "color", "description": "Fondo de celda en temporada alta." },
+      "peak-border": { "value": "#E4C489", "type": "color", "description": "Borde de celda en temporada alta." },
+      "range": { "value": "#DCEAF2", "type": "color", "description": "Noches dentro de la estancia seleccionada." },
+      "hover-soft": { "value": "#EAF2F7", "type": "color", "description": "Hover de ghost y de celda disponible." },
+      "muted": { "value": "#B4ACA0", "type": "color", "description": "Azulejo deshabilitado, tachado de celda ocupada." },
+      "warn-tile": { "value": "#C9922B", "type": "color", "description": "Azulejo del chip 'filling up'." },
+      "warn-text": { "value": "#7A4E0A", "type": "color", "description": "Texto del chip 'filling up'." },
+      "chat-online": { "value": "#4ADE80", "type": "color", "description": "Punto de estado en horario." },
+      "chat-away": { "value": "#E4B24F", "type": "color", "description": "Punto de estado fuera de horario." },
+      "whatsapp": { "value": "#25D366", "type": "color", "description": "Solo el icono, a 14 px. No como fondo de CTA." }
+    }
+  },
+  "typography": {
+    "family": {
+      "primary": { "value": "Brandon Grotesque", "type": "fontFamilies", "description": "Fuente de marca. Requiere licencia." },
+      "fallback": { "value": "Raleway", "type": "fontFamilies", "description": "Fallback autorizado, Google Fonts. Es la que corre en el prototipo." }
+    },
+    "h1-hero":    { "value": { "fontSize": "74", "fontWeight": "200", "letterSpacing": "5", "lineHeight": "1.04", "textCase": "uppercase" }, "type": "typography", "description": "36 px en móvil, 31 px por debajo de 360." },
+    "h2-section": { "value": { "fontSize": "34", "fontWeight": "200", "letterSpacing": "3", "lineHeight": "1.25", "textCase": "uppercase" }, "type": "typography", "description": "28 tablet · 24 móvil." },
+    "h3-villa":   { "value": { "fontSize": "24", "fontWeight": "300", "letterSpacing": "1.85", "lineHeight": "1.2", "textCase": "uppercase" }, "type": "typography", "description": "20 px en móvil con tracking a 1.4." },
+    "eyebrow":    { "value": { "fontSize": "11", "fontWeight": "500", "letterSpacing": "2.24", "lineHeight": "1.4", "textCase": "uppercase" }, "type": "typography", "description": "Siempre en teal." },
+    "lead":       { "value": { "fontSize": "16", "fontWeight": "400", "letterSpacing": "0.1", "lineHeight": "1.8" }, "type": "typography" },
+    "body":       { "value": { "fontSize": "15", "fontWeight": "400", "letterSpacing": "0.1", "lineHeight": "1.7" }, "type": "typography" },
+    "small":      { "value": { "fontSize": "12.5", "fontWeight": "400", "letterSpacing": "0.3", "lineHeight": "1.6" }, "type": "typography" },
+    "label":      { "value": { "fontSize": "10.5", "fontWeight": "600", "letterSpacing": "1.8", "lineHeight": "1.3", "textCase": "uppercase" }, "type": "typography", "description": "Labels de formulario." },
+    "button":     { "value": { "fontSize": "13", "fontWeight": "600", "letterSpacing": "1.6", "lineHeight": "1", "textCase": "uppercase" }, "type": "typography", "description": "11.5 px en .sm, 10.5 en móvil." },
+    "input":      { "value": { "fontSize": "16", "fontWeight": "400", "lineHeight": "1.4" }, "type": "typography", "description": "16 px obligatorio: por debajo iOS hace zoom automático al enfocar." }
+  },
+  "radius": {
+    "card":   { "value": "14", "type": "borderRadius", "description": "--r · cards, slots, tiles, mapa." },
+    "modal":  { "value": "20", "type": "borderRadius", "description": "18 px en hoja inferior de móvil, solo esquinas superiores." },
+    "input":  { "value": "11", "type": "borderRadius" },
+    "cell":   { "value": "10", "type": "borderRadius", "description": "9 px en móvil." },
+    "inner":  { "value": "12", "type": "borderRadius", "description": "Bloques dentro de modal: recap, facts, rates, notice." },
+    "pill":   { "value": "999", "type": "borderRadius", "description": "Botones, chips, tags, switch, barra flotante." }
+  },
+  "spacing": {
+    "wrap-desktop": { "value": "48", "type": "spacing", "description": "Padding lateral. Máximo de contenido 1200 px." },
+    "wrap-tablet":  { "value": "32", "type": "spacing" },
+    "wrap-mobile":  { "value": "20", "type": "spacing" },
+    "section-desktop": { "value": "104", "type": "spacing", "description": "Padding superior de sección." },
+    "section-tablet":  { "value": "76", "type": "spacing" },
+    "section-mobile":  { "value": "56", "type": "spacing" }
+  },
+  "size": {
+    "nav-desktop":       { "value": "118", "type": "sizing", "description": "--navH. Baja a 74 al hacerse sólido." },
+    "nav-desktop-solid": { "value": "74",  "type": "sizing" },
+    "nav-tablet":        { "value": "96",  "type": "sizing" },
+    "nav-mobile":        { "value": "78",  "type": "sizing", "description": "64 al hacerse sólido." },
+    "logo-desktop":      { "value": "82",  "type": "sizing", "description": "56 al hacerse sólido." },
+    "logo-mobile":       { "value": "52",  "type": "sizing", "description": "42 al hacerse sólido." },
+    "touch-min":         { "value": "44",  "type": "sizing", "description": "Mínimo táctil. El botón estándar es 50." },
+    "chat-panel":        { "value": "384", "type": "sizing", "description": "Ancho del panel. 88svh como hoja inferior." },
+    "chat-fab":          { "value": "62",  "type": "sizing", "description": "56 en móvil." },
+    "modal-wide":        { "value": "980", "type": "sizing", "description": "min(980px, 100vw − 56px)." },
+    "modal-narrow":      { "value": "760", "type": "sizing" },
+    "frame-mobile":      { "value": "390", "type": "sizing", "description": "Ancho de trabajo. Frame 390 × 844 para que Figma lo reconozca como iPhone." }
+  },
+  "motion": {
+    "duration": {
+      "micro":  { "value": "200ms", "type": "other" },
+      "base":   { "value": "350ms", "type": "other", "description": "Header a sólido." },
+      "modal":  { "value": "280ms", "type": "other", "description": "340 ms en hoja inferior." },
+      "bar":    { "value": "500ms", "type": "other", "description": "Barra flotante, con 350 ms de retardo." },
+      "tick":   { "value": "2000ms", "type": "other", "description": "Loader L2." },
+      "tide":   { "value": "1500ms", "type": "other", "description": "Loader L3. Visible 1400 ms." },
+      "bloom":  { "value": "2600ms", "type": "other", "description": "Palomita. Una sola vez, 140 ms entre piezas." },
+      "typing": { "value": "1250ms", "type": "other", "description": "160 ms entre azulejos." },
+      "photo":  { "value": "800ms", "type": "other", "description": "Zoom de tile. Card 600, slot 900." }
+    },
+    "easing": {
+      "sheet":  { "value": "cubic-bezier(0.2, 0.9, 0.3, 1)",  "type": "other", "description": "Modales y barra flotante." },
+      "quarter":{ "value": "cubic-bezier(0.7, 0, 0.2, 1)",    "type": "other", "description": "Giro de 90° del azulejo." },
+      "photo":  { "value": "cubic-bezier(0.2, 0.8, 0.2, 1)",  "type": "other", "description": "Zoom de imagen." },
+      "elastic":{ "value": "cubic-bezier(0.2, 1.4, 0.4, 1)",  "type": "other", "description": "Entrada del FAB." },
+      "cookie": { "value": "cubic-bezier(0.22, 0.9, 0.24, 1)","type": "other" }
+    }
+  },
+  "breakpoint": {
+    "narrow": { "value": "360", "type": "other", "description": "Hero a 31 px, se oculta el precio en la celda." },
+    "mobile": { "value": "620", "type": "other", "description": "Todo a una columna, modales como hoja inferior." },
+    "tablet": { "value": "900", "type": "other", "description": "Retículas a 2 columnas." },
+    "video":  { "value": "1000", "type": "other", "description": "El bloque de video pasa a carrusel." }
+  },
+  "opacity": {
+    "watermark-lg": { "value": "0.10", "type": "opacity" },
+    "watermark-sm": { "value": "0.09", "type": "opacity" },
+    "lattice":      { "value": "0.60", "type": "opacity", "description": "Sobre el patrón completo." },
+    "press-logo":   { "value": "0.42", "type": "opacity", "description": "0.85 al hover." },
+    "cell-far":     { "value": "0.34", "type": "opacity" },
+    "villa-disabled": { "value": "0.45", "type": "opacity" }
+  }
+}

@@ -5,8 +5,8 @@ type AzulejoVariant = "solid" | "ring" | "ghost";
 
 const TONE: Record<AzulejoTone, string> = {
   brand: "#5bcaeb",
-  action: "var(--cb-color-primary, #246a94)",
-  teal: "var(--cb-color-brand, #107480)",
+  action: "var(--action, #246a94)",
+  teal: "var(--teal, #107480)",
   white: "#ffffff",
   muted: "#b4aca0",
 };
@@ -55,9 +55,9 @@ export function Azulejo({ tone = "brand", variant = "solid", size = 22, classNam
 export function AzulejoRule({ className }: { className?: string }) {
   return (
     <span className={`flex items-center justify-center gap-3 ${className ?? ""}`} aria-hidden="true">
-      <span className="h-px w-[52px] bg-primary/35" />
-      <Azulejo tone="action" size={14} />
-      <span className="h-px w-[52px] bg-primary/35" />
+      <span className="h-px w-14 bg-border" />
+      <Azulejo tone="action" size={14} className="opacity-90" />
+      <span className="h-px w-14 bg-border" />
     </span>
   );
 }

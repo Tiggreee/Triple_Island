@@ -1,14 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HeroScrim } from "@/components/hero-scrim";
+import { LatticeBackground } from "@/components/ui/lattice-background";
+import { SectionHeader } from "@/components/ui/section-header";
+import { SiteFooter } from "@/components/site-footer";
+import { LocationSection } from "@/components/villa/location-section";
 import { VillaCard } from "@/components/villa/villa-card";
+import { VillasPageActions } from "@/components/villa/villas-page-actions";
+import { WaysToStay } from "@/components/villa/ways-to-stay";
 import { REAL_VILLAS } from "@/lib/villas-data";
 import { getVillas } from "@/lib/wp-fetchers";
 
 const faqs = [
   { q: "Is the rate per night for the whole villa, or per person?", a: "Per night, for the entire house — every suite included, however many of you travel, up to the villa's capacity. Rates are in US dollars and shown before the 21% Mexican tax." },
   { q: "What does the 21% tax add to the price I see?", a: "The 21% is 16% VAT (IVA) plus 5% lodging tax (ISH), as Mexican law requires. Casa Cielo at $1,665 comes to $2,015 per night; Casa Coco at $4,840 comes to $5,856. Each villa card shows the total, so there is no surprise at the end." },
-  { q: "Is there a minimum stay?", a: "Four nights in low season, five at Thanksgiving and Spring Break, and seven at Christmas and New Year — the calendar shows the minimum for the nights you pick, before you fill anything in." },
+  { q: "Is there a minimum stay?", a: "Three nights in low season, five at Thanksgiving and Spring Break, and seven at Christmas and New Year — the calendar shows the minimum for the nights you pick, before you fill anything in." },
   { q: "My group is larger than one villa. What then?", a: "Each pair of houses sits side by side and is sold as one compound under a single contract: Casa Lola & Villa Encantada (13 suites, up to 26 guests) and Casa Coco & Casa Cielo (14 suites, up to 28). For larger groups still, all four villas can be taken together." },
   { q: "What is already included, and what costs extra?", a: "Included: daily housekeeping, concierge service, the breakfast chef's service and use of the paddle boards and kayaks. Billed separately: food and groceries, private chef service, transport and any other arrangements the concierge makes for you." },
   { q: "Can we eat at the villa instead of going out?", a: "Yes. Our in-house chefs cook at the villa subject to availability, and we can bring in trusted outside chefs when they are booked. There is also a pre-stock service so the kitchen is ready with your groceries and drinks when you arrive." },
@@ -50,7 +56,7 @@ export default async function VillasPage() {
         <HeroScrim />
         <div className="relative z-10 flex flex-col items-center px-6 py-24 text-center text-white">
           <p className="text-xs font-medium uppercase tracking-[3px] text-white/85">Isla Mujeres · Mexico</p>
-          <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-5xl font-extralight uppercase tracking-[4px] lg:text-7xl">Villas</h1>
+          <h1 className="mt-4 max-[360px]:text-[31px] font-sans text-[36px] font-extralight uppercase tracking-[5px] lg:text-[74px]">Villas</h1>
           <p className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[2.5px] text-white/90">
             {["Lola", "Encantada", "Coco", "Cielo"].map((name, i) => (
               <span key={name} className="flex items-center gap-3">
@@ -76,7 +82,11 @@ export default async function VillasPage() {
       </div>
 
       <div id="collection" className="mx-auto w-full max-w-[1180px] space-y-10 px-4 py-16 sm:px-6 lg:px-8">
-      <hr className="border-t border-primary" />
+      <SectionHeader
+        eyebrow="Welcome"
+        title="Our Villa Collection"
+        lead="Lola, Encantada, Coco and Cielo. Each one opens straight onto the shoreline, with the indoor and outdoor living that makes sense on an island — and they combine into one contract when the group is bigger than a single house."
+      />
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         {items.map((villa) => (
@@ -89,54 +99,55 @@ export default async function VillasPage() {
         quote. <Link href="/solicitud" className="text-primary underline underline-offset-2">Ask about combined stays</Link>.
       </p>
 
-      <div className="space-y-8 rounded-2xl border border-border bg-surface p-6 lg:p-10">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Included</p>
-          <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">
-            Concierge Services
-          </h2>
-          <p className="mt-3 text-sm leading-7 text-muted">
-            Breathe, nourish, flow — the island does most of the work. Everything here is already in the rate: daily
-            housekeeping, breakfast prepared by our in-house chef, paddle boards and kayaks, private transfers,
-            pre-stock service and a 24-hour concierge. None of it is charged as an extra.
-          </p>
-        </div>
+      <div className="text-center">
+        <SectionHeader
+          eyebrow="Before you choose a house"
+          title="Four Ways to Stay With Us"
+          lead="The same four houses work in four different ways. Find yours first — the rest of the page is easier from there."
+        />
+        <WaysToStay defaultSlug={items[0].slug} />
+      </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {[
-            { title: "Daily housekeeping", body: "Rooms reset while you are at the beach — fresh linens, fresh flowers, and purified water in glass carafes on every nightstand." },
-            { title: "Gourmet breakfast", body: "Cooked each morning by our in-house chef and served wherever you want it — roof deck, terrace, or the shade beside the pool." },
-            { title: "Paddle boards & kayaks", body: "Flat, clear water straight off the deck. Bicycles too, for when the island starts calling." },
-            { title: "Pre-stock service", body: "Send us your list. Fridge, pantry and bar are filled with local, seasonal produce before you land." },
-            { title: "24-hour concierge", body: "Transfers, boat charters and dinner reservations, handled before you have to ask twice — included in every villa rental, at no extra cost." },
-          ].map((item) => (
-            <div key={item.title} className="space-y-2">
-              <h3 className="text-xs font-semibold uppercase tracking-[1px] text-foreground">{item.title}</h3>
-              <p className="text-xs leading-6 text-muted">{item.body}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-t border-border pt-6 text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">On request</p>
-          <h3 className="mt-2 text-lg font-light uppercase tracking-[1.5px] text-foreground">Complement Your Stay</h3>
-          <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-muted">
-            Your concierge — already included in the rental — arranges every one of these before you arrive.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
-            {["Yoga & Wellness", "Private Boat Transfers", "Private Chef Dinners", "Weddings & Events", "Excursions & Activities"].map((tag) => (
-              <span key={tag} className="rounded-full border border-border px-3 py-1.5 text-xs uppercase tracking-[1px] text-muted">
-                {tag}
-              </span>
+      <section className="relative isolate overflow-hidden py-6">
+        <LatticeBackground id="included" />
+        <div className="relative z-[1] space-y-10">
+          <SectionHeader
+            eyebrow="Included"
+            title="Concierge Services"
+            lead="Breathe, nourish, flow — the island does most of the work. Already in the rate: daily housekeeping, a 24-hour concierge, our in-house chef's breakfast service and the paddle boards and kayaks. Food, groceries and transport are quoted separately, so you only pay for what you actually use."
+          />
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              { title: "Daily housekeeping", body: "Rooms reset while you are at the beach — fresh linens, fresh flowers, and purified water in glass carafes on every nightstand." },
+              { title: "Gourmet breakfast", body: "Cooked each morning by our in-house chef and served wherever you want it — roof deck, terrace, or the shade beside the pool." },
+              { title: "Paddle boards & kayaks", body: "Flat, clear water straight off the deck. Bicycles too, for when the island starts calling." },
+              { title: "Pre-stock service", body: "Send us your list. Fridge, pantry and bar are filled with local, seasonal produce before you land." },
+              { title: "24-hour concierge", body: "Transfers, boat charters and dinner reservations, handled before you have to ask twice — included in every villa rental, at no extra cost." },
+            ].map((item) => (
+              <div key={item.title} className="space-y-2">
+                <h3 className="text-xs font-semibold uppercase tracking-[1px] text-foreground">{item.title}</h3>
+                <p className="text-xs leading-6 text-muted">{item.body}</p>
+              </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="relative isolate overflow-hidden py-6">
+        <LatticeBackground id="complement" />
+        <div className="relative z-[1] space-y-8">
+          <SectionHeader
+            eyebrow="On request"
+            title="Complement Your Stay"
+            lead="Your concierge — already included in the rental — arranges every one of these before you arrive. Whale shark season fills early, so say the word when you send your dates."
+          />
+          <VillasPageActions defaultSlug={items[0].slug} />
+        </div>
+      </section>
 
       <div className="space-y-6">
         <div className="text-center">
-          <p className="text-xs font-medium uppercase tracking-[2.5px] text-brand">Before you write to us</p>
-          <h2 className="mt-2 text-2xl font-light uppercase tracking-[2px] text-foreground lg:text-3xl">Frequent questions</h2>
+          <SectionHeader eyebrow="Before you write to us" title="Frequent questions" />
         </div>
         <div className="mx-auto max-w-3xl divide-y divide-border">
           {faqs.map((item) => (
@@ -150,6 +161,12 @@ export default async function VillasPage() {
           ))}
         </div>
       </div>
+
+      <LocationSection defaultSlug={items[0].slug} />
+      </div>
+
+      <div className="mx-auto w-full max-w-[1180px] px-4 pb-16 sm:px-6 lg:px-8">
+        <SiteFooter />
       </div>
     </div>
   );
